@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import styles from "@/app/ui/scrollbarHide.module.css";
+import NavBar from "@/app/ui/home/navbar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,9 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-scroll ${styles.scrollbarhidden}`}
       >
-        {children}
+        <>
+          {/* <NavBar /> */}
+          <main className="flex-1 p-4">{children}</main>;
+        </>
       </body>
     </html>
   );
