@@ -42,15 +42,17 @@ export default function Navbar() {
                 </svg>
               </span>
             </Link>
-            <div className="bg-green-300 rounded-[20px] w-[40px] overflow-hidden h-[40px]">
-              <Image
-                src={"/me.png"}
-                alt={"Avator"}
-                objectFit="cover"
-                width={40}
-                height={40}
-              />
-            </div>
+            <Link href="/Dashboard">
+              <div className="bg-green-300 rounded-[20px] w-[40px] overflow-hidden h-[40px]">
+                <Image
+                  src={"/me.png"}
+                  alt={"Avator"}
+                  objectFit="cover"
+                  width={40}
+                  height={40}
+                />
+              </div>
+            </Link>
           </span>
         </ul>
       </nav>
