@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-scroll ${styles.scrollbarhidden}`}
       >
         <>
-          {/* <NavBar /> */}
+          <NavBar />
           <main className="flex-1 p-4">{children}</main>;
         </>
       </body>
