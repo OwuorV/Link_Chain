@@ -8,6 +8,8 @@ import image7 from "@/public/chicks.avif";
 import image8 from "@/public/broiler.jpg";
 import image9 from "@/public/broiler.jpg";
 import Image from "next/image";
+import Link from "next/link";
+
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 export default function Vets() {
@@ -115,7 +117,7 @@ export default function Vets() {
 
   return (
     <main className="flex justify-center align-center m-2 w-full">
-      <div className="farmGrid self-center grid grid-cols-1 md:grid-cols-4 gap-y-15 gap-x-10 w-full ">
+      <div className="farmGrid self-center grid grid-cols-1 md:grid-cols-4 gap-y-10 gap-x-10 w-full ">
         {FarmCards.map(
           ({
             id,
