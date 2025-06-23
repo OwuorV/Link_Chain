@@ -121,6 +121,45 @@ export default function Vets() {
       burnerImage: image8,
       logo: image4,
     },
+    {
+      id: 10,
+      Name: "Mwangi Kip",
+      shopName: "Happy Hens Market",
+      location: "Nairobi",
+      cartegories1: "tractor",
+      cartegory2: "manual ploughing",
+      cartegory3: "oxen services",
+      deliveryLocation: "Kakamega",
+      burnerImage: image3,
+      logo: image4,
+      role: "Plougher",
+    },
+    {
+      id: 11,
+      Name: "Brian Okoth",
+      shopName: "AgriMove Logistics",
+      location: "Kisumu",
+      cartegories1: "livestock transport",
+      cartegory2: "produce delivery",
+      cartegory3: "bulk haulage",
+      deliveryLocation: "Nationwide",
+      burnerImage: image9,
+      logo: image7,
+      role: "Transporter",
+    },
+    {
+      id: 12,
+      Name: "Samuel Kiplangat",
+      shopName: "Kip Hands On",
+      location: "Eldoret",
+      cartegories1: "weeding",
+      cartegory2: "planting",
+      cartegory3: "harvesting",
+      deliveryLocation: "Uasin Gishu",
+      burnerImage: image4, // Add a matching image11 asset
+      logo: image1, // And its logo version
+      role: "Manual Labourer",
+    },
   ];
 
   return (
