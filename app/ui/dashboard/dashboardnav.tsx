@@ -1,12 +1,29 @@
 "use client";
-import { useState } from "react";
-export default function Dashboardnav(visible: Boolean) {
+import { useState, useEffect } from "react";
+interface DashboardNavProps {
+  visible: boolean;
+}
+export default function Dashboardnav({ visible }: DashboardNavProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
+  //const [isopen, setIsClosed] = useState(false);
+  // useEffect(() => {
+  //   const handleClick = () => {
+  //     setIsClosed((prev) => prev);
+  //     window.addEventListener("click", handleClick);
+  //   };
+  // }, []);
+  // ${
+  //"translate-x-0" : "-translate-x-full"
+  //   isopen ?
+
   if (!visible) return null;
   return (
     <>
-      <div className="absolute bg-black/40 w-full md:bg-white md:w-[20%] md:relative ">
+      <div
+        className={`absolute bg-black/40 w-full md:bg-white md:w-[20%] md:relative 
+        }`}
+      >
         <div className="div md:relative bg-white  flex gap-6 flex-col max-w-[50%] md:max-w-full  h-[90vh] pt-10 px-6">
           <div className="top flex items-center gap-2 width-full">
             <div className="logo">
@@ -54,10 +71,10 @@ export default function Dashboardnav(visible: Boolean) {
                 </div>
                 <div
                   className={
-                    isVisible ? "hidden" : "block orderTypes flex h-[max] gap-5"
+                    isVisible ? "hidden" : "block orderTypes flex h-max gap-5"
                   }
                 >
-                  <div className="w-[1px] h-[max] ml-5 border border-black border-[1px]">
+                  <div className="w-[1px] h-max ml-5 border border-black border-[1px]">
                     {" "}
                   </div>
                   <ul className="flex flex-col gap-5 text-[14px]">
@@ -96,13 +113,13 @@ export default function Dashboardnav(visible: Boolean) {
 
                 <div
                   className={
-                    isSeen ? "hidden" : "block productsType flex h-[max] gap-5"
+                    isSeen ? "hidden" : "block productsType flex h-max gap-5"
                   }
                 >
-                  <div className="w-[1px] h-[max] ml-5 border border-black border-[1px]">
+                  <div className="w-[1px] h-max ml-5 border border-black border-[1px]">
                     {" "}
                   </div>
-                  <ul className=" text-[14px] w-100 flex flex-col gap-5">
+                  <ul className=" text-[14px] w-full flex flex-col gap-5">
                     <li>In stock</li>
                     <li>Out of Stock</li>
                   </ul>
