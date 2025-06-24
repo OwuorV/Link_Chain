@@ -1,4 +1,4 @@
-import Card from "@/app/ui/dashboard/idashboardIcons/icon";
+import Card from "@/app/ui/dashboard/icon";
 import { TbBusinessplan } from "react-icons/tb";
 import VisitorChart from "../ui/dashboard/monthlychat";
 import EarningsCard from "../ui/dashboard/gaugechart";

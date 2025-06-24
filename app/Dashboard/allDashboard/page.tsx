@@ -1,4 +1,4 @@
-import Card from "@/app/ui/dashboard/idashboardIcons/icon";
+import Card from "@/app/ui/dashboard/icon";
 import { TbBusinessplan } from "react-icons/tb";
 
 export default function MainLayout() {
