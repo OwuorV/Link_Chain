@@ -3,6 +3,8 @@ import { TbBusinessplan } from "react-icons/tb";
 import VisitorChart from "../ui/dashboard/monthlychat";
 import EarningsCard from "../ui/dashboard/gaugechart";
 import TopProducts from "../ui/dashboard/topProducts";
+import RecentOrders from "../ui/dashboard/recentOrders";
+import QuickActions from "../ui/dashboard/quickActions";
 
 export default function MainLayout() {
   return (
@@ -48,6 +50,8 @@ export default function MainLayout() {
         <VisitorChart />
         <TopProducts />
       </div>
+      <RecentOrders />
+      <QuickActions />
     </div>
   );
 }
