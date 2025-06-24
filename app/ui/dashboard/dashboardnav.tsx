@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-export default function Dashboardnav({ visible }) {
+export default function Dashboardnav(visible: Boolean) {
   const [isVisible, setIsVisible] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
   if (!visible) return null;
