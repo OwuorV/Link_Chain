@@ -9,7 +9,7 @@ export default function HomeLayout({
 }) {
   const [showSideNav, setShowSideNav] = useState(false);
   return (
-    <div className="flex mt-5">
+    <div className="flex mt-5 w-full">
       <Dashboardnav visible={showSideNav} />
       <main className="w-full">
         <DashboardMain toggle={() => setShowSideNav(!showSideNav)}>
