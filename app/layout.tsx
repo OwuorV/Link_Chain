@@ -26,11 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`w- full ${geistSans.variable} ${geistMono.variable} antialiased overflow-scroll ${styles.scrollbarhidden}`}
+        className={`w-full ${geistSans.variable} ${geistMono.variable} antialiased overflow-scroll ${styles.scrollbarhidden}`}
       >
         <>
           <NavBar />
-          <main className="flex w-full">{children}</main>;
+          <main className="flex">{children}</main>;
         </>
       </body>
     </html>

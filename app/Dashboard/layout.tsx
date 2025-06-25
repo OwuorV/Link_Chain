@@ -11,7 +11,7 @@ export default function HomeLayout({
   return (
     <div className="flex mt-5">
       <Dashboardnav visible={showSideNav} />
-      <main className="w-full">
+      <main className="flex">
         <DashboardMain toggle={() => setShowSideNav(!showSideNav)}>
           {children}
         </DashboardMain>
