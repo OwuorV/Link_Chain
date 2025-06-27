@@ -3,7 +3,10 @@ import { Public_Sans } from "next/font/google";
 import "./globals.css";
 import styles from "@/app/ui/scrollbarHide.module.css";
 import NavBar from "@/app/ui/home/navbar";
-const public_sans = Public_Sans();
+const public_sans = Public_Sans({
+  subsets: ["latin"],
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
