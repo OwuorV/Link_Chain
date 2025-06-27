@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Public_Sans } from "next/font/google";
 import "./globals.css";
 import styles from "@/app/ui/scrollbarHide.module.css";
 import NavBar from "@/app/ui/home/navbar";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const public_sans = Public_Sans();
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,11 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`w-full ${geistSans.variable} ${geistMono.variable} antialiased overflow-scroll ${styles.scrollbarhidden}`}
+        className={`w-full ${public_sans} antialiased overflow-scroll ${styles.scrollbarhidden}`}
       >
         <>
           <NavBar />
-          <main className="flex">{children}</main>;
+          <main className="w-full">{children}</main>
         </>
       </body>
     </html>
