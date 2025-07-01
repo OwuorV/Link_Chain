@@ -25,9 +25,9 @@ export default function QuickActions() {
         {actions.map(({ label, icon, className, ref }) => (
           <button
             key={label}
-            className={`flex items-center justify-center gap-2 px-4 py-3 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition ${className}`}
+            className={`flex items-center justify-center gap-2 px-4 py-3 cursor-pointer bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition ${className}`}
           >
-            <a href={ref}>
+            <a className="flex gap-3  cursor-pointer" href={ref}>
               {icon}
               {label}
             </a>

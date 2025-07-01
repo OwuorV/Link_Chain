@@ -99,8 +99,8 @@ export default function FinancialProviders() {
   ];
 
   return (
-    <main className="flex justify-center align-center m-2 w-full">
-      <div className="grid grid-cols-1 md:grid-cols-1 gap-y-12 gap-x-6 w-full max-w-[1200px]">
+    <main className="flex justify-center align-center w-full">
+      <div className="grid grid-cols-1 md:grid-cols-1 mt-3 gap-y-12 gap-x-6 w-full max-w-[1200px]">
         {providers.map(
           ({ id, name, type, location, services, logo, website }) => (
             <div

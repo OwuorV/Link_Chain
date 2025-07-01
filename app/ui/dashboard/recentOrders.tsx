@@ -4,13 +4,13 @@ const statuses = ["pending", "processing", "completed", "cancelled"];
 
 export default function RecentOrders() {
   return (
-    <div className="bg-[#A9DFD8]/20 p-6 rounded-[12px] mb-6 w-full shadow-sm">
+    <div className="bg-[#A9DFD8]/20 p-6 rounded-[12px] mb-6 w-full shadow-sm overflow-hidden">
       <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
-      <div className="flex gap-2 mb-4 bg-[#DDF4D5] rounded-[12px] w-max p-1">
+      <div className="grid grid-cols-4 gap-2 md:flex w-max mb-4 bg-[#DDF4D5] rounded-[12px] w-full p-1">
         {statuses.map((status) => (
           <button
             key={status}
-            className="px-4 py-1 rounded-full bg-white text-black font-medium capitalize hover:bg-green-200 transition"
+            className="px-1 md:px-4 cursor-pointer py-1 rounded-full bg-white text-[11px] md:text-base text-black font-medium capitalize hover:bg-green-200 transition"
           >
             {status}
           </button>

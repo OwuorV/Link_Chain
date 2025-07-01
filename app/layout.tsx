@@ -24,7 +24,7 @@ export default function RootLayout({
         className={`w-full ${public_sans} antialiased overflow-scroll ${styles.scrollbarhidden}`}
       >
         <>
-          <NavBar />
+          {/* <NavBar /> */}
           <main className="w-full">{children}</main>
         </>
       </body>

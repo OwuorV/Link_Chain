@@ -21,10 +21,10 @@ export default function Dashboardnav({ visible }: DashboardNavProps) {
   return (
     <>
       <div
-        className={`absolute  w-full md:bg-white md:w-[20%] md:relative 
+        className={`fixed top-0 h-[100vh] z-400 bg-[#000]/20  w-full md:bg-white md:w-[20%] md:relative 
         }`}
       >
-        <div className="div md:relative bg-white  flex gap-6 flex-col max-w-[50%] md:max-w-full  h-[90vh] pt-10 px-6">
+        <div className="div md:relative bg-white  flex gap-6 flex-col max-w-[50%] md:max-w-full  h-[100vh] pt-10 px-6">
           <div className="top flex items-center gap-2 width-full">
             <div className="logo">
               <svg

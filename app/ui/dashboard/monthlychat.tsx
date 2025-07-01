@@ -26,10 +26,10 @@ const data = [
 
 export default function VisitorChart() {
   return (
-    <div className="rounded-[12px] w-full md:w-[600px] h-[250px] bg-[#e5f6f3] p-2 shadow-sm">
+    <div className="cursor-pointer rounded-[12px] w-full md:w-[600px] h-[250px] bg-[#e5f6f3] p-2 shadow-sm">
       <h2 className="text-lg font-semibold mb-2">Visitor Insights</h2>
       <ResponsiveContainer className="w-[90%] h-[80%]">
-        <AreaChart data={data}>
+        <AreaChart className="cursor-pointer" data={data}>
           <defs>
             <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
               <stop offset="1%" stopColor="#00c49f" stopOpacity={0.4} />
@@ -43,6 +43,7 @@ export default function VisitorChart() {
           <YAxis />
           <Tooltip />
           <Area
+            className="cursor-pointer"
             type="monotone"
             dataKey="visitors"
             stroke="#00c49f"

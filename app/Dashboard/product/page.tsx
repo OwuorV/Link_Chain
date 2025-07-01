@@ -79,6 +79,16 @@ export default function Products() {
 
   return (
     <div className="w-full h-full px-[40px] gap-[20px] py-[16px] flex flex-col justify-center items-center">
+      {success && (
+        <div className="bg-green-100 text-green-800 p-3 rounded-md">
+          ✅ Product submitted successfully!
+        </div>
+      )}
+      {error && (
+        <div className="bg-red-100 text-red-800 p-3 rounded-md">
+          ❌ Something went wrong.
+        </div>
+      )}
       <div className="w-full md:w-[698px] max-w-[600px] gap-4 p-[16px] h-max flex-col border-[#004]/30 border-1 items-center border-solid flex rounded-[23px] bg-[#165D25]/10 self-center">
         <h1 className="text-[28px] text-left text-[#088738] font-[700]">
           Create New Product
@@ -95,16 +105,6 @@ export default function Products() {
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 w-full p-4"
           >
-            {success && (
-              <div className="bg-green-100 text-green-800 p-3 rounded-md">
-                ✅ Product submitted successfully!
-              </div>
-            )}
-            {error && (
-              <div className="bg-red-100 text-red-800 p-3 rounded-md">
-                ❌ Something went wrong.
-              </div>
-            )}
             <label>Product Name</label>
             <input
               type="text"
@@ -149,6 +149,7 @@ export default function Products() {
             <textarea
               name="description"
               value={formData.description}
+              required
               onChange={handleChange}
               placeholder="Product Description"
               className="border-[#171821]/30 border-[1px] p-2 rounded-[12px]"
@@ -161,6 +162,7 @@ export default function Products() {
               accept="image/*"
               onChange={handleImageChange}
               className="border-[#171821]/30 border-[1px] p-2 rounded-[12px]"
+              required
             />
 
             {preview && (

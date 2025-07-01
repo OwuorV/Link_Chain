@@ -163,8 +163,8 @@ export default function Vets() {
   ];
 
   return (
-    <main className="flex justify-center align-center m-2 w-full">
-      <div className="farmGrid self-center grid grid-cols-1 md:grid-cols-4 gap-y-15 gap-x-10 w-full ">
+    <main className="flex justify-center mt-3 align-center w-full">
+      <div className="farmGrid self-center grid grid-cols-1 md:grid-cols-3 gap-y-15 gap-x-10 w-full ">
         {ServiceCards.map(
           ({
             id,
