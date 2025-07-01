@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <>
       {open && (
-        <div className="cover bg-[#171821]/90 backdrop-blur fixed right-0 z-600 w-full h-[100vh]">
+        <div className="cover bg-[#171821]/90 backdrop-blur fixed right-0 z-600 w-full md:w-0 h-[100vh]">
           <div className="px-4 fixed top-1 right-0 z-600 md:top-13 right-2 w-64 rounded-lg shadow-lg bg-[#edf2f5] ring-1 ring-black/10 z-10 border border-[#000]/10">
             <div className="px-4 py-3">
               <p className="text-[16px] font-semibold text-gray-900">Tarus</p>
@@ -198,8 +198,8 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      <nav className="w-max overflow-hidden top-0 z-20 bg-[£bg-[#edf2f5]] pr-8 pt-1">
-        <ul className="flex justify-between gap-8 items-center">
+      <nav className="flex justify-between overflow-hidden top-0 z-20 bg-[£bg-[#edf2f5]] pr-8 pt-1">
+        <ul className="flex justify-between w-[80%] gap-8 items-center">
           <div className="text-[#0f0] text-[26px] tracking-widest font-bold">
             Link.
           </div>

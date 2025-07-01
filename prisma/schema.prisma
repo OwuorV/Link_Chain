@@ -21,18 +21,5 @@ model Product {
   description String
   imageUrl    String?  // Optional
   createdAt   DateTime @default(now())
-   vendorId String   
-   vendor      Vendor   @relation(fields: [vendorId], references: [id])
-   VendorName String
 
-}
-model Vendor {
-  id                String   @id @default(uuid()) // vendorId
-  name              String
-  shopName          String
-  location          String
-  categories        String[] // array of up to 3 categories
-  deliveryLocations String[] // array of locations (e.g., ["Kisumu", "Siaya"])
-  products          Product[] 
-  createdAt         DateTime @default(now())
 }
