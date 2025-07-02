@@ -35,7 +35,7 @@ export default function Home() {
               Discover Our Services
             </a>
             <a
-              href="/farm"
+              href="/farms"
               className="flex gap-2 bg-green-600 justify-center items-center text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition"
             >
               Explore Market Place
@@ -123,7 +123,7 @@ export default function Home() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
             <img
-              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+              src="/carrots.jpg"
               alt="Farm-to-Table"
               className="w-full h-48 object-cover rounded-t-lg mb-4"
             />
