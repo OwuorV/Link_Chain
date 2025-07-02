@@ -32,10 +32,11 @@ export async function POST(req: NextRequest) {
         imageUrl,
       },
     });
-
+    console.log("API - Fetched products:", await prisma.product.findMany());
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
     console.error("API Error:", error);
+    console.log("API - Fetched products:", await prisma.product.findMany());
     return NextResponse.json(
       { error: "Failed to save product" },
       { status: 500 }
