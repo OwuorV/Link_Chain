@@ -79,6 +79,19 @@ export async function GET(request: Request) {
     }
 
     const data: WeatherResponse = await response.json();
+
+    // 🔁 Convert tempmax (°F ➝ °C) for each day
+    data.days = data.days.map((day) => ({
+      ...day,
+      tempmax: parseFloat((((day.tempmax - 32) * 5) / 9).toFixed(1)),
+    }));
+    data.currentConditions = {
+      ...data.currentConditions,
+      temp: parseFloat(
+        (((data.currentConditions.temp - 32) * 5) / 9).toFixed(1)
+      ),
+    };
+
     return NextResponse.json(data);
   } catch (error) {
     console.error("Fetch error:", error);
