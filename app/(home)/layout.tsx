@@ -18,7 +18,6 @@ export default function HomeLayout({
       >
         <div className="fixed flex flex-col gap-2 bg-[#edf2f5] z-1000 topper h-max w-full">
           <NavBar />
-          <div className="mt-5 md:mt-7 line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
           <div className="sideNav md:hidden">
             <SliderNav />
           </div>

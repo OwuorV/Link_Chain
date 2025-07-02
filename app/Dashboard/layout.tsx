@@ -13,7 +13,7 @@ export default function HomeLayout({
     <div
       className={
         showSideNav
-          ? "overflow-hidden"
+          ? "flex overflow-hidden"
           : "flex justify-between w-full h-full mt-5"
       }
     >

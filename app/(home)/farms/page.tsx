@@ -7,8 +7,11 @@ export default async function Vets() {
   const products = await getProducts();
 
   return (
-    <main className="flex justify-center align-center mt-3 w-full">
-      <div className="farmGrid self-center grid grid-cols-1 md:grid-cols-4 gap-y-10 gap-x-10 w-full ">
+    <main className="block justify-center align-center mt-3 w-full">
+      <div className="flex text-[28px] font-bold justify-center text-[#0f0] items-center w-full mb-5">
+        Welcome to The Market Place
+      </div>
+      <div className="farmGrid self-center grid grid-cols-1 md:grid-cols-3 gap-y-10 gap-x-10 w-full ">
         {products.map(
           ({ id, name, category, description, imageUrl, price, createdAt }) => (
             <div

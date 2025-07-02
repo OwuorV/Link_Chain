@@ -13,7 +13,7 @@ export default function Tabs() {
   const [tabsShow, isTabsSHow] = useState(false);
   const pathname = usePathname();
   return (
-    <div className="relative w-full">
+    <div className="relative w-[80%]">
       <div
         onClick={() => isTabsSHow((prev) => !prev)}
         className="px-4 relative  right-0 justify-end flex items-center gap-3 text-base font-medium div"

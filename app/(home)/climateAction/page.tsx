@@ -1,8 +1,3 @@
-import BlogSection from "@/app/ui/home/climateAction/blog";
-export default function climateAction() {
-  return (
-    <>
-      <BlogSection />
-    </>
-  );
+export default function ClimateAction() {
+  return <div></div>;
 }

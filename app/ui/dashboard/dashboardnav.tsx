@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 interface DashboardNavProps {
   visible: boolean;
@@ -22,7 +23,7 @@ export default function Dashboardnav({ visible }: DashboardNavProps) {
     <>
       <div
         className={`fixed top-0 h-[100vh] z-400 bg-[#000]/20  w-full md:bg-white md:w-[20%] md:relative 
-        }`}
+        `}
       >
         <div className="div md:relative bg-white  flex gap-6 flex-col max-w-[50%] md:max-w-full  h-[100vh] pt-10 px-6">
           <div className="top flex items-center gap-2 width-full">
@@ -37,10 +38,12 @@ export default function Dashboardnav({ visible }: DashboardNavProps) {
                 <path d="M480-120 80-600l120-240h560l120 240-400 480Zm-95-520h190l-60-120h-70l-60 120Zm55 347v-267H218l222 267Zm80 0 222-267H520v267Zm144-347h106l-60-120H604l60 120Zm-474 0h106l60-120H250l-60 120Z" />
               </svg>
             </div>
-            <div className="divtitle w-full">
-              <h3>Shamba Link</h3>
-              <h3>LTD</h3>
-            </div>
+            <Link href="/">
+              <div className="divtitle w-full">
+                <h3>Shamba Link</h3>
+                <h3>LTD</h3>
+              </div>
+            </Link>
           </div>
           <div className="platformdiv flex flex-col gap-5">
             <h4>platform</h4>

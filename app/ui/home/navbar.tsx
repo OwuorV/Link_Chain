@@ -198,11 +198,8 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      <nav className="flex justify-between overflow-hidden top-0 z-20 bg-[£bg-[#edf2f5]] pr-8 pt-1">
-        <ul className="flex justify-between w-[80%] gap-8 items-center">
-          <div className="text-[#0f0] text-[26px] tracking-widest font-bold">
-            Link.
-          </div>
+      <nav className="flex w-full justify-center overflow-hidden top-0 z-20 bg-transparent px-12 pt-1">
+        <ul className="flex justify-between gap-3 w-[80%] items-center">
           <li>
             <span className="hidden md:flex border border-solid-[1px] rounded-[29px] gap-2 px-4 py-2 h-10 items-center">
               <GlobeAltIcon className="w-6 h-6 text-gray-600" />

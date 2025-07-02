@@ -45,7 +45,7 @@ export default function SliderNav() {
         {/* <div className="px-4 pointer-events-none absolute left-0  h-full w-40 bg-gradient-to-r from-white via-white/60 to-transparent" />
         <div className="px-4 pointer-events-none absolute right-0 h-full w-40 bg-gradient-to-l from-white/60 via-white/60 to-transparent" /> */}
 
-        <div className="all w-max bg-green-500 mt-4 hidden md:flex rounded-[50px] px-2 items-center  ">
+        <div className="all w-max bg-green-500 z-10000 mt-4 hidden md:flex rounded-[50px] px-2 items-center  ">
           <span className="md:hidden">LOGO</span>
         </div>
         <div
