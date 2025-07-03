@@ -30,7 +30,7 @@ export default async function Vets() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover rounded-t-xl"
                   priority={false}
-                  alt={null}
+                  alt=""
                 />
               </div>
               <div className="relative flex flex-col p-4 text-left text-black w-full">
