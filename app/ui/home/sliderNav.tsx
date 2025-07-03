@@ -63,7 +63,7 @@ export default function SliderNav() {
     },
   ];
   return (
-    <div className="fixed flex flex-col gap-10  w-full border-r border-r-solid border-r-[1px] border-r-[#171821]/20 md:w-max">
+    <div className="fixed flex flex-col gap-10 top-0 w-full border-r border-r-solid border-r-[1px] border-r-[#171821]/20 md:w-max">
       <div
         className={`px-4 fixed flex flex-col md:flex-col md:fixed md:top-0 pb-8 w-max gap-8 justify-between overflow-scroll h-full  ${styles.scrollbarhidden}`}
       >
