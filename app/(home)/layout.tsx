@@ -14,20 +14,18 @@ export default function HomeLayout({
         <SliderNav />
       </div>
       <div
-        className={`relative flex gap-1 flex-col mb-0 w-full bg-[#edf2f5] ${styles.scrollbarhidden}`}
+        className={`relative flex gap-2 flex-col mb-0 w-full  ${styles.scrollbarhidden}`}
       >
-        <div className="fixed flex flex-col gap-2 bg-[#edf2f5] z-1000 topper h-max w-full">
-          <NavBar />
+        <div className="mt-5 md:mt-7 line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
+        <Tabs />
+        <div className=" z-1000 md:hidden topper h-max w-full">
           <div className="sideNav md:hidden">
             <SliderNav />
           </div>
-          <div className="mt-5 md:mt-7 line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
-          <Tabs />
+          <div className="mt-5 md:mt-3 line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
         </div>
 
-        <main className=" w-full bg-[#f6fafd] px-3 pt-40 md:pt-45 ">
-          {children}
-        </main>
+        <main className=" w-full bg-[#f6fafd] px-3 py-6">{children}</main>
       </div>
     </main>
   );

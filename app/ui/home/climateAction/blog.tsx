@@ -42,7 +42,7 @@ const blogPosts: BlogPost[] = [
 
 export default function BlogSection() {
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-[#99b6d8]">
       <div className="topper flex flex-col">
         <h2 className="text-3xl font-bold text-center text-[#165D25] mb-6">
           Latest Blog Posts

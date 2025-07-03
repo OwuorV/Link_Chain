@@ -10,19 +10,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "blog", href: "/climateAction/blog" },
   ];
   return (
-    <div className="w-full">
-      <div className="flex justify-center bg-[#edf2f5] items-center text-[28px] font-bold text-[#0f0] mb-5">
+    <div className="w-full h-full bg-[#99b6d8] px-3 pt-8">
+      <div className="flex justify-center items-center text-[28px] font-bold text-[#165D25] mb-5">
         Welcome to Climate Action
       </div>
-      <div className="buttons flex flex-col justify-center md:flex-row gap-3  ">
+      <div className="buttons border-b border-b-[1px] border-b-[#171821]/20 flex flex justify-center md:flex-row gap-3  ">
         {tabs.map((tab: { name: string; href: string }) => (
           <Link key={tab.name} href={tab.href} className="">
             <button
               className={clsx(
-                " cursor-pointer md:hover:bg-[#cadeed]  pl-2 py-2 gap-5 self-center text-left w-[100px] md:w-[160px] md:h-[35px]  h-[35px]  text-[8px] text-[#171821] font-base md:text-[13px]",
+                " cursor-pointer md:hover:bg-[#fff]  pl-2 py-2 gap-5 self-center text-left w-[100px] md:w-[160px] md:h-max  h-max  text-[14px] text-[#171821] font-base md:text-[14px] md:font-semibold",
                 pathname === tab.href
-                  ? "md:bg-[#f6fafd] text-[#171821]"
-                  : "md:bg-[#edf2f5]"
+                  ? "md:bg-[#fff] text-[#171821] border-b border-b-[#fff] border-b-solid border-b-[2px] text-[16px] font-semibold"
+                  : "md:bg-[#99b6d8]"
               )}
             >
               {tab.name}

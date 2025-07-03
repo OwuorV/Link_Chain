@@ -4,6 +4,7 @@ import { GlobeAltIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import Tabs from "./tabs";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -79,7 +80,7 @@ export default function Navbar() {
       <div
         className={
           showNav
-            ? "flex justify-end top-0  backdrop-blur bg-[#171821]/70 w-full z-900"
+            ? "flex justify-end top-0 fixed top-0  backdrop-blur bg-[#171821]/70 w-full z-900"
             : "hidden"
         }
       >
@@ -139,66 +140,109 @@ export default function Navbar() {
             <div className="border border-t-[1px] border-[#000]/10 mt-1"></div>
             <div className="quicklinks flex flex-col w-full items-center gap-3 text-sm mt-6 px-6">
               Quicklinks
-              <ul className="w-full flex flex-col items-start gap-3">
-                <li className="flex gap-2 justify-between w-full">
-                  {" "}
-                  About us
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    fill="#000"
-                  >
-                    <path d="M384-288v-384l192 192-192 192Z" />
-                  </svg>
-                </li>
-                <li className="flex gap-2 justify-between w-full">
-                  {" "}
-                  View Market{" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    fill="#000"
-                  >
-                    <path d="M384-288v-384l192 192-192 192Z" />
-                  </svg>
-                </li>
-                <li className="flex gap-2 justify-between w-full">
-                  {" "}
-                  Service Providers{" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    fill="#000"
-                  >
-                    <path d="M384-288v-384l192 192-192 192Z" />
-                  </svg>
-                </li>
-                <li className="flex gap-2 justify-between w-full">
-                  {" "}
-                  finacial Provicers{" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20px"
-                    viewBox="0 -960 960 960"
-                    width="20px"
-                    fill="#000"
-                  >
-                    <path d="M384-288v-384l192 192-192 192Z" />
-                  </svg>
-                </li>
+              <ul className="w-full flex flex-col items-start gap-5">
+                <Link
+                  className="w-full hover:bg-[#2cdbee]"
+                  onClick={() => isNavSeen((prev) => !prev)}
+                  href="/#about"
+                >
+                  <li className="flex gap-2 justify-between w-full">
+                    {" "}
+                    About us
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      fill="#000"
+                    >
+                      <path d="M384-288v-384l192 192-192 192Z" />
+                    </svg>
+                  </li>
+                </Link>
+                <Link
+                  className="w-full hover:bg-[#2cdbee]"
+                  onClick={() => isNavSeen((prev) => !prev)}
+                  href="/farms"
+                >
+                  <li className="flex gap-2 justify-between w-full">
+                    {" "}
+                    View Market{" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      fill="#000"
+                    >
+                      <path d="M384-288v-384l192 192-192 192Z" />
+                    </svg>
+                  </li>
+                </Link>
+                <Link
+                  className="w-full hover:bg-[#2cdbee]"
+                  onClick={() => isNavSeen((prev) => !prev)}
+                  href="/services"
+                >
+                  <li className="flex gap-2 justify-between w-full">
+                    {" "}
+                    Service Providers{" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      fill="#000"
+                    >
+                      <path d="M384-288v-384l192 192-192 192Z" />
+                    </svg>
+                  </li>
+                </Link>
+                <Link
+                  className="w-full hover:bg-[#2cdbee]"
+                  onClick={() => isNavSeen((prev) => !prev)}
+                  href="/vets"
+                >
+                  <li className="flex gap-2 justify-between w-full">
+                    {" "}
+                    finacial Provicers{" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      fill="#000"
+                    >
+                      <path d="M384-288v-384l192 192-192 192Z" />
+                    </svg>
+                  </li>
+                </Link>
+                <Link
+                  className="w-full hover:bg-[#2cdbee]"
+                  onClick={() => isNavSeen((prev) => !prev)}
+                  href="/climateAction/weather"
+                >
+                  <li className="flex gap-2 justify-between w-full">
+                    {" "}
+                    Weather Forecast{" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20px"
+                      viewBox="0 -960 960 960"
+                      width="20px"
+                      fill="#000"
+                    >
+                      <path d="M384-288v-384l192 192-192 192Z" />
+                    </svg>
+                  </li>
+                </Link>
               </ul>
             </div>
             <div className="border border-t-[1px] border-[#000]/10 mt-6"></div>
           </div>
         </div>
       </div>
-      <nav className="flex w-full justify-center overflow-hidden top-0 z-20 bg-transparent px-12 pt-1">
+      <nav className="flex w-full justify-center overflow-hidden top-0 z-100 bg-transparent px-12 pt-1">
         <ul className="flex justify-between gap-3 w-[80%] items-center">
           <li>
             <span className="hidden md:flex border border-solid-[1px] rounded-[29px] gap-2 px-4 py-2 h-10 items-center">

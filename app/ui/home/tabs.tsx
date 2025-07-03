@@ -13,7 +13,7 @@ export default function Tabs() {
   const [tabsShow, isTabsSHow] = useState(false);
   const pathname = usePathname();
   return (
-    <div className="relative w-[80%]">
+    <div className="relative">
       <div
         onClick={() => isTabsSHow((prev) => !prev)}
         className="px-4 relative  right-0 justify-end flex items-center gap-3 text-base font-medium div"
@@ -30,7 +30,7 @@ export default function Tabs() {
         services
       </div>
       {tabsShow && (
-        <div className=" z-700 bg-[#edf2f5] pb-4 flex flex-col md:flex w-full h-auto md:mb-[-8px] md:w-full md:h-[60px] gap-4  p-[16px] pb-0 items-center justify-center">
+        <div className=" z-700  pb-4 flex flex-col md:flex w-full h-auto md:mb-[-8px] md:w-full md:h-[60px] gap-4  p-[16px] pb-0 items-center justify-center">
           <div className="buttons flex flex-col md:flex-row gap-3  ">
             {tabs.map((tabs) => (
               <Link key={tabs.name} href={tabs.href} className="">
@@ -46,6 +46,18 @@ export default function Tabs() {
                 </button>
               </Link>
             ))}
+          </div>
+          <div className="md:hidden">
+            <svg
+              onClick={() => isTabsSHow((prev) => !prev)}
+              xmlns="http://www.w3.org/2000/svg"
+              height="20px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              fill="#000"
+            >
+              <path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z" />
+            </svg>
           </div>
         </div>
       )}

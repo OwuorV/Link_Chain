@@ -32,27 +32,52 @@ export default function SliderNav() {
     },
     {
       id: 5,
+      image: "/Hen1.svg",
+      title: "Fish",
+      intro: "Fresh Victoria, Kanyaboli Fish straight from the lake",
+    },
+    {
+      id: 6,
       image: "/Vet.svg",
       title: "Veterinary",
       intro: "vet services ",
     },
+    {
+      id: 7,
+      image: "/Vet.svg",
+      title: "Crops",
+      intro: "Fresh From the Farm, Cassava, Maize, Beans, etc ",
+    },
+    {
+      id: 8,
+      image: "/Vet.svg",
+      title: "Livestock",
+      intro:
+        "Healthy, both local and Hybrid Livestock, including improved Kienyeji ",
+    },
+    {
+      id: 9,
+      image: "/Vet.svg",
+      title: "milk",
+      intro: "Fresh Milk from the farm ",
+    },
   ];
   return (
-    <div className="relative">
+    <div className="fixed flex flex-col gap-10 top-4 w-full border-r border-r-solid border-r-[1px] border-r-[#171821]/20 md:w-max">
       <div
-        className={`px-4 relative flex md:flex-col md:fixed md:top-0 w-max gap-10 justify-between overflow-y-hidden overflow-scroll ${styles.scrollbarhidden}`}
+        className={`px-4 fixed flex flex-col md:flex-col md:fixed md:top-0 pb-8 w-max gap-8 justify-between overflow-scroll h-full  ${styles.scrollbarhidden}`}
       >
         {/* <div className="px-4 pointer-events-none absolute left-0  h-full w-40 bg-gradient-to-r from-white via-white/60 to-transparent" />
         <div className="px-4 pointer-events-none absolute right-0 h-full w-40 bg-gradient-to-l from-white/60 via-white/60 to-transparent" /> */}
 
         <div className="all w-max bg-green-500 z-10000 mt-4 hidden md:flex rounded-[50px] px-2 items-center  ">
-          <span className="md:hidden">LOGO</span>
+          <span className="">LOGO</span>
         </div>
         <div
           onClick={() => sliderShown((prev) => !prev)}
           className="all flex md:hidden w-max bg-green-500 rounded-[50px] px-2 items-center  "
         >
-          <span className="md:hidden">
+          <span className="">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -87,11 +112,13 @@ export default function SliderNav() {
       </div>
       {showSlider && (
         <div
-          className={`px-4 absolute bg-[#edf2f5] z-1000 top-0 h-[100vh] flex flex-col w-full gap-10 items-center overflow-y-hidden overflow-scroll ${styles.scrollbarhidden}`}
+          className={`px-4 absolute bg-[#edf2f5] z-10000 top-0 h-[100vh] flex flex-col w-full gap-10 items-center overflow-scroll ${styles.scrollbarhidden}`}
         >
           {/* <div className="px-4 pointer-events-none absolute left-0  h-full w-40 bg-gradient-to-r from-white via-white/60 to-transparent" />
          <div className="px-4 pointer-events-none absolute right-0 h-full w-40 bg-gradient-to-l from-white/60 via-white/60 to-transparent" /> */}
-
+          <div className="all w-max bg-green-500 z-10000 mt-4 hidden md:flex rounded-[50px] px-2 items-center  ">
+            <span className="">LOGO</span>
+          </div>
           {data.map(({ id, image, title, intro }) => (
             <span
               className="flex flex-col gap-2 items-start text-black mt-2 w-full items-center md:flex"
