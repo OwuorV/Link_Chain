@@ -25,7 +25,6 @@ export default function RootLayout({
         className={`w-full ${public_sans} antialiased overflow-scroll ${styles.scrollbarhidden}`}
       >
         <>
-          <NavBar />{" "}
           {showcoming && (
             <div className="fixed z-1000 flex flex-col justify-center items-center rounded-lg w-full h-full border  bg-[#000]/60 backdrop-blur text-center py-2">
               {" "}

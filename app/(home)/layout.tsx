@@ -10,6 +10,7 @@ export default function HomeLayout({
   return (
     <main className="flex w-full ">
       {" "}
+      <NavBar />{" "}
       <div className="w-[14%] z-10000 hidden md:block">
         <SliderNav />
       </div>
