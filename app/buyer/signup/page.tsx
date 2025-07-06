@@ -41,7 +41,7 @@ export default function Signup() {
           {" "}
           <h2 className="text-2xl font-bold ">Seller Signup</h2>
           <a href="/seller/signup" className="text-green-600 mt-4 underline">
-            Register as Seller{" "}
+            Register as Buyer{" "}
           </a>
         </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
