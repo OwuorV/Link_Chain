@@ -29,10 +29,21 @@ export default function Home() {
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-3  space-x-4">
             <a
-              href="#services"
-              className="inline-block bg-green-600 text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition"
+              href="/seller/signup"
+              className="flex bg-green-600 gap-2 text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition"
             >
-              Discover Our Services
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#fff"
+                >
+                  <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
+                </svg>
+              </span>{" "}
+              Join Today
             </a>
             <a
               href="/farms"
