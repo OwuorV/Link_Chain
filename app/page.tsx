@@ -250,7 +250,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-green-600 text-white py-8">
+      <footer className="bg-green-600 text-white py-8 flex md:flex-row flex-col items-center justify-between">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="mb-2">
             © 2025 Digital Value Chain Accelerator . All rights reserved.
@@ -263,6 +263,9 @@ export default function Home() {
               Terms of Service
             </a>
           </div>
+        </div>
+        <div className="div w-[300px] h-[300px] rounded-[200px] md:w-[400px] overflow-hidden md:h-[400px] mx-auto relative mt-4">
+          <Image src="/logo.jpg" alt="Logo" fill className="object-cover" />
         </div>
       </footer>
     </div>
