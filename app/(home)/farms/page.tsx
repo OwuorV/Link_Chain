@@ -15,6 +15,13 @@ export default async function Vets() {
       <h1 className="text-3xl font-bold text-center text-[#0f0] mb-5">
         Welcome to The Market Place
       </h1>
+      <div className="p">
+        <p className="text-[16px] text-center max-w-[600px] text-[#000] mb-5 mt-5">
+          Discover a wide range of products from local vendors, including fresh
+          produce, handmade crafts, and more. Support local businesses and find
+          unique items that you won't find anywhere else.
+        </p>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-7xl">
         {products.map(
           ({ id, name, category, description, imageUrl, price }) => (

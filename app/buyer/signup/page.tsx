@@ -39,9 +39,9 @@ export default function Signup() {
       >
         <div className="flex justify-between mb-6 items-center text-center">
           {" "}
-          <h2 className="text-2xl font-bold ">Seller Signup</h2>
+          <h2 className="text-2xl font-bold ">Buyer Signup</h2>
           <a href="/seller/signup" className="text-green-600 mt-4 underline">
-            Register as Buyer{" "}
+            Register as seller{" "}
           </a>
         </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}

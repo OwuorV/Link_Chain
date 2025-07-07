@@ -10,22 +10,22 @@ export default function HomeLayout({
   return (
     <main className="flex w-full ">
       {" "}
-      <NavBar />{" "}
-      <div className="w-[14%] z-10000 hidden md:block">
+      <div className="w-[14%] border-r border-[#C0B4B4]/50 border-b-[0.3px] z-10000 hidden md:block">
         <SliderNav />
       </div>
       <div
         className={`relative flex gap-2 flex-col mb-0 w-full  ${styles.scrollbarhidden}`}
       >
-        <div className="mt-5 md:mt-7 line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
+        <NavBar />
+        <div className=" line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
         <Tabs />
-        <div className=" z-1000 md:hidden topper h-max w-full">
+        <div className=" line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
+        <div className="relative z-1000 md:hidden topper h-max w-full">
           <div className="sideNav md:hidden">
             <SliderNav />
           </div>
           <div className="mt-5 md:mt-3 line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
         </div>
-
         <main className=" w-full bg-[#f6fafd] px-3 py-6">{children}</main>
       </div>
     </main>

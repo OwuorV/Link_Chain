@@ -133,21 +133,23 @@ export default function WeatherDisplay() {
   if (!weather) return <p>No data available</p>;
 
   return (
-    <div className="p-4 text-white bg-[#99b6d8]">
-      <div className="text-2xl top-0 flex gap-2 items-center font-bold">
-        {weather.resolvedAddress} <CiLocationOn />
-        <p className="text-gray-500 text-base font-sm"> {formattedTime}</p>
-      </div>
+    <div className="p-4 h-full w-full flex flex-col items-center text-white bg-[#99b6d8]">
+      <div className="flex flex-col md:w-[50%] ">
+        <div className="text-2xl top-0 flex gap-2 items-center font-bold">
+          {weather.resolvedAddress} <CiLocationOn />
+          <p className="text-gray-500 text-base font-sm"> {formattedTime}</p>
+        </div>
 
-      <p className="text-8xl"> {weather.currentConditions.temp}°</p>
-      <p className="text-3xl mt-4"> {weather.currentConditions.conditions}</p>
-      <p className="text-xl mt-2">
-        Precipitation:{" "}
-        <span className="text-3xl font-bold">
-          {weather.currentConditions.precip || 0}
-        </span>{" "}
-        inches
-      </p>
+        <p className="text-8xl"> {weather.currentConditions.temp}°</p>
+        <p className="text-3xl mt-4"> {weather.currentConditions.conditions}</p>
+        <p className="text-xl mt-2">
+          Precipitation:{" "}
+          <span className="text-3xl font-bold">
+            {weather.currentConditions.precip || 0}
+          </span>{" "}
+          inches
+        </p>
+      </div>
 
       {weather.days.slice(0, 3).map((day: WeatherDay) => (
         <div

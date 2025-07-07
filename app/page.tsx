@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: "Digital Value Chain Accelerator",
   description: "Accelerating digital transformation in the value chain",
   icons: {
-    icon: "/logo.svg",
-    apple: "/logo.svg",
+    icon: "/logo2.jpg",
+    apple: "/logo2.jpg",
   },
 };
 export default function Home() {
@@ -20,12 +20,13 @@ export default function Home() {
       >
         <div className="text-center max-w-3xl mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-md">
-            Growing a Sustainable Agricultural Future
+            Building a Sustainable Digital Agricultural Ecosystem
           </h2>
           <p className="text-lg md:text-xl text-white mb-6 drop-shadow-md">
-            Connecting farmers, Service providers and the Buyers in one market
-            place, tuned with climate action and Blog spot, so you dont miss an
-            Agricultural update
+            Connecting the Value Chain Drivers and Sector Players in one
+            Ecosystem linked to Real time Meteorological data Service Center and
+            Climate Action BlogSpot for enhanced relevant Agricultural
+            Information Dissemination
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-3  space-x-4">
             <a
@@ -43,7 +44,7 @@ export default function Home() {
                   <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
                 </svg>
               </span>{" "}
-              Join Today
+              Join us Today
             </a>
             <a
               href="/farms"

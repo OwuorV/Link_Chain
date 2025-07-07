@@ -10,9 +10,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "blog", href: "/climateAction/blog" },
   ];
   return (
-    <div className="w-full h-full bg-[#99b6d8] px-3 pt-8">
-      <div className="flex justify-center items-center text-[28px] font-bold text-[#165D25] mb-5">
+    <div className="w-full flex-col justify-center items-center self-center flex h-full bg-[#99b6d8] md:px-30 pt-8">
+      <div className="flex justify-left items-center text-[28px] font-bold text-[#165D25] mb-5">
         Welcome to Climate Action
+      </div>
+      <div className="flex justify-start items-start text-start text-[16px] font-base text-gray-100 mb-5">
+        Stay informed about the weather and climate action initiatives and their
+        impact on our planet.
       </div>
       <div className="buttons border-b border-b-[1px] border-b-[#171821]/20 flex flex justify-center md:flex-row gap-3  ">
         {tabs.map((tab: { name: string; href: string }) => (
@@ -30,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
         ))}
       </div>
-      <div className="p-4 max-w-4xl mx-auto">{children}</div>
+      <div className="p-4 w-full h-full mx-auto">{children}</div>
     </div>
   );
 }
