@@ -341,14 +341,14 @@ export default function Home() {
             />
           </div>
           <div className="div items-center p-8 w-full h-full flex justify-center">
-            <p className="text-4xl flex leading-[73px] flex-col gap-4 p-4 font-bold">
+            <div className="text-4xl flex leading-[73px] flex-col gap-4 p-4 font-bold">
               Real Feedback from :
               <p className="text-green-600 font-bold italic">
                 {" "}
                 Our Farmers and Service Providers
               </p>
               <div className="border-b border-b-[#000]/30 border-b-[1px] w-full "></div>
-            </p>
+            </div>
           </div>
           <div className="w-full h-full flex justify-center items-center">
             <FeedbackCarousel />
