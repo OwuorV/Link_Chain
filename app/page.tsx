@@ -105,7 +105,7 @@ export default function Home() {
       <section id="explore" className="bg-white py-16">
         <div className="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-6 h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
+            <div className="p-6 h-max min-h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
               <Image
                 src="/how.png"
                 alt="how it works"
@@ -118,7 +118,7 @@ export default function Home() {
               </h4>
               <p className="text-gray-600">getting started with us </p>
             </div>
-            <div className="p-6 h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
+            <div className="p-6 h-max min-h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
               <Image
                 src="/market-place.png"
                 alt="market place"
@@ -133,7 +133,7 @@ export default function Home() {
                 Explore our market place, view products from our farmers
               </p>
             </div>
-            <div className=" p-6 h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
+            <div className=" p-6 h-max min-h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
               <Image
                 src="/loginvector.png"
                 alt="login vector"
@@ -149,7 +149,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="p-6 h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
+            <div className="p-6 h-max min-h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
               <Image
                 src="/online-s.png"
                 alt="online shop"
@@ -165,7 +165,7 @@ export default function Home() {
                 products and services
               </p>
             </div>
-            <div className="p-6 h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
+            <div className="p-6 h-max min-h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
               <Image
                 src="/analytics.png"
                 alt="analytics"
@@ -217,7 +217,7 @@ export default function Home() {
             {whatWeDoItems.map(({ title, description, number }) => (
               <div
                 key={number}
-                className="one flex h-[250px] justify-between md:flex-row border border-[1px] border-gray-300 bg-wheat-600 p-6 hover:shadow-xl transition"
+                className="one flex h-max min-h-[250px] justify-between md:flex-row border border-[1px] border-gray-300 bg-wheat-600 p-6 hover:shadow-xl transition"
               >
                 <div className="flex flex-col gap-4 w-[80%] justify-center">
                   <p className="text-2xl italic font-semibold">{title}</p>
