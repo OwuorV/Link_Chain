@@ -30,6 +30,16 @@ export default function Signup() {
     // For demonstration, we'll just log the data to the console
     console.log("Form submitted", formData);
     setError("");
+    // Reset form data after submission
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+    });
+    // go to home page after submission
+    window.location.href = "/farms";
   };
   return (
     <div className="flex flex-col items-center justify-center h-full w-full px-[20px] py-[10px] bg-gray-100">

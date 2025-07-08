@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
 import "./globals.css";

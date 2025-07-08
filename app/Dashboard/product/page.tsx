@@ -9,7 +9,14 @@ type Product = {
   description: string;
 };
 
-const categories = ["Poultry", "Cereals", "Vegetables", "Fruits", "Livestock"];
+const categories = [
+  "Poultry",
+  "Cereals",
+  "Crops",
+  "Vegetables",
+  "Fruits",
+  "Livestock",
+];
 
 export default function Products() {
   const [formData, setFormData] = useState<Product>({
