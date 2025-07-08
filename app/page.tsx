@@ -105,7 +105,7 @@ export default function Home() {
       <section id="explore" className="bg-white py-16">
         <div className="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-6 h-max min-h-[350px] border border-[1px] border-gray-200 hover:shadow-xl transition">
+            <div className="p-6 h-max min-h-[350px] border-t  border-[1px] border-gray-200 hover:shadow-xl transition">
               <Image
                 src="/how.png"
                 alt="how it works"
