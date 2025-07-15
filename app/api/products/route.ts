@@ -1,18 +1,19 @@
-// /app/api/products/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { v2 as cloudinary } from "cloudinary";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
-// Configure Cloudinary (add credentials in .env)
+// Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Validation schema
+// Product schema
 const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   price: z.number().positive("Price must be a positive number"),
@@ -21,8 +22,26 @@ const productSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  // ✅ Restrict to authenticated sellers only
+  if (!session || !session.user?.email) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // 🔍 Get the seller's ID
+  const seller = await prisma.seller.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!seller) {
+    return NextResponse.json(
+      { error: "Only sellers can create products" },
+      { status: 403 }
+    );
+  }
+
   try {
-    // Parse form data
     const formData = await req.formData();
     const name = formData.get("name") as string;
     const price = parseFloat(formData.get("price") as string);
@@ -30,7 +49,6 @@ export async function POST(req: NextRequest) {
     const description = formData.get("description") as string;
     const image = formData.get("image") as File;
 
-    // Validate inputs
     const validatedData = productSchema.parse({
       name,
       price,
@@ -38,7 +56,6 @@ export async function POST(req: NextRequest) {
       description,
     });
 
-    // Handle image upload
     let imageUrl = null;
     if (image) {
       const buffer = Buffer.from(await image.arrayBuffer());
@@ -56,7 +73,6 @@ export async function POST(req: NextRequest) {
       imageUrl = (uploadResult as any).secure_url;
     }
 
-    // Create product in the database
     const newProduct = await prisma.product.create({
       data: {
         name: validatedData.name,
@@ -64,16 +80,11 @@ export async function POST(req: NextRequest) {
         category: validatedData.category,
         description: validatedData.description || "",
         imageUrl,
+        sellerId: seller.id,
       },
     });
 
-    // Revalidate the /farms page
-    try {
-      revalidatePath("/farms", "page"); // Explicitly specify 'page' type
-      console.log("Revalidated /farms path");
-    } catch (revalError) {
-      console.error("Revalidation failed:", revalError);
-    }
+    revalidatePath("/farms", "page");
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {

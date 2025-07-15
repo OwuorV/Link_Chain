@@ -45,7 +45,7 @@ export default function Signup() {
     <div className="flex flex-col items-center justify-center h-full w-full px-[20px] py-[10px] bg-gray-100">
       <form
         onSubmit={HandleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full h-full max-w-md"
+        className="bg-white p-6 rounded shadow-md w-max  h-max max-w-md"
       >
         <div className="flex justify-between mb-6 items-center text-center">
           {" "}

@@ -19,7 +19,150 @@ model Product {
   price       Float
   category    String
   description String
-  imageUrl    String?  // Optional
+  imageUrl    String?
   createdAt   DateTime @default(now())
 
+  sellerId    String
+  seller      Seller   @relation(fields: [sellerId], references: [id])
+
+  Order       Order[]
+  CartItem    CartItem[]
+  Admin       Admin[]
 }
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  phone    String?   @unique
+  password    String
+  createdAt   DateTime @default(now())
+  
+
+  Buyer Buyer[]
+
+  Seller Seller[]
+
+  Admin Admin[]
+}
+model Buyer {
+  id          String   @id @default(uuid())
+  BuyerId    String   @unique
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  name        String
+  email       String   @unique
+  phone       String?  @unique
+  password    String
+
+
+
+  Order Order[]
+
+  Cart Cart[]
+
+  Admin Admin[]
+}
+model Seller {
+  id          String   @id @default(uuid())
+  SellerId    String   @unique
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  name        String
+  email       String   @unique
+  phone       String?  @unique
+  password    String
+
+
+  Admin Admin[]
+
+  Product Product[]
+}
+model Order {
+  id          String   @id @default(uuid())
+  productId   String
+  buyerId     String
+  quantity    Int
+  totalPrice  Float
+  status      String   // e.g., 'pending', 'completed', 'cancelled'
+  createdAt   DateTime @default(now())
+
+  product     Product  @relation(fields: [productId], references: [id])
+  buyer       Buyer    @relation(fields: [buyerId], references: [id])
+
+  Admin Admin[]
+}
+model Cart {
+  id          String   @id @default(uuid())
+  buyerId     String
+  createdAt   DateTime @default(now())
+
+  buyer       Buyer    @relation(fields: [buyerId], references: [id])
+  CartItem    CartItem[]
+
+  Admin Admin[]
+}
+model CartItem {
+  id          String   @id @default(uuid())
+  cartId      String
+  productId   String
+  quantity    Int
+  createdAt   DateTime @default(now())  
+  product     Product  @relation(fields: [productId], references: [id])
+  cart        Cart     @relation(fields: [cartId], references: [id])
+
+  Admin Admin[]
+}
+model Admin {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  phone       String?  @unique
+  password    String
+  createdAt   DateTime @default(now())
+  // Admins can manage products, users, orders, etc.
+  // You can add relations to other models if needed, such as Product, Order, etc
+  Product Product[]
+  Order Order[]
+  Buyer Buyer[]
+  Seller Seller[]
+  Cart Cart[]
+  CartItem CartItem[]
+  // Admins can also have their own unique fields if necessary
+  // For example, you might want to track admin roles or permissions
+  role       String   // e.g., 'superadmin', 'moderator', etc.
+  permissions String[] // Array of permissions, e.g., ['manage_products', 'view_orders', 'manage_users']
+  // You can also add a relation to the User model if admins are
+  // also users in your system, allowing them to log in with the same credentials.
+  userId     String?  @unique // Optional relation to User model if admins are also users
+  user       User?    @relation(fields: [userId], references: [id])
+  // If you want to track when the admin was created or last updated
+  updatedAt   DateTime @updatedAt // Automatically updates to the current timestamp when the record
+  // is updated
+  // record is created
+  // You can also add a relation to other models if needed, such as Product, Order, etc.
+  // This allows admins to manage products, orders, and users directly from the admin interface.
+  // For example, you might want to add a relation to the Product model:
+  // products Product[] // Admins can manage multiple products
+  // You can also add relations to other models like Order, Buyer, Seller, etc.
+  // This allows admins to manage orders, buyers, and sellers directly from the admin interface.
+  // For example, you might want to add a relation to the Order model:
+  // orders Order[] // Admins can manage multiple orders
+  // This allows admins to manage orders directly from the admin interface.
+  // You can also add relations to other models like Buyer, Seller, etc.
+  // This allows admins to manage buyers and sellers directly from the admin interface.
+  // For example, you might want to add a relation to the Buyer model:
+  // buyers Buyer[] // Admins can manage multiple buyers
+  // This allows admins to manage buyers directly from the admin interface.
+  // You can also add relations to other models like Seller, Cart, CartItem, etc
+  // This allows admins to manage sellers, carts, and cart items directly from the admin interface
+  // For example, you might want to add a relation to the Seller model:
+  // sellers Seller[] // Admins can manage multiple sellers
+  // This allows admins to manage sellers directly from the admin interface.
+  // For example, you might want to add a relation to the Cart model:
+  // carts Cart[] // Admins can manage multiple carts
+  // This allows admins to manage carts directly from the admin interface.  
+  
+  // Add any additional fields or relations as needed
+} 

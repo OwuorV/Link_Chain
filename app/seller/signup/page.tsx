@@ -15,22 +15,40 @@ export default function Signup() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const HandleSubmit = (e: React.FormEvent) => {
+  const HandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, phone, password, confirmPassword } = formData;
-    if (!name || !phone || !password || !confirmPassword) {
-      setError("Some  fields are Mandatory");
+    const { name, email, phone, password, confirmPassword } = formData;
+
+    if (!name || !email || !phone || !password || !confirmPassword) {
+      setError("All fields are required.");
       return;
     }
+
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
       return;
     }
-    // Here you would typically handle the form submission, e.g., send data to an API
-    // For demonstration, we'll just log the data to the console
-    console.log("Form submitted", formData);
-    setError("");
-    window.location.href = "/farms";
+
+    try {
+      const res = await fetch("/api/seller/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Signup failed");
+        return;
+      }
+
+      // Redirect on success
+      window.location.href = "/seller/login";
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong");
+    }
   };
   return (
     <div className="flex flex-col items-center justify-center h-full w-full px-[20px] py-[10px] bg-gray-100">

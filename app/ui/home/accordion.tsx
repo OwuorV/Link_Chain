@@ -7,55 +7,56 @@ import Accordion from "react-bootstrap/Accordion";
 export default function HomeAccordion() {
   const accordionData = [
     {
-      index: 0,
-      question: "What opportunities are available for the youth?",
-      answer:
-        "Our platform highlights training programs, job openings, entrepreneurship support, and funding opportunities specifically curated for youth in agriculture and agribusiness.",
-    },
-    {
       index: 1,
-      question: "How does the marketplace for farmers work?",
+      question: "How does the GreenHeroes Digital AgriEnterprise Hub work?",
       answer:
-        "Farmers can list their products, connect with local buyers, and receive payments securely through our integrated platform. This ensures fair pricing and direct access to customers.",
+        "This is an Agri-tech Platform initiated by Green Heroes Community Based Organization in collaboration with the County Government of Siaya Department of Agriculture to leverage technology for creating a sustainable agricultural ecosystem for Smallholder farmers. It provides a Value Chain acceleration pathway that empowers farmers by enhancing efficiency through accessible digital tools amongst the actors at different levels.",
     },
     {
       index: 2,
-      question: "What are extension services and how can I access them?",
+      question: "How do I register to the Digital AgriEnterprise Hub?",
       answer:
-        "Extension services offer expert guidance on farming practices, livestock care, and crop management. Farmers can book sessions or access digital content provided by certified agricultural officers.",
+        "You can join the Platform through the online self-registration process or onboarding by our authorized field enumerators.",
     },
     {
       index: 3,
-      question: "Where can I find financial providers on the platform?",
+      question: "How do I access the Hub?",
       answer:
-        "We have a dedicated page listing microfinance institutions, banks, and cooperative societies offering loans, grants, and other financial services tailored for farmers and agripreneurs.",
+        "Users can access the Platform by dialling the dedicated USSD Code then select the option for the specific service or product that you want to access.",
     },
     {
       index: 4,
-      question: "What kind of content is in the blog and climate action panel?",
+      question:
+        "What is NAVCDP in full and which Value Chains does NAVCDP promote in Siaya County?",
       answer:
-        "The blog shares success stories, farming tips, and sector news. The climate action panel provides insights on sustainable practices, weather updates, and eco-friendly farming innovations.",
+        "NAVCDP stands for National Agricultural Value Chain Project. This is a Kenyan Government Project being implemented by the Ministry of Agriculture and Livestock Development aimed at transforming Smallholder farming into Commercialization. In Siaya County, NAVCDP focuses on five key priority Value Chains, namely Beekeeping (Apiculture), Chicken (Poultry farming), Rice, Tomato, and Rice.",
     },
     {
       index: 5,
+      question: "How can I access the services of the NAVCDP?",
+      answer:
+        "Farmers can access NAVCDP services through the Digital AgriEnterprise Hub by registering on the platform, selecting the NAVCDP option, and following the prompts to access resources, training, and support related to their specific value chain.",
+    },
+    {
+      index: 6,
       question: "How are local farmers connected to the county government?",
       answer:
         "Through verified profiles and local directories, farmers can communicate with agricultural officers, access support programs, and receive real-time updates from their county government.",
     },
     {
-      index: 6,
+      index: 7,
       question: "What kind of government opportunities are posted here?",
       answer:
         "We publish agricultural grants, youth empowerment initiatives, equipment support programs, and upcoming government-funded projects available to the local community.",
     },
     {
-      index: 7,
+      index: 8,
       question: "How do county tenders work on the platform?",
       answer:
         "The platform lists county-level tenders and procurement opportunities. Users can view eligibility criteria, deadlines, and instructions for submitting applications.",
     },
     {
-      index: 8,
+      index: 9,
       question: "Is the payment system secure and transparent?",
       answer:
         "Yes. We use a secure payment gateway to ensure transparency between buyers and sellers. Every transaction is tracked, and both parties receive digital receipts.",

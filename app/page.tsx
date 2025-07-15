@@ -29,16 +29,17 @@ export default function Home() {
         "We create a platform where every farmer and Buyer has a Place, no economic devide , Access aour services at absolutely no cost",
       number: "02",
     },
+
     {
-      title: "Talk to Your Governor",
+      title: "County Tenders and Development Programs",
       description:
-        "We create a platform where local farmers can have a development chat with the Couty governmeent to Offer solution based on their needs.",
+        "Tenders from the county government and development programs are posted on our platform, allowing farmers to apply and participate in local projects.",
       number: "03",
     },
     {
-      title: "County Tenders and Developmet Programs",
+      title: "Talk to Your Extension Officer",
       description:
-        "Tenders from the county government and development programs are posted on our platform, allowing farmers to apply and participate in local projects.",
+        "We have provided a forum within the Platform where farmers have an opportunity for a solution based  engagement with Extension Officers to educate farmers.....",
       number: "04",
     },
     {
@@ -107,11 +108,11 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="p-6 h-max min-h-[350px] border-t  border-t-[1px] border-t-gray-200 hover:shadow-xl transition">
               <Image
-                src="/how.png"
+                src="/howitworks.jpg"
                 alt="how it works"
                 width={200}
                 height={200}
-                className="w-full max-w-[200px] h-48 object-cover rounded-t-lg mb-4"
+                className="w-full rounded-[100px] max-w-[200px] h-48 object-cover  mb-4"
               />
               <h4 className="text-xl font-semibold text-gray-800 mb-2">
                 How its Works
@@ -256,7 +257,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
             <img
-              src="/omena.jpg"
+              src="/mbuta.jpg"
               alt="Organic Farming"
               className="w-full h-48 object-cover rounded-t-lg mb-4"
             />
@@ -285,7 +286,7 @@ export default function Home() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
             <img
-              src="/cows.jpg"
+              src="/banana.png"
               alt="Community Support"
               className="w-full h-48 object-cover rounded-t-lg mb-4"
             />
@@ -304,7 +305,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 mb-8 md:mb-0">
             <img
-              src="/hand.jpg"
+              src="/fisherman.jpg"
               alt="About AgriConnect"
               className="w-full h-96 object-cover rounded-lg shadow-md"
             />
@@ -341,7 +342,7 @@ export default function Home() {
             />
           </div>
           <div className="div items-center p-8 w-full h-full flex justify-center">
-            <div className="text-4xl flex leading-[73px] flex-col gap-4 p-4 font-bold">
+            <div className="text-4xl flex leading-[40px] md:leading-[50px] flex-col gap-4 p-4 font-bold">
               Real Feedback from :
               <p className="text-green-600 font-bold italic">
                 {" "}
@@ -360,19 +361,164 @@ export default function Home() {
         id="faq"
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
       >
-        <h3 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-12">
-          Frequently Asked Questions
-        </h3>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 items-center">
-          <Accordion />
-          <div className="w-full relative overflow-hidden h-auto">
-            <Image
-              src="/avocado.jpg"
-              alt="FAQ Image"
-              width={500}
-              height={600}
-              className="object-cover "
-            />
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 items-center  justify-center">
+          <div className="">
+            <Accordion />
+          </div>
+          <div className="relative w-full h-full sm:w-full sm:h-full mb-4  ">
+            <h3 className="text-3xl md:text-4xl font-bold text-gray-800 text-center">
+              Frequently Asked Questions
+            </h3>
+            <svg width="0" height="0">
+              <defs>
+                <mask
+                  id="shape-mask"
+                  x="0"
+                  y={0}
+                  width="100%"
+                  height="100%"
+                  className=""
+                >
+                  <rect width="100%" height="100%" fill="black" />
+
+                  <rect
+                    x="370"
+                    y="180"
+                    rx="16"
+                    ry={16}
+                    width="230"
+                    height="150"
+                    fill="white"
+                  />
+                  <rect
+                    x="10"
+                    y="490"
+                    rx="16"
+                    ry={16}
+                    width="200"
+                    height="240"
+                    fill="white"
+                  />
+                  <path
+                    d="M350,350
+                   
+                    H580
+                    Q600,350, 600,380
+                    V700
+                     Q600,730,580,730
+                    H250
+                    Q230,730,230,700
+                    V500
+                    Q230,470,200,470
+                    H30
+                    Q10,470,10,440
+                    V200
+                    Q10,180,30,180
+                    H320
+                    Q350,180,350,210
+                    V320
+                    Q350,350,380,350
+                   
+                  "
+                    fill="white"
+                  />
+                </mask>
+              </defs>
+            </svg>
+            <svg width="0" height={0}>
+              <defs>
+                <mask id="shape-mask1" x="0" y={0} width="100%" height="100%">
+                  <rect width="100%" height="100%" fill="black" />
+
+                  <rect
+                    x="10"
+                    y="10"
+                    rx="12"
+                    ry="12"
+                    width="260"
+                    height="60"
+                    fill="white"
+                  />
+                  <rect
+                    x="275"
+                    y={10}
+                    rx="15"
+                    ry={15}
+                    width="60"
+                    height="60"
+                    fill="white"
+                  />
+                  <rect
+                    x="205"
+                    y="80"
+                    rx="13"
+                    ry={13}
+                    width="135"
+                    height="115"
+                    fill="white"
+                  />
+                  <rect
+                    x="10"
+                    y="285"
+                    rx="13"
+                    ry={13}
+                    width="115"
+                    height="135"
+                    fill="white"
+                  />
+                  <path
+                    d="M200,200
+                   
+                    H320
+                    Q340,200, 340,220
+                    V400
+                     Q340,420,320,420
+                    H150
+                    Q130,420,130,400
+                    V300
+                    Q130,280,110,280
+                    H30
+                    Q10,280,10,260
+                    V100
+                    Q10,80,30,80
+                    H180
+                    Q200,80,200,100
+                    V180
+                    Q200,200,220,200
+                   
+                  "
+                    fill="white"
+                  />
+                </mask>
+              </defs>
+            </svg>
+            <div className="hidden sm:block">
+              {" "}
+              <img
+                src={"/avocado.jpg"}
+                alt={"overlay"}
+                style={{
+                  maskSize: "100% 100%",
+                  mask: `url(#shape-mask)`,
+                  maskRepeat: `no-repeat`,
+                  WebkitMask: `url(#shape-mask)`,
+                }}
+                className="w-full  object-cover"
+              />
+            </div>
+            <div className=" sm:hidden">
+              <img
+                src={"/avocado.jpg"}
+                alt={"overlay"}
+                style={{
+                  maskSize: "100% 100%",
+                  mask: `url(#shape-mask1)`,
+                  maskRepeat: `no-repeat`,
+                  WebkitMask: `url(#shape-mask1)`,
+                }}
+                className="w-full  object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -381,9 +527,6 @@ export default function Home() {
         id="contact"
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
       >
-        <h3 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-12">
-          Get in Touch
-        </h3>
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
             <h4 className="text-xl font-semibold text-green-600 mb-4">
@@ -426,9 +569,10 @@ export default function Home() {
             <p className="text-gray-600 mb-4">
               Have questions or want to collaborate? Contact us today!
             </p>
-            <p className="text-gray-600">Email: info@dvchainaccelerator.com</p>
-            <p className="text-gray-600">Phone: +254110517567</p>
-            <p className="text-gray-600">Address: 859 Siaya</p>
+            <p className="text-gray-600">Postal Address: 823-40600 Siaya</p>
+            <p className="text-gray-600">Email: info@greenheroescbo.com</p>
+            <p className="text-gray-600">Telephone: +254722475651</p>
+            <p className="text-gray-600">Website: www.greenheroescbo.com</p>
           </div>
         </div>
       </section>
