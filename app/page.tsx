@@ -255,11 +255,11 @@ export default function Home() {
           Our Services
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
+          <div className="bg-white p-6 border border-[0.5px] border-black-300 hover:shadow-xl transition">
             <img
               src="/mbuta.jpg"
               alt="Organic Farming"
-              className="w-full h-48 object-cover rounded-t-lg mb-4"
+              className="w-full h-48 object-cover  mb-4"
             />
             <h4 className="text-xl font-semibold text-green-600 mb-2">
               Linking Chain
@@ -270,11 +270,11 @@ export default function Home() {
               sustainability.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
+          <div className="bg-white p-6 border border-[0.5px] border-black-300 hover:shadow-xl transition">
             <img
               src="/carrots.jpg"
               alt="Farm-to-Table"
-              className="w-full h-48 object-cover rounded-t-lg mb-4"
+              className="w-full h-48 object-cover  mb-4"
             />
             <h4 className="text-xl font-semibold text-green-600 mb-2">
               Farm to table, service to farmer{" "}
@@ -284,11 +284,11 @@ export default function Home() {
               supporting local farmers.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
+          <div className="bg-white p-6 border border-[0.5px] border-black-300 hover:shadow-xl transition">
             <img
               src="/banana.png"
               alt="Community Support"
-              className="w-full h-48 object-cover rounded-t-lg mb-4"
+              className="w-full h-48 object-cover  mb-4"
             />
             <h4 className="text-xl font-semibold text-green-600 mb-2">
               Community Support
@@ -307,7 +307,7 @@ export default function Home() {
             <img
               src="/fisherman.jpg"
               alt="About AgriConnect"
-              className="w-full h-96 object-cover rounded-lg shadow-md"
+              className="w-full h-96 object-cover"
             />
           </div>
           <div className="md:w-1/2 md:pl-8">
@@ -528,7 +528,7 @@ export default function Home() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
       >
         <div className="flex flex-col md:flex-row gap-8">
-          <div className="md:w-1/2 bg-white p-8 rounded-lg shadow-lg">
+          <div className="md:w-1/2 bg-white p-8 shadow-lg">
             <h4 className="text-xl font-semibold text-green-600 mb-4">
               Contact Us
             </h4>

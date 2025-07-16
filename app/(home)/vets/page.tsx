@@ -12,7 +12,6 @@ import image6 from "@/public/mkoppa.png";
 import image7 from "@/public/iprocure.jpeg";
 import image8 from "@/public/agunity.png";
 import image9 from "@/public/worldbank.jpg";
-
 export default function FinancialProviders() {
   const providers = [
     {
