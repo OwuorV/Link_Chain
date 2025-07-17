@@ -2,13 +2,10 @@
 import { useState } from "react";
 import { Form } from "@/app/ui/logins/forms";
 
-export default function Signup() {
+export default function Login() {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
-    phone: "",
     password: "",
-    confirmPassword: "",
   });
   const [error, setError] = useState("");
   const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,15 +14,12 @@ export default function Signup() {
   };
   const HandleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, phone, password, confirmPassword } = formData;
-    if (!name || !phone || !password || !confirmPassword) {
+    const { email, password } = formData;
+    if (!email || !password) {
       setError("Some  fields are Mandatory");
       return;
     }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+
     // Here you would typically handle the form submission, e.g., send data to an API
     // For demonstration, we'll just log the data to the console
     console.log("Form submitted", formData);
@@ -40,9 +34,9 @@ export default function Signup() {
       >
         <div className="flex justify-between mb-6 items-center text-center">
           {" "}
-          <h2 className="text-2xl font-bold ">Buyer Login</h2>
-          <a href="/seller/login" className="text-green-600 mt-4 underline">
-            Login as Seller{" "}
+          <h2 className="text-2xl font-bold ">Seller Login</h2>
+          <a href="/buyer/login" className="text-green-600 mt-4 underline">
+            Login as seller{" "}
           </a>
         </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -54,14 +48,6 @@ export default function Signup() {
           onChange={HandleChange}
           placeholder="Enter your email"
         />
-        {/* <Form
-          Name="phone"
-          label="Phone Number"
-          type="tel"
-          value={formData.phone}
-          onChange={HandleChange}
-          placeholder="Enter your phone number"
-        /> */}
         <Form
           Name="password"
           label="Password"
@@ -79,7 +65,7 @@ export default function Signup() {
           Log In
         </button>
         Dont have an account?{" "}
-        <a href="/buyer/signup" className="text-blue-600 mt-4 hover:underline">
+        <a href="/seller/signup" className="text-blue-600 mt-4 hover:underline">
           Sign Up
         </a>
       </form>
