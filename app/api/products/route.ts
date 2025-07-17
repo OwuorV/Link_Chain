@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { v2 as cloudinary } from "cloudinary";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
 
 // Cloudinary config
 cloudinary.config({
@@ -22,25 +21,6 @@ const productSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-
-  // ✅ Restrict to authenticated sellers only
-  if (!session || !session.user?.email) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  // 🔍 Get the seller's ID
-  const seller = await prisma.seller.findUnique({
-    where: { email: session.user.email },
-  });
-
-  if (!seller) {
-    return NextResponse.json(
-      { error: "Only sellers can create products" },
-      { status: 403 }
-    );
-  }
-
   try {
     const formData = await req.formData();
     const name = formData.get("name") as string;
@@ -73,6 +53,15 @@ export async function POST(req: NextRequest) {
       imageUrl = (uploadResult as any).secure_url;
     }
 
+    // Get the current user session
+    const session = await getServerSession();
+    if (!session || !session.user || !session.user.id) {
+      return NextResponse.json(
+        { error: "Unauthorized: No seller found" },
+        { status: 401 }
+      );
+    }
+
     const newProduct = await prisma.product.create({
       data: {
         name: validatedData.name,
@@ -80,7 +69,7 @@ export async function POST(req: NextRequest) {
         category: validatedData.category,
         description: validatedData.description || "",
         imageUrl,
-        sellerId: seller.id,
+        sellerId: session.user.id,
       },
     });
 
