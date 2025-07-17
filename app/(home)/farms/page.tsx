@@ -12,7 +12,7 @@ export default async function Vets() {
 
   return (
     <main className="flex flex-col items-center mt-3 w-full px-4">
-      <h1 className="text-3xl font-bold text-center text-[#0f0] mb-5">
+      <h1 className="text-3xl font-bold text-center text-[#0f0] mb-4">
         Welcome to The Market Place
       </h1>
       <div className="p">
