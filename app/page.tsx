@@ -87,10 +87,10 @@ export default function Home() {
             Climate Action BlogSpot for enhanced relevant Agricultural
             Information Dissemination
           </p>
-          <div className="flex flex-col md:flex-row justify-center gap-3  space-x-4">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-3  space-x-4">
             <a
               href="/seller/signup"
-              className="flex bg-green-600 gap-2 text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition"
+              className="flex bg-green-600 gap-2 no-underline text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition"
             >
               <span>
                 <svg
@@ -107,7 +107,7 @@ export default function Home() {
             </a>
             <a
               href="/farms"
-              className="flex gap-2 bg-green-600 justify-center items-center text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition"
+              className="flex gap-2 bg-green-600 no-underline justify-center items-center text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition"
             >
               Explore Market Place
               <svg
@@ -125,7 +125,7 @@ export default function Home() {
       </section>
       {/*Explore SEction*/}
       <section id="explore" className="bg-white py-16">
-        <div className="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto  px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="p-6 h-max min-h-[350px] border-t  border-t-[1px] border-t-gray-200 hover:shadow-xl transition">
               <Image
@@ -353,8 +353,8 @@ export default function Home() {
         id="feedback"
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
       >
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          <div className="firstdiv relative  w-full col-span-4 h-full md:row-span-2 flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-1">
+          <div className="firstdiv relative  w-full col-span-4 h-full flex items-center justify-center">
             <Image
               src="/realfeedback.jpg"
               alt="Feedback Image"
@@ -363,7 +363,7 @@ export default function Home() {
             />
           </div>
           <div
-            className="col-span-8 flex
+            className="col-span-8 flex flex-col
         "
           >
             <div className="div items-center p-8 w-full h-full flex justify-center">
@@ -598,7 +598,12 @@ export default function Home() {
             <p className="text-gray-600">Postal Address: 823-40600 Siaya</p>
             <p className="text-gray-600">Email: info@greenheroescbo.com</p>
             <p className="text-gray-600">Telephone: +254722475651</p>
-            <p className="text-gray-600">Website: www.greenheroescbo.com</p>
+            <p className="text-gray-600">
+              Website:{" "}
+              <a className="no-underline" href="www.greenheroescbo.com<">
+                www.greenheroescbo.com
+              </a>{" "}
+            </p>
           </div>
         </div>
       </section>
@@ -609,10 +614,16 @@ export default function Home() {
             © 2025 Digital Value Chain Accelerator . All rights reserved.
           </p>
           <div className="space-x-4">
-            <a href="#" className="hover:text-green-200 transition">
+            <a
+              href="#"
+              className="hover:text-green-200 no-underline transition"
+            >
               Privacy Policy
             </a>
-            <a href="#" className="hover:text-green-200 transition">
+            <a
+              href="#"
+              className="hover:text-green-200 no-underline transition"
+            >
               Terms of Service
             </a>
           </div>

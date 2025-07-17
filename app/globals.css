@@ -5,6 +5,15 @@
   --foreground: #171717;
 }
 
+* a {
+  text-decoration-line: none;
+  text-decoration: none;
+  text-decoration-style: none;
+}
+a {
+  text-decoration: none;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -25,10 +34,4 @@ body {
 }
 .trapezium {
   clip-path: polygon(0% 0%, 80% 0%, 100% 100%, 0% 100%);
-}
-.custom-mask {
-  -webkit-mask-image: url("/mango.jpg");
-  mask-image: url("/mango.jpg");
-  -webkit-mask-size: cover;
-  mask-size: cover;
 }
