@@ -16,6 +16,27 @@ export const metadata: Metadata = {
   },
 };
 export default function Home() {
+  const feedbacks = [
+    {
+      quote:
+        "This platform has completely changed the way I do business as a smallholder farmer. From listing my carrots for sale to connecting with local buyers, it's been seamless. The visibility I've gained is unbelievable — I now sell out weekly!",
+      author: "OWino Mary",
+      rating: 5,
+    },
+    {
+      quote:
+        "I was struggling to get financial support until I discovered the financing feature here. It connected me with trusted providers, and I secured a microloan that helped me expand my cabbage farm. I’m now reaching new markets, and profits have doubled!",
+      author: "Diang'a Augustine",
+      rating: 4,
+    },
+    {
+      quote:
+        "What really impressed me is the extension services panel. I received personalized advice on how to manage my dairy cows better during the dry season. My herd health has improved and milk production is up — all thanks to timely guidance from experts!",
+      author: "Otieno Johnson",
+      rating: 5,
+    },
+  ];
+
   const whatWeDoItems = [
     {
       title: "Availability of opportunities",
@@ -332,8 +353,8 @@ export default function Home() {
         id="feedback"
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
       >
-        <div className="grid grid-cols-1 justify-center  md:grid-cols-2 md:grid-rows-2">
-          <div className="firstdiv relative  w-full cols-span-2 h-full md:row-span-2 flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="firstdiv relative  w-full col-span-4 h-full md:row-span-2 flex items-center justify-center">
             <Image
               src="/realfeedback.jpg"
               alt="Feedback Image"
@@ -341,18 +362,20 @@ export default function Home() {
               className="object-cover"
             />
           </div>
-          <div className="div items-center p-8 w-full h-full flex justify-center">
-            <div className="text-4xl flex leading-[40px] md:leading-[50px] flex-col gap-4 p-4 font-bold">
-              Real Feedback from :
-              <p className="text-green-600 font-bold italic">
-                {" "}
-                Our Farmers and Service Providers
-              </p>
-              <div className="border-b border-b-[#000]/30 border-b-[1px] w-full "></div>
+          <div className="col-span-8 flex flex-col">
+            <div className="div items-center p-8 w-full h-full flex justify-center">
+              <div className="text-4xl flex leading-[40px] md:leading-[50px] flex-col gap-4 p-4 font-bold">
+                Real Feedback from :
+                <p className="text-green-600 font-bold italic">
+                  {" "}
+                  Our Farmers and Service Providers
+                </p>
+                <div className="border-b border-b-[#000]/30 border-b-[1px] w-full "></div>
+              </div>
             </div>
-          </div>
-          <div className="w-full h-full flex justify-center items-center">
-            <FeedbackCarousel />
+            <div className="w-full h-full flex justify-center items-center">
+              <FeedbackCarousel feedbacks={feedbacks} />
+            </div>
           </div>
         </div>
       </section>
@@ -593,6 +616,9 @@ export default function Home() {
         </div>
         <div className="div w-[300px] h-[300px] rounded-[200px] md:w-[400px] overflow-hidden md:h-[400px] mx-auto relative mt-4">
           <Image src="/logo.jpg" alt="Logo" fill className="object-cover" />
+        </div>
+        <div className="div w-[300px] h-[300px] rounded-[200px] md:w-[400px] overflow-hidden md:h-[400px] mx-auto relative mt-4">
+          <Image src="/DAH.jpg" alt="Logo" fill className="object-cover" />
         </div>
       </footer>
     </div>
