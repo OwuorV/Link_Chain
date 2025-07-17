@@ -1,55 +1,50 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@/lib/prisma"; // your prisma client
+import { prisma } from "@/lib/prisma";
 import { AuthOptions } from "next-auth";
+import bcrypt from "bcryptjs"; // Optional: ensure you're using hashed passwords
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {},
-        password: {},
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user || user.password !== credentials.password) {
-          return null;
-        }
+        if (!user) return null;
+
+        // ✅ Compare hashed password
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+        if (!isValid) return null;
 
         return user;
       },
     }),
   ],
   session: {
-    strategy: "jwt" as const,
+    strategy: "jwt",
   },
-  callbacks: {
-    async jwt({ token, user }: { token: any; user?: any }) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-      }
-      return token;
-    },
-    async session({ session, token }: { session: any; token: any }) {
-      session.user.id = token.id;
-      session.user.role = token.role;
-      return session;
-    },
-  },
+  callbacks: {},
   pages: {
-    signIn: "/login", // Your custom login page
+    signIn: "/login",
   },
 };
 
+// ✅ Export GET and POST handlers for App Router
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

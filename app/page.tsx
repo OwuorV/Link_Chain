@@ -362,7 +362,10 @@ export default function Home() {
               className="object-cover"
             />
           </div>
-          <div className="col-span-8 flex flex-col">
+          <div
+            className="col-span-8 flex
+        "
+          >
             <div className="div items-center p-8 w-full h-full flex justify-center">
               <div className="text-4xl flex leading-[40px] md:leading-[50px] flex-col gap-4 p-4 font-bold">
                 Real Feedback from :
