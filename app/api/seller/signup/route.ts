@@ -4,17 +4,24 @@ import bcrypt from "bcryptjs";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-const session = await getServerSession(authOptions);
-
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions); // ✅ moved inside POST
+
+    // Optional: block signed-in users from registering
+    if (session) {
+      return NextResponse.json(
+        { error: "You are already signed in." },
+        { status: 403 }
+      );
+    }
+
     const { name, email, phone, password } = await req.json();
 
     if (!name || !email || !phone || !password) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -28,7 +35,6 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create User
     const user = await prisma.user.create({
       data: {
         name,
@@ -38,7 +44,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Create Seller
     const seller = await prisma.seller.create({
       data: {
         SellerId: crypto.randomUUID(),
