@@ -42,7 +42,7 @@ export default function Signup() {
     window.location.href = "/farms";
   };
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full px-[20px] py-[10px] bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-[100VH] w-full px-[20px] py-[10px] bg-gray-100">
       <form
         onSubmit={HandleSubmit}
         className="bg-white p-6 rounded shadow-md w-max  h-max max-w-md"

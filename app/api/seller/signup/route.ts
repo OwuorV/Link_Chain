@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, phone, password } = await req.json();
+    const { name, email, password } = await req.json();
 
-    if (!name || !email || !phone || !password) {
+    if (!name || !email || !password) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       data: {
         name,
         email,
-        phone,
+
         password: hashedPassword,
       },
     });
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         userId: user.id,
         name,
         email,
-        phone,
+
         password: hashedPassword,
       },
     });

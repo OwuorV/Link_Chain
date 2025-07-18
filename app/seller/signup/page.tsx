@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
 import { Form } from "@/app/ui/logins/forms";
+import Image from "next/image";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+
     password: "",
-    confirmPassword: "",
   });
   const [error, setError] = useState("");
   const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,15 +17,10 @@ export default function Signup() {
   };
   const HandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, phone, password, confirmPassword } = formData;
+    const { name, email, password } = formData;
 
-    if (!name || !email || !phone || !password || !confirmPassword) {
+    if (!name || !email || !password) {
       setError("All fields are required.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
       return;
     }
 
@@ -33,7 +28,7 @@ export default function Signup() {
       const res = await fetch("/api/seller/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, password }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
@@ -51,17 +46,29 @@ export default function Signup() {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full px-[20px] py-[10px] bg-gray-100">
+    <div className="grid grid-cols-1 md:grid-cols-2  items-center justify-center h-[98vh] w-full bg-[url(/bg.jpg)] bg-cover">
+      <div className="div w-full h-full hidden md:block  md:w-full overflow-hidden mx-auto relative mt-4">
+        <Image src="/bg.jpg" alt="Logo" fill className="object-cover" />
+      </div>
+
       <form
         onSubmit={HandleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full h-full max-w-md"
+        className=" w-full bg-[#fff]/90 backdrop-blur px-2 h-full flex flex-col items-center"
       >
-        <div className="flex justify-between mb-6 items-center text-center">
-          {" "}
-          <h2 className="text-2xl font-bold ">Seller Signup</h2>
-          <a href="/buyer/signup" className="text-green-600 mt-4 underline">
-            Register as Buyer{" "}
-          </a>
+        <div className="w-full  flex flex-col items-center gap-6">
+          <div className="w-full flex justify-end">
+            <a href="/buyer/signup" className="text-green-600 mt-4 underline">
+              Register as Buyer{" "}
+            </a>
+          </div>
+          <div className="flex items-center flex-col gap-3 mb-6 items-center max-w-[370px] text-center">
+            {" "}
+            <h2 className="text-2xl flex font-bold ">Create Your Account</h2>
+            <p className="text-gray-400">
+              Join many local farmers, extension service officers and explore a
+              vast market place of ready buyers
+            </p>
+          </div>
         </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <Form
@@ -82,14 +89,6 @@ export default function Signup() {
           placeholder="Enter your email"
         />
         <Form
-          Name="phone"
-          label="Phone Number"
-          type="tel"
-          value={formData.phone}
-          onChange={HandleChange}
-          placeholder="Enter your phone number"
-        />
-        <Form
           Name="password"
           label="Password"
           type="password"
@@ -99,19 +98,9 @@ export default function Signup() {
           required
           minLength={8}
         />
-        <Form
-          Name="confirmPassword"
-          label="Confirm Password"
-          type="password"
-          value={formData.confirmPassword}
-          onChange={HandleChange}
-          placeholder="Confirm your password"
-          required
-          minLength={8}
-        />
         <button
           type="submit"
-          className="w-full mb-4 bg-green-800 text-white py-2 rounded-[24px] hover:bg-blue-600 transition-colors mt-4"
+          className="w-full max-w-[350px] mb-4 bg-green-800 text-white py-2 rounded-[6px] hover:bg-greeb-900 transition-colors mt-4"
         >
           Sign Up
         </button>
