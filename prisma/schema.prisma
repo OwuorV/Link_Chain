@@ -36,13 +36,12 @@ model User {
   phone    String?   @unique
   password    String
   createdAt   DateTime @default(now())
-  
+  role     String?
+  Buyer    Buyer[]
 
-  Buyer Buyer[]
+  Seller   Seller[]
 
-  Seller Seller[]
-
-  Admin Admin[]
+  Admin    Admin[]
 }
 model Buyer {
   id          String   @id @default(uuid())
