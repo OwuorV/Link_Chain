@@ -1,6 +1,5 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 
 import React from "react";
@@ -76,8 +75,6 @@ export default function RootLayout({
             </svg>
           </div>
           <main className="w-full h-full justify-center items-center flex">
-            {/* <SessionProvider></SessionProvider>
-            //TODO: ADd children to SessionProvider */}
             {children}
           </main>
         </>
