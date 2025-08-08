@@ -1,113 +1,83 @@
 "use client";
-import { useState } from "react";
-import { Form } from "@/app/ui/logins/forms";
-import Image from "next/image";
 
-export default function Signup() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+import { signup } from "@/app/actions/auth";
+import { useActionState } from "react";
+import Link from "next/link";
 
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-  const HandleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { name, email, password } = formData;
+export default function SignupForm() {
+  const [state, action, pending] = useActionState(signup, undefined);
 
-    if (!name || !email || !password) {
-      setError("All fields are required.");
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/seller/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Signup failed");
-        return;
-      }
-
-      // Redirect on success
-      window.location.href = "/seller/login";
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong");
-    }
-  };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2  items-center justify-center h-[98vh] w-full bg-[url(/bg.jpg)] bg-cover">
-      <div className="div w-full h-full hidden md:block  md:w-full overflow-hidden mx-auto relative mt-4">
-        <Image src="/bg.jpg" alt="Logo" fill className="object-cover" />
-      </div>
-
-      <form
-        onSubmit={HandleSubmit}
-        className=" w-full bg-[#fff]/90 backdrop-blur px-2 h-full flex flex-col items-center"
-      >
-        <div className="w-full  flex flex-col items-center gap-6">
-          <div className="w-full flex justify-end">
-            <a href="/buyer/signup" className="text-green-600 mt-4 underline">
-              Register as Buyer{" "}
-            </a>
-          </div>
-          <div className="flex items-center flex-col gap-3 mb-6 items-center max-w-[370px] text-center">
-            {" "}
-            <h2 className="text-2xl flex font-bold ">Create Your Account</h2>
-            <p className="text-gray-400">
-              Join many local farmers, extension service officers and explore a
-              vast market place of ready buyers
-            </p>
-          </div>
+    <div className="flex flex-col items-center justify-center min-h-screen p-8">
+      <form action={action} className="flex flex-col gap-4 w-full max-w-md">
+        <h1 className="text-2xl font-bold">Sign Up</h1>
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium">
+            Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Your name"
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+          {state?.errors?.name && (
+            <p className="text-red-500 text-sm">{state.errors.name}</p>
+          )}
         </div>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <Form
-          Name="name"
-          label="Name"
-          type="text"
-          value={formData.name}
-          onChange={HandleChange}
-          placeholder="Enter your name"
-          required
-        />
-        <Form
-          Name="email"
-          label="Email"
-          type="email"
-          value={formData.email}
-          onChange={HandleChange}
-          placeholder="Enter your email"
-        />
-        <Form
-          Name="password"
-          label="Password"
-          type="password"
-          value={formData.password}
-          onChange={HandleChange}
-          placeholder="Enter your password"
-          required
-          minLength={8}
-        />
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Email"
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+          {state?.errors?.email && (
+            <p className="text-red-500 text-sm">{state.errors.email}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+          {state?.errors?.password && (
+            <div className="text-red-500 text-sm">
+              <p>Password must:</p>
+              <ul>
+                {state.errors.password.map((error) => (
+                  <li key={error}>- {error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+        {state?.message && (
+          <p className="text-red-500 text-sm">{state.message}</p>
+        )}
         <button
+          disabled={pending}
           type="submit"
-          className="w-full max-w-[350px] mb-4 bg-green-800 text-white py-2 rounded-[6px] hover:bg-greeb-900 transition-colors mt-4"
+          className="bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700 disabled:bg-gray-400"
         >
           Sign Up
         </button>
-        Have an account?{" "}
-        <a href="/seller/login" className="text-blue-600 mt-4 hover:underline">
-          Login
-        </a>
+        <p className="text-sm">
+          Already have an account?{" "}
+          <Link href="/seller/login" className="text-blue-600 hover:underline">
+            Sign in
+          </Link>
+        </p>
       </form>
     </div>
   );

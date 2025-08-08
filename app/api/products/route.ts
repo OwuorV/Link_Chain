@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { v2 as cloudinary } from "cloudinary";
-import { getServerSession } from "next-auth";
+import { getUser } from "@/lib/dal"; // ✅ your custom auth
 
 // Cloudinary config
 cloudinary.config({
@@ -22,6 +22,15 @@ const productSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    // ✅ Check if user is logged in
+    const user = await getUser();
+    if (!user || !user.id) {
+      return NextResponse.json(
+        { error: "Unauthorized: You must be logged in to post a product" },
+        { status: 401 }
+      );
+    }
+
     const formData = await req.formData();
     const name = formData.get("name") as string;
     const price = parseFloat(formData.get("price") as string);
@@ -53,15 +62,7 @@ export async function POST(req: NextRequest) {
       imageUrl = (uploadResult as any).secure_url;
     }
 
-    // Get the current user session
-    const session = await getServerSession();
-    if (!session || !session.user || !session.user.id) {
-      return NextResponse.json(
-        { error: "Unauthorized: No seller found" },
-        { status: 401 }
-      );
-    }
-
+    // ✅ Create product linked to logged-in user
     const newProduct = await prisma.product.create({
       data: {
         name: validatedData.name,
@@ -69,7 +70,7 @@ export async function POST(req: NextRequest) {
         category: validatedData.category,
         description: validatedData.description || "",
         imageUrl,
-        sellerId: session.user.id,
+        sellerId: user.id, // ✅ your custom auth user id
       },
     });
 

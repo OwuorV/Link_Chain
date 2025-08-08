@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import Tabs from "./tabs";
+import { getUser } from "@/lib/dal";
+import { logout } from "@/app/actions/auth";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -58,7 +60,10 @@ export default function Navbar() {
               </li>
             </ul>
             <div className="border-t border-gray-200 px-4 py-3">
-              <button className="text-sm text-red-600 hover:text-red-700 w-full text-left">
+              <button
+                onClick={logout}
+                className="text-sm text-red-600 hover:text-red-700 w-full text-left"
+              >
                 Logout
               </button>
             </div>
