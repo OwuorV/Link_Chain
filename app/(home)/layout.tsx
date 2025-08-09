@@ -1,4 +1,4 @@
-import NavBar from "@/app/ui/home/navbar";
+import NavbarWrapper from "@/app/ui/home/navbarwrapper";
 import SliderNav from "@/app/ui/home/sliderNav";
 import Tabs from "@/app/ui/home/tabs";
 import styles from "@/app/ui/scrollbarHide.module.css";
@@ -16,7 +16,7 @@ export default function HomeLayout({
       <div
         className={`relative flex gap-2 flex-col mb-0 w-full  ${styles.scrollbarhidden}`}
       >
-        <NavBar />
+        <NavbarWrapper />
         <div className=" line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
         <Tabs />
         <div className=" line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>

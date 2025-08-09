@@ -8,7 +8,16 @@ import Tabs from "./tabs";
 import { getUser } from "@/lib/dal";
 import { logout } from "@/app/actions/auth";
 
-export default function Navbar() {
+type UserType = {
+  name: string | null;
+  email: string | null;
+};
+
+interface NavbarClientProps {
+  user: UserType | null;
+}
+
+export default function Navbar({ user }: NavbarClientProps) {
   const [open, setOpen] = useState(false);
   const [showNav, isNavSeen] = useState(false);
   const [newNav, isNewNav] = useState(false);
@@ -19,10 +28,10 @@ export default function Navbar() {
         <div className="cover bg-[#171821]/90 backdrop-blur fixed right-0 z-600 w-full md:w-0 h-[100vh]">
           <div className="px-4 fixed top-1 right-0 z-600 md:top-13 right-2 w-64 rounded-lg shadow-lg bg-[#edf2f5] ring-1 ring-black/10 z-10 border border-[#000]/10">
             <div className="px-4 py-3">
-              <p className="text-[16px] font-semibold text-gray-900">Tarus</p>
-              <p className="text-[14px] text-gray-500">
-                gravincekowuor1l@gmail.com
+              <p className="text-[16px] font-semibold text-gray-900">
+                {user?.name}
               </p>
+              <p className="text-[14px] text-gray-500">{user?.email}</p>
             </div>
             <div className="border-t border-gray-200 px-4 py-2 text-xs text-gray-400 uppercase">
               Account
