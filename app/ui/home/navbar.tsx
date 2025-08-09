@@ -269,7 +269,7 @@ export default function Navbar({ user }: NavbarClientProps) {
             <Link href="/farms" className=" hidden md:flex">
               Buy
             </Link>
-            <Link href="/services" className=" hidden md:flex">
+            <Link href="/Dashboard/shopreg" className=" hidden md:flex">
               sell
             </Link>
             <Link href="/vets" className=" hidden md:flex">

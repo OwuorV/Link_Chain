@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "@/app/ui/scrollbarHide.module.css";
-import NavBar from "./ui/home/navbar";
+import NavbarWrapper from "./ui/home/navbarwrapper";
 import { Metadata } from "next";
 import ReactPlayer from "react-player";
 import Link from "next/link";

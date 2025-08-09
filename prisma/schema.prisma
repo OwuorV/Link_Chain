@@ -50,6 +50,8 @@ model User {
   sessions      Session[]
 
   updatedAt     DateTime  @updatedAt
+
+  Shop Shop[]
 }
 
 model Account {
@@ -152,6 +154,27 @@ model CartItem {
   cart        Cart     @relation(fields: [cartId], references: [id])
 
   Admin Admin[]
+}
+model Shop {
+  id              String   @id @default(cuid())
+  ownerId         String
+  fullName        String
+  businessName    String
+  businessPhone   String?
+  businessEmail   String
+  location        String?
+  deliveryArea    String?
+  storeName       String?
+  storeDescription String?
+  storeLogo       String?
+  storeBanner     String?
+  paymentMethod   String?
+  legalAccepted   Boolean  @default(false)
+
+  owner           User     @relation(fields: [ownerId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 model Admin {
   id          String   @id @default(uuid())

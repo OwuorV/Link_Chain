@@ -1,93 +1,112 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { getSession } from "@/lib/session";
 import { v2 as cloudinary } from "cloudinary";
-import { getUser } from "@/lib/dal"; // ✅ your custom auth
 
-// Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Product schema
-const productSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  price: z.number().positive("Price must be a positive number"),
-  category: z.string().min(1, "Category is required"),
-  description: z.string().optional(),
-});
-
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    // ✅ Check if user is logged in
-    const user = await getUser();
-    if (!user || !user.id) {
-      return NextResponse.json(
-        { error: "Unauthorized: You must be logged in to post a product" },
-        { status: 401 }
-      );
+    // Verify session
+    const session = await getSession();
+    if (!session || !session.userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const formData = await req.formData();
+    // Parse FormData
+    const formData = await request.formData();
     const name = formData.get("name") as string;
     const price = parseFloat(formData.get("price") as string);
     const category = formData.get("category") as string;
     const description = formData.get("description") as string;
-    const image = formData.get("image") as File;
+    const userId = formData.get("userId") as string;
+    const sellerId = formData.get("sellerId") as string;
+    const shopName = formData.get("shopName") as string;
+    const image = formData.get("image") as File | null;
 
-    const validatedData = productSchema.parse({
-      name,
-      price,
-      category,
-      description,
-    });
-
-    let imageUrl = null;
-    if (image) {
-      const buffer = Buffer.from(await image.arrayBuffer());
-      const uploadResult = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream(
-            { resource_type: "image", folder: "marketplace" },
-            (error, result) => {
-              if (error) reject(error);
-              else resolve(result);
-            }
-          )
-          .end(buffer);
-      });
-      imageUrl = (uploadResult as any).secure_url;
-    }
-
-    // ✅ Create product linked to logged-in user
-    const newProduct = await prisma.product.create({
-      data: {
-        name: validatedData.name,
-        price: validatedData.price,
-        category: validatedData.category,
-        description: validatedData.description || "",
-        imageUrl,
-        sellerId: user.id, // ✅ your custom auth user id
-      },
-    });
-
-    revalidatePath("/farms", "page");
-
-    return NextResponse.json(newProduct, { status: 201 });
-  } catch (error) {
-    console.error("API Error:", error);
-    if (error instanceof z.ZodError) {
+    // Validate inputs
+    if (
+      !name ||
+      isNaN(price) ||
+      !category ||
+      !description ||
+      !userId ||
+      !sellerId
+    ) {
       return NextResponse.json(
-        { error: "Validation failed", details: error.errors },
+        { error: "Missing or invalid required fields" },
         { status: 400 }
       );
     }
+
+    // Verify userId matches session
+    if (userId !== session.userId) {
+      return NextResponse.json({ error: "Unauthorized user" }, { status: 403 });
+    }
+
+    // Verify seller belongs to user
+    const seller = await db.seller.findFirst({
+      where: { id: sellerId, userId },
+    });
+
+    if (!seller) {
+      return NextResponse.json(
+        { error: "Seller not found or unauthorized" },
+        { status: 403 }
+      );
+    }
+
+    // Verify shop exists for user
+    const shop = await db.shop.findFirst({
+      where: { ownerId: userId, storeName: shopName },
+    });
+
+    if (!shop) {
+      return NextResponse.json(
+        { error: "Shop not found or unauthorized" },
+        { status: 403 }
+      );
+    }
+
+    // Handle image upload to Cloudinary
+    let imageUrl: string | undefined;
+    if (image) {
+      const buffer = Buffer.from(await image.arrayBuffer());
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "products" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        uploadStream.end(buffer);
+      });
+      imageUrl = (result as any).secure_url;
+    }
+
+    // Create product
+    const product = await db.product.create({
+      data: {
+        name,
+        price,
+        category,
+        description,
+        sellerId,
+        imageUrl,
+      },
+    });
+
     return NextResponse.json(
-      { error: "Failed to create product" },
-      { status: 500 }
+      { message: "Product created", product },
+      { status: 201 }
     );
+  } catch (error) {
+    console.error("Error creating product:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

@@ -3,12 +3,12 @@
 import Image from "next/image";
 
 import React from "react";
-
+import { Toaster } from "react-hot-toast";
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
 import "./globals.css";
 import styles from "@/app/ui/scrollbarHide.module.css";
-import NavBar from "@/app/ui/home/navbar";
+
 import { useState } from "react";
 const public_sans = Public_Sans({
   subsets: ["latin"],
@@ -75,6 +75,7 @@ export default function RootLayout({
             </svg>
           </div>
           <main className="w-full h-full justify-center items-center flex">
+            <Toaster position="top-center" />
             {children}
           </main>
         </>

@@ -1,12 +1,14 @@
 "use client";
-import { useState } from "react";
-import React from "react";
+import { useState, useEffect } from "react";
 
 type Product = {
   name: string;
   price: number;
   category: string;
   description: string;
+  userId?: string;
+  sellerId?: string;
+  shopName?: string;
 };
 
 const categories = [
@@ -16,6 +18,19 @@ const categories = [
   "Vegetables",
   "Fruits",
   "Livestock",
+  "Dairy Products",
+  "Fish & Aquaculture",
+  "Herbs & Spices",
+  "Nuts & Seeds",
+  "Tubers & Roots",
+  "Legumes & Pulses",
+  "Honey & Bee Products",
+  "Fiber Crops (Cotton, Sisal)",
+  "Ornamental Plants & Flowers",
+  "Medicinal Plants",
+  "Beverage Crops (Tea, Coffee, Cocoa)",
+  "Oil Crops (Sunflower, Canola, Sesame)",
+  "Mushrooms",
 ];
 
 export default function Products() {
@@ -24,10 +39,57 @@ export default function Products() {
     price: 0,
     category: "",
     description: "",
+    userId: "",
+    sellerId: "",
+    shopName: "",
   });
 
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch user and seller details
+  useEffect(() => {
+    async function fetchUserAndSellerData() {
+      try {
+        const res = await fetch("app/api/auth/user", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Send session cookie
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error: ${res.status}`);
+        }
+
+        const { userId, sellerId, shopName } = await res.json();
+
+        if (!userId || !sellerId || !shopName) {
+          throw new Error("Incomplete user or seller data");
+        }
+
+        setFormData((prev) => ({
+          ...prev,
+          userId,
+          sellerId,
+          shopName,
+        }));
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching user/seller data:", err);
+        setError(
+          "Failed to load user or seller data. Please log in or register as a seller."
+        );
+        setLoading(false);
+      }
+    }
+
+    fetchUserAndSellerData();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -49,19 +111,24 @@ export default function Products() {
     }
   };
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSuccess(false);
-    setError(false);
+    setError(null);
+
+    if (!formData.userId || !formData.sellerId) {
+      setError("User or seller information is missing.");
+      return;
+    }
 
     const form = new FormData();
     form.append("name", formData.name);
     form.append("price", formData.price.toString());
     form.append("category", formData.category);
     form.append("description", formData.description);
+    form.append("userId", formData.userId);
+    form.append("sellerId", formData.sellerId);
+    form.append("shopName", formData.shopName || "");
     if (image) {
       form.append("image", image);
     }
@@ -69,19 +136,55 @@ export default function Products() {
     try {
       const res = await fetch("/api/products", {
         method: "POST",
+        credentials: "include", // Send session cookie
         body: form,
       });
 
-      if (!res.ok) throw new Error("Failed to create product");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || `HTTP error: ${res.status}`);
+      }
 
-      setSuccess(true); // ✅ Show success alert
-      setFormData({ name: "", price: 0, category: "", description: "" });
+      setSuccess(true);
+      setFormData({
+        name: "",
+        price: 0,
+        category: "",
+        description: "",
+        userId: formData.userId,
+        sellerId: formData.sellerId,
+        shopName: formData.shopName,
+      });
       setImage(null);
       setPreview(null);
     } catch (err) {
       console.error("Submission error:", err);
-      setError(true); // ❌ Show error alert
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong during submission."
+      );
     }
+  }
+
+  if (loading) {
+    return <div>Loading user and seller data...</div>;
+  }
+
+  if (error && !formData.userId) {
+    return (
+      <div className="bg-red-100 text-red-800 p-3 rounded-md">
+        ❌ {error}{" "}
+        <a href="/seller/login" className="underline">
+          Please log in
+        </a>{" "}
+        or{" "}
+        <a href="/seller/register" className="underline">
+          register as a seller
+        </a>
+        .
+      </div>
+    );
   }
 
   return (
@@ -92,9 +195,7 @@ export default function Products() {
         </div>
       )}
       {error && (
-        <div className="bg-red-100 text-red-800 p-3 rounded-md">
-          ❌ Something went wrong.
-        </div>
+        <div className="bg-red-100 text-red-800 p-3 rounded-md">❌ {error}</div>
       )}
       <div className="w-full md:w-[698px] max-w-[600px] gap-4 p-[16px] h-max flex-col border-[#004]/30 border-1 items-center border-solid flex rounded-[23px] bg-[#165D25]/10 self-center">
         <h1 className="text-[28px] text-left text-[#088738] font-[700]">
@@ -106,6 +207,11 @@ export default function Products() {
         <p className="text-[#4F7396] w-full text-left text-1xl font-[500]">
           Basic Information
         </p>
+        {formData.shopName && (
+          <p className="text-[#171821] text-base">
+            Adding product for: <strong>{formData.shopName}</strong>
+          </p>
+        )}
 
         <div className="w-full flex justify-center">
           <form
@@ -181,7 +287,6 @@ export default function Products() {
             )}
 
             <button
-              onClick={handleSubmit}
               type="submit"
               className="bg-[#088738] text-white p-2 cursor-pointer rounded-[12px]"
             >
