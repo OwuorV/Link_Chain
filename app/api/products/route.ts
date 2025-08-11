@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/session";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import { randomUUID } from "crypto";
+import bcrypt from "bcryptjs"; // Added for password hashing
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -32,32 +34,57 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // 2️⃣ Get shop & seller details for logged-in user
-    const shop = await db.shop.findFirst({
+    // 2️⃣ Get user details
+    const user = await db.user.findUnique({
+      where: { id: session.userId },
+      select: { id: true, name: true, email: true, password: true },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // 3️⃣ Get or create seller
+    let seller = await db.seller.findFirst({
+      where: { userId: session.userId },
+      select: { id: true },
+    });
+
+    if (!seller) {
+      seller = await db.seller.create({
+        data: {
+          SellerId: `seller-${randomUUID()}`,
+          userId: session.userId,
+          name: user.name || "Unnamed Seller",
+          email: user.email,
+          password: await bcrypt.hash(user.password, 10), // Hash the user's password
+          phone: null, // Optional, set if available
+        },
+      });
+      console.log(`Created Seller record for user ${session.userId}:`, seller);
+    }
+
+    // 4️⃣ Get or create shop
+    let shop = await db.shop.findFirst({
       where: { ownerId: session.userId },
       select: { id: true, storeName: true },
     });
 
     if (!shop) {
-      return NextResponse.json(
-        { error: "Shop not found for this user" },
-        { status: 404 }
-      );
+      shop = await db.shop.create({
+        data: {
+          ownerId: session.userId,
+          fullName: user.name || "Unnamed Owner",
+          businessName: "Default Shop",
+          businessEmail: user.email,
+          storeName: "Default Store",
+          legalAccepted: true,
+        },
+      });
+      console.log(`Created Shop record for user ${session.userId}:`, shop);
     }
 
-    const seller = await db.seller.findFirst({
-      where: { userId: session.userId }, // Query Seller model using userId
-      select: { id: true },
-    });
-
-    if (!seller) {
-      return NextResponse.json(
-        { error: "Seller not found for this user" },
-        { status: 404 }
-      );
-    }
-
-    // 3️⃣ Parse product form data
+    // 5️⃣ Parse product form data
     const formData = await request.formData();
 
     // Debug FormData entries
@@ -97,9 +124,10 @@ export async function POST(request: Request) {
       description: description || null,
       imageInfo: image ? { name: image.name, size: image.size } : null,
       sessionUserId: session.userId,
+      shopName: shop.storeName || null,
     });
 
-    // 4️⃣ Validate input
+    // 6️⃣ Validate input
     if (!name) {
       return NextResponse.json(
         { error: "Product name is required" },
@@ -131,7 +159,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5️⃣ Upload image to Cloudinary (if provided)
+    // 7️⃣ Upload image to Cloudinary (if provided)
     let imageUrl: string | undefined;
     if (image) {
       const buffer = Buffer.from(await image.arrayBuffer());
@@ -148,7 +176,7 @@ export async function POST(request: Request) {
       imageUrl = result.secure_url;
     }
 
-    // 6️⃣ Create product
+    // 8️⃣ Create product
     const product = await db.product.create({
       data: {
         name,
@@ -156,9 +184,7 @@ export async function POST(request: Request) {
         category,
         description,
         imageUrl,
-        sellerId: seller.id, // Use Seller.id from the query
-        shopName: shop.storeName || "", // Fallback to empty string if null
-        shopOwnerId: session.userId,
+        sellerId: seller.id,
       },
     });
 
