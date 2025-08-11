@@ -241,8 +241,8 @@ export default function ProductForm() {
   };
 
   return (
-    <main className="w-screen flex p-6 space-y-4 justify-center">
-      <div className="flex flex-col items-center gap-5 p-4 border border-gray-300 bg-gray-200 rounded-[20px] md:w-[60%]">
+    <main className="w-full flex p-6 space-y-4 justify-center">
+      <div className="flex flex-col items-center gap-5 p-4 border max-w-[95%]  border-gray-300 bg-gray-200 rounded-[20px] md:w-[60%]">
         <div className="flex items-center self-start w-full gap-5 mb-4">
           <span>back</span>
           <span>
