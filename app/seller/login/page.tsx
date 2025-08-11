@@ -67,7 +67,7 @@ export default function LoginForm() {
             type="submit"
             className="w-full max-w-[350px] mb-4 bg-green-800 text-white py-2 rounded-[6px] hover:bg-green-900 transition-colors mt-4 disabled:bg-gray-400 cursor-pointer"
           >
-            Sign In
+            {pending ? "Signing in Please wait..." : "Sign In"}
           </button>
           <p className="text-sm">
             Don’t have an account?{" "}

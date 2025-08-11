@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Personal from "./shopComponents/personal";
 import Location from "./shopComponents/location";

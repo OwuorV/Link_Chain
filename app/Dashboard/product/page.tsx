@@ -1,15 +1,9 @@
+// app/components/ProductForm.tsx
 "use client";
-import { useState, useEffect } from "react";
-
-type Product = {
-  name: string;
-  price: number;
-  category: string;
-  description: string;
-  userId?: string;
-  sellerId?: string;
-  shopName?: string;
-};
+import { useState, useRef, useEffect } from "react";
+import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
+import { ChevronDown } from "lucide-react";
+import toast from "react-hot-toast";
 
 const categories = [
   "Poultry",
@@ -18,283 +12,357 @@ const categories = [
   "Vegetables",
   "Fruits",
   "Livestock",
-  "Dairy Products",
-  "Fish & Aquaculture",
+  "Dairy",
   "Herbs & Spices",
-  "Nuts & Seeds",
-  "Tubers & Roots",
-  "Legumes & Pulses",
-  "Honey & Bee Products",
-  "Fiber Crops (Cotton, Sisal)",
-  "Ornamental Plants & Flowers",
-  "Medicinal Plants",
-  "Beverage Crops (Tea, Coffee, Cocoa)",
-  "Oil Crops (Sunflower, Canola, Sesame)",
-  "Mushrooms",
-];
+  "Seeds & Seedlings",
+  "Fish",
+  "Honey & Beekeeping",
+] as const;
 
-export default function Products() {
-  const [formData, setFormData] = useState<Product>({
+interface CustomSelectProps {
+  options: readonly string[];
+  placeholder?: string;
+  value: string;
+  onChange: (value: string) => void;
+  invalid?: boolean;
+}
+
+function CustomSelect({
+  options,
+  placeholder,
+  value,
+  onChange,
+  invalid,
+}: CustomSelectProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSelect = (option: string) => {
+    onChange(option);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="relative w-full">
+      <div
+        className={`border rounded-lg px-4 py-2 flex mt-4 text-gray-200 items-center justify-between cursor-pointer hover:border-green-500 ${
+          invalid ? "border-red-500" : "border-gray-400"
+        }`}
+        onClick={() => setIsOpen(!isOpen)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") setIsOpen(!isOpen);
+        }}
+      >
+        <span className={value ? "text-gray-600" : "text-gray-400"}>
+          {value || placeholder}
+        </span>
+        <ChevronDown size={20} />
+      </div>
+      {isOpen && (
+        <ul className="absolute w-full mt-1 border border-gray-300 rounded-lg bg-white shadow-md z-10 overflow-y-auto max-h-48">
+          {options.map((option, index) => (
+            <li
+              key={index}
+              className="px-4 py-2 hover:bg-green-100 m-1 rounded-lg cursor-pointer"
+              onClick={() => handleSelect(option)}
+            >
+              {option}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default function ProductForm() {
+  const [loading, setLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [formData, setFormData] = useState<{
+    name: string;
+    price: string;
+    category: string;
+    description: string;
+    image: File | null;
+  }>({
     name: "",
-    price: 0,
+    price: "",
     category: "",
     description: "",
-    userId: "",
-    sellerId: "",
-    shopName: "",
+    image: null,
   });
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [categoryInvalid, setCategoryInvalid] = useState(false);
 
-  const [image, setImage] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch user and seller details
+  // Revoke preview URL to prevent memory leaks
   useEffect(() => {
-    async function fetchUserAndSellerData() {
-      try {
-        const res = await fetch("app/api/auth/user", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // Send session cookie
-        });
-
-        if (!res.ok) {
-          throw new Error(`HTTP error: ${res.status}`);
-        }
-
-        const { userId, sellerId, shopName } = await res.json();
-
-        if (!userId || !sellerId || !shopName) {
-          throw new Error("Incomplete user or seller data");
-        }
-
-        setFormData((prev) => ({
-          ...prev,
-          userId,
-          sellerId,
-          shopName,
-        }));
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching user/seller data:", err);
-        setError(
-          "Failed to load user or seller data. Please log in or register as a seller."
-        );
-        setLoading(false);
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
       }
-    }
+    };
+  }, [previewUrl]);
 
-    fetchUserAndSellerData();
-  }, []);
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      if (file.size > 3 * 1024 * 1024) {
+        // 3MB limit
+        toast.error("Image size must be less than 3MB");
+        return;
+      }
+      setFormData((prev) => ({ ...prev, image: file }));
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "price" ? parseFloat(value) || 0 : value,
-    }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.size > 3 * 1024 * 1024) {
+        // 3MB limit
+        toast.error("Image size must be less than 3MB");
+        return;
+      }
+      setFormData((prev) => ({ ...prev, image: file }));
+      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
-  async function handleSubmit(e: React.FormEvent) {
+  const validateAll = () => {
+    if (!formData.name.trim()) {
+      toast.error("Product name is required");
+      return false;
+    }
+    if (
+      !formData.price ||
+      isNaN(parseFloat(formData.price)) ||
+      parseFloat(formData.price) <= 0
+    ) {
+      toast.error("Valid price is required");
+      return false;
+    }
+    if (!formData.category.trim()) {
+      setCategoryInvalid(true);
+      toast.error("Please select a category");
+      return false;
+    }
+    setCategoryInvalid(false);
+    if (!formData.description.trim()) {
+      toast.error("Description is required");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess(false);
-    setError(null);
 
-    if (!formData.userId || !formData.sellerId) {
-      setError("User or seller information is missing.");
-      return;
+    if (!validateAll()) return;
+
+    const data = new FormData();
+    data.append("name", formData.name.trim());
+    data.append("price", formData.price);
+    data.append("category", formData.category);
+    data.append("description", formData.description.trim());
+    if (formData.image) {
+      data.append("image", formData.image, formData.image.name);
     }
 
-    const form = new FormData();
-    form.append("name", formData.name);
-    form.append("price", formData.price.toString());
-    form.append("category", formData.category);
-    form.append("description", formData.description);
-    form.append("userId", formData.userId);
-    form.append("sellerId", formData.sellerId);
-    form.append("shopName", formData.shopName || "");
-    if (image) {
-      form.append("image", image);
+    // Debug FormData entries
+    for (const pair of data.entries()) {
+      if (pair[0] === "image" && pair[1] instanceof File) {
+        console.log(pair[0], pair[1].name, pair[1].size);
+      } else {
+        console.log(pair[0], pair[1]);
+      }
     }
 
+    setLoading(true);
     try {
       const res = await fetch("/api/products", {
         method: "POST",
-        credentials: "include", // Send session cookie
-        body: form,
+        body: data,
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || `HTTP error: ${res.status}`);
+      const text = await res.text();
+      let json: { error?: string; message?: string; product?: any };
+      try {
+        json = JSON.parse(text);
+      } catch {
+        json = { message: text };
       }
 
-      setSuccess(true);
+      if (!res.ok) {
+        console.error("Server error response:", res.status, json);
+        const message =
+          (json && (json.error || json.message)) ||
+          `Request failed with status ${res.status}`;
+        toast.error(message);
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Product created successfully!");
       setFormData({
         name: "",
-        price: 0,
+        price: "",
         category: "",
         description: "",
-        userId: formData.userId,
-        sellerId: formData.sellerId,
-        shopName: formData.shopName,
+        image: null,
       });
-      setImage(null);
-      setPreview(null);
-    } catch (err) {
-      console.error("Submission error:", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong during submission."
-      );
+      setPreviewUrl(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (error) {
+      console.error("Network or unexpected error:", error);
+      toast.error("Error creating product");
+    } finally {
+      setLoading(false);
     }
-  }
-
-  if (loading) {
-    return <div>Loading user and seller data...</div>;
-  }
-
-  if (error && !formData.userId) {
-    return (
-      <div className="bg-red-100 text-red-800 p-3 rounded-md">
-        ❌ {error}{" "}
-        <a href="/seller/login" className="underline">
-          Please log in
-        </a>{" "}
-        or{" "}
-        <a href="/seller/register" className="underline">
-          register as a seller
-        </a>
-        .
-      </div>
-    );
-  }
+  };
 
   return (
-    <div className="w-full h-full px-[40px] gap-[20px] py-[16px] flex flex-col justify-center items-center">
-      {success && (
-        <div className="bg-green-100 text-green-800 p-3 rounded-md">
-          ✅ Product submitted successfully!
+    <main className="w-screen flex p-6 space-y-4 justify-center">
+      <div className="flex flex-col items-center gap-5 p-4 border border-gray-300 bg-gray-200 rounded-[20px] md:w-[60%]">
+        <div className="flex items-center self-start w-full gap-5 mb-4">
+          <span>back</span>
+          <span>
+            <h2 className="text-xl font-semibold text-gray-800">
+              Create New Product
+            </h2>
+            <p className="text-gray-500">
+              Add new agricultural product to the marketplace
+            </p>
+          </span>
         </div>
-      )}
-      {error && (
-        <div className="bg-red-100 text-red-800 p-3 rounded-md">❌ {error}</div>
-      )}
-      <div className="w-full md:w-[698px] max-w-[600px] gap-4 p-[16px] h-max flex-col border-[#004]/30 border-1 items-center border-solid flex rounded-[23px] bg-[#165D25]/10 self-center">
-        <h1 className="text-[28px] text-left text-[#088738] font-[700]">
-          Create New Product
-        </h1>
-        <p className="text-base font-[500] text-[#171821]">
-          Add new product or service to the marketplace
-        </p>
-        <p className="text-[#4F7396] w-full text-left text-1xl font-[500]">
-          Basic Information
-        </p>
-        {formData.shopName && (
-          <p className="text-[#171821] text-base">
-            Adding product for: <strong>{formData.shopName}</strong>
-          </p>
-        )}
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 flex flex-col items-center justify-center w-full"
+        >
+          <div className="text-[20px]">Product Info</div>
 
-        <div className="w-full flex justify-center">
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-4 w-full p-4"
-          >
-            <label>Product Name</label>
+          <div className="w-full flex flex-col">
+            <label htmlFor="name">Product Name</label>
             <input
               type="text"
               name="name"
+              placeholder="Product Name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Product Name"
-              className="border-[#171821]/30 border-[1px] p-2 rounded-[12px]"
+              className="border outline-none focus:border-green-500 focus:ring-[0.5] focus:ring-green-400 p-2 w-full mt-3 hover:shadow-md hover:border-green-500 rounded-lg px-4 border border-gray-400"
               required
             />
+          </div>
 
-            <label>Price</label>
+          <div className="w-full flex flex-col">
+            <label htmlFor="price">Price</label>
             <input
               type="number"
               name="price"
+              placeholder="Price"
               value={formData.price}
               onChange={handleChange}
-              placeholder="Price"
-              className="border-[#171821]/30 border-[1px] p-2 rounded-[12px]"
+              className="border outline-none focus:border-green-500 focus:ring-[0.5] focus:ring-green-400 p-2 w-full mt-3 hover:shadow-md hover:border-green-500 rounded-lg px-4 border border-gray-400"
+              required
               min="0"
               step="0.01"
-              required
             />
+          </div>
 
-            <label>Category</label>
-            <select
-              name="category"
+          <div className="w-full flex flex-col">
+            <label htmlFor="category">Category</label>
+            <CustomSelect
+              options={categories}
+              placeholder="Select Category"
               value={formData.category}
-              onChange={handleChange}
-              className="border p-2 rounded max-w-[480px] flex flex-col gap-4 text-base text-[#4F7396]"
-              required
-            >
-              <option value="">Select Category</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
+              onChange={(value) =>
+                setFormData((p) => ({ ...p, category: value }))
+              }
+              invalid={categoryInvalid}
+            />
+          </div>
 
-            <label>Product Description</label>
+          <div className="w-full flex flex-col">
+            <label htmlFor="description">Product Description</label>
             <textarea
               name="description"
+              placeholder="Description"
               value={formData.description}
-              required
               onChange={handleChange}
-              placeholder="Product Description"
-              className="border-[#171821]/30 border-[1px] p-2 rounded-[12px]"
-              rows={4}
+              className="border focus:outline-none focus:border-green-500 focus:ring-[0.5] focus:ring-green-400 p-2 w-full mt-3 min-h-30 rounded-lg"
+              required
             />
+          </div>
 
-            <label>Upload Product Image</label>
+          <div
+            className={`border-1 border-dashed w-full rounded-lg p-6 text-center cursor-pointer ${
+              isDragging ? "border-green-500 bg-green-50" : "border-gray-500"
+            }`}
+            onClick={() => fileInputRef.current?.click()}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+          >
+            <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-500" />
+            <p className="mt-2 font-medium text-gray-400">
+              {formData.image
+                ? formData.image.name
+                : "Choose a File or Drag & Drop it here"}
+            </p>
+            <p className="text-sm text-gray-500">
+              jpg, jpeg, png, gif, bmp, tiff, webp
+            </p>
+            <p className="text-sm text-gray-500">up to 3.00 MB</p>
+
             <input
               type="file"
               accept="image/*"
+              ref={fileInputRef}
+              className="hidden"
               onChange={handleImageChange}
-              className="border-[#171821]/30 border-[1px] p-2 rounded-[12px]"
-              required
             />
+          </div>
 
-            {preview && (
-              <img
-                src={preview}
-                alt="Preview"
-                className="mt-2 rounded-[12px] max-h-[200px] object-cover"
-              />
+          <div className="w-full">
+            {previewUrl && (
+              <div className="w-full h-60 flex self-center rounded-lg">
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  className="w-full h-full rounded-lg object-cover"
+                />
+              </div>
             )}
+          </div>
 
-            <button
-              type="submit"
-              className="bg-[#088738] text-white p-2 cursor-pointer rounded-[12px]"
-            >
-              Submit Product
-            </button>
-          </form>
-        </div>
+          <button
+            type="submit"
+            className="bg-green-800 hover:bg-green-600 cursor-pointer text-white px-4 py-2 w-[480px] rounded-lg"
+            disabled={loading}
+          >
+            {loading ? "Submitting... please wait" : "Create Product"}
+          </button>
+        </form>
       </div>
-    </div>
+    </main>
   );
 }

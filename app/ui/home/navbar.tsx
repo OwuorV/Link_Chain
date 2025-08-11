@@ -27,16 +27,16 @@ export default function Navbar({ user }: NavbarClientProps) {
       {open && (
         <div className="cover bg-[#171821]/90 backdrop-blur fixed right-0 z-600 w-full md:w-0 h-[100vh]">
           <div className="px-4 fixed top-1 right-0 z-600 md:top-13 right-2 w-64 rounded-lg shadow-lg bg-[#edf2f5] ring-1 ring-black/10 z-10 border border-[#000]/10">
-            <div className="px-4 py-3">
+            <div className="px-4 py-3 space-y-2">
               <p className="text-[16px] font-semibold text-gray-900">
                 {user?.name}
               </p>
               <p className="text-[14px] text-gray-500">{user?.email}</p>
             </div>
-            <div className="border-t border-gray-200 px-4 py-2 text-xs text-gray-400 uppercase">
+            <div className="border-t border-gray-200 px-4 py-4 text-xs text-gray-400 uppercase">
               Account
             </div>
-            <ul className="px-4 space-y-1 text-sm text-gray-700">
+            <ul className="px-4 space-y-2 text-sm text-gray-700">
               <li>
                 <a href="/Dashboard" className="block hover:text-green-600">
                   Profile
@@ -53,17 +53,17 @@ export default function Navbar({ user }: NavbarClientProps) {
                 </a>
               </li>
             </ul>
-            <div className="border-t border-gray-200 px-4 py-2 text-xs text-gray-400 uppercase">
+            <div className="border-t border-gray-200 px-4 py-4 text-xs text-gray-400 uppercase">
               Content
             </div>
-            <ul className="px-4 space-y-1 text-sm text-gray-700">
+            <ul className="px-4 space-y-2 text-sm text-gray-700">
               <li>
                 <a href="#" className="block hover:text-green-600">
                   Saved Items
                 </a>
               </li>
               <li>
-                <a href="#" className="block hover:text-green-600">
+                <a href="#" className="block hover:text-green-600 mb-3">
                   Blog
                 </a>
               </li>
@@ -71,7 +71,7 @@ export default function Navbar({ user }: NavbarClientProps) {
             <div className="border-t border-gray-200 px-4 py-3">
               <button
                 onClick={logout}
-                className="text-sm text-red-600 hover:text-red-700 w-full text-left"
+                className="text-sm text-red-600 hover:text-red-700 cursor-pointer w-full text-left"
               >
                 Logout
               </button>

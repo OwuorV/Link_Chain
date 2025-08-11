@@ -9,7 +9,7 @@ type Props = {
 
 export default function Location({ data, update, next, back }: Props) {
   return (
-    <div>
+    <div className="p-4 bg-white rounded shadow-md">
       <h2 className="text-xl font-semibold mb-4">Location Details</h2>
 
       <input

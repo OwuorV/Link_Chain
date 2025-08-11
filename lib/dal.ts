@@ -36,6 +36,12 @@ export const getUser = cache(async () => {
         id: true,
         name: true,
         email: true,
+        Shop: {
+          select: {
+            id: true,
+            storeName: true,
+          },
+        },
       },
     });
 

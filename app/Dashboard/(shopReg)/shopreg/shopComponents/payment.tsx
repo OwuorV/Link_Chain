@@ -77,7 +77,7 @@ export default function PaymentAndTerms({ data, update, submit, back }: Props) {
           className="bg-green-600 text-white px-4 py-2 rounded"
           disabled={loading}
         >
-          {loading ? "Submitting..." : "Submit"}
+          {loading ? "Submitting... please wait" : "Submit"}
         </button>
       </div>
     </form>

@@ -1,57 +1,44 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-// output   = "../app/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model Product {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   name        String
   price       Float
   category    String
   description String
   imageUrl    String?
-  createdAt   DateTime @default(now())
-
+  createdAt   DateTime   @default(now())
   sellerId    String
-  seller      Seller   @relation(fields: [sellerId], references: [id])
-
-  Order       Order[]
   CartItem    CartItem[]
-  Admin       Admin[]
+  Order       Order[]
+  Seller      Seller     @relation(fields: [sellerId], references: [id])
+  Admin       Admin[]    @relation("AdminToProduct")
 }
+
 model User {
-  id          String   @id @default(uuid())
-  name        String
-  email       String   @unique
-  phone    String?   @unique
-  password    String
-  createdAt   DateTime @default(now())
-  role     String?
-  Buyer    Buyer[]
-
-  Seller   Seller[]
-
-  Admin    Admin[]
- 
- 
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  phone         String?   @unique
+  password      String
+  createdAt     DateTime  @default(now())
+  role          String?
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
-
   updatedAt     DateTime  @updatedAt
-
-  Shop Shop[]
+  accounts      Account[]
+  Admin         Admin?
+  Buyer         Buyer?
+  Seller        Seller?
+  sessions      Session[]
+  Shop          Shop[]
 }
 
 model Account {
@@ -68,6 +55,7 @@ model Account {
   id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
 }
 
@@ -83,148 +71,108 @@ model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
+
   @@unique([identifier, token])
 }
+
 model Buyer {
-  id          String   @id @default(uuid())
-  BuyerId    String   @unique
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now())
-  name        String
-  email       String   @unique
-  phone       String?  @unique
-  password    String
-
-
-
-  Order Order[]
-
-  Cart Cart[]
-
-  Admin Admin[]
+  id        String   @id @default(uuid())
+  BuyerId   String   @unique
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  name      String
+  email     String   @unique
+  phone     String?  @unique
+  password  String
+  user      User     @relation(fields: [userId], references: [id])
+  Cart      Cart[]
+  Order     Order[]
+  Admin     Admin[]  @relation("AdminToBuyer")
 }
+
 model Seller {
-  id          String   @id @default(uuid())
-  SellerId    String   @unique
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now())
-  name        String
-  email       String   @unique
-  phone       String?  @unique
-  password    String
-
-
-  Admin Admin[]
-
-  Product Product[]
+  id        String    @id @default(uuid())
+  SellerId  String    @unique
+  userId    String    @unique
+  createdAt DateTime  @default(now())
+  name      String
+  email     String    @unique
+  phone     String?   @unique
+  password  String
+  Product   Product[]
+  user      User      @relation(fields: [userId], references: [id])
+  Admin     Admin[]   @relation("AdminToSeller")
 }
+
 model Order {
-  id          String   @id @default(uuid())
-  productId   String
-  buyerId     String
-  quantity    Int
-  totalPrice  Float
-  status      String   // e.g., 'pending', 'completed', 'cancelled'
-  createdAt   DateTime @default(now())
-
-  product     Product  @relation(fields: [productId], references: [id])
-  buyer       Buyer    @relation(fields: [buyerId], references: [id])
-
-  Admin Admin[]
+  id         String   @id @default(uuid())
+  productId  String
+  buyerId    String
+  quantity   Int
+  totalPrice Float
+  status     String
+  createdAt  DateTime @default(now())
+  buyer      Buyer    @relation(fields: [buyerId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+  Admin      Admin[]  @relation("AdminToOrder")
 }
+
 model Cart {
-  id          String   @id @default(uuid())
-  buyerId     String
-  createdAt   DateTime @default(now())
-
-  buyer       Buyer    @relation(fields: [buyerId], references: [id])
-  CartItem    CartItem[]
-
-  Admin Admin[]
+  id        String     @id @default(uuid())
+  buyerId   String
+  createdAt DateTime   @default(now())
+  buyer     Buyer      @relation(fields: [buyerId], references: [id])
+  CartItem  CartItem[]
+  Admin     Admin[]    @relation("AdminToCart")
 }
+
 model CartItem {
-  id          String   @id @default(uuid())
-  cartId      String
-  productId   String
-  quantity    Int
-  createdAt   DateTime @default(now())  
-  product     Product  @relation(fields: [productId], references: [id])
-  cart        Cart     @relation(fields: [cartId], references: [id])
-
-  Admin Admin[]
+  id        String   @id @default(uuid())
+  cartId    String
+  productId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  Admin     Admin[]  @relation("AdminToCartItem")
 }
+
 model Shop {
-  id              String   @id @default(cuid())
-  ownerId         String
-  fullName        String
-  businessName    String
-  businessPhone   String?
-  businessEmail   String
-  location        String?
-  deliveryArea    String?
-  storeName       String?
+  id               String   @id @default(cuid())
+  ownerId          String
+  fullName         String
+  businessName     String
+  businessPhone    String?
+  businessEmail    String
+  location         String?
+  deliveryArea     String?
+  storeName        String?
   storeDescription String?
-  storeLogo       String?
-  storeBanner     String?
-  paymentMethod   String?
-  legalAccepted   Boolean  @default(false)
-
-  owner           User     @relation(fields: [ownerId], references: [id])
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  storeLogo        String?
+  storeBanner      String?
+  paymentMethod    String?
+  legalAccepted    Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  owner            User     @relation(fields: [ownerId], references: [id])
 }
+
 model Admin {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   name        String
-  email       String   @unique
-  phone       String?  @unique
+  email       String     @unique
+  phone       String?    @unique
   password    String
-  createdAt   DateTime @default(now())
-  // Admins can manage products, users, orders, etc.
-  // You can add relations to other models if needed, such as Product, Order, etc
-  Product Product[]
-  Order Order[]
-  Buyer Buyer[]
-  Seller Seller[]
-  Cart Cart[]
-  CartItem CartItem[]
-  // Admins can also have their own unique fields if necessary
-  // For example, you might want to track admin roles or permissions
-  role       String   // e.g., 'superadmin', 'moderator', etc.
-  permissions String[] // Array of permissions, e.g., ['manage_products', 'view_orders', 'manage_users']
-  // You can also add a relation to the User model if admins are
-  // also users in your system, allowing them to log in with the same credentials.
-  userId     String?  @unique // Optional relation to User model if admins are also users
-  user       User?    @relation(fields: [userId], references: [id])
-  // If you want to track when the admin was created or last updated
-  updatedAt   DateTime @updatedAt // Automatically updates to the current timestamp when the record
-  // is updated
-  // record is created
-  // You can also add a relation to other models if needed, such as Product, Order, etc.
-  // This allows admins to manage products, orders, and users directly from the admin interface.
-  // For example, you might want to add a relation to the Product model:
-  // products Product[] // Admins can manage multiple products
-  // You can also add relations to other models like Order, Buyer, Seller, etc.
-  // This allows admins to manage orders, buyers, and sellers directly from the admin interface.
-  // For example, you might want to add a relation to the Order model:
-  // orders Order[] // Admins can manage multiple orders
-  // This allows admins to manage orders directly from the admin interface.
-  // You can also add relations to other models like Buyer, Seller, etc.
-  // This allows admins to manage buyers and sellers directly from the admin interface.
-  // For example, you might want to add a relation to the Buyer model:
-  // buyers Buyer[] // Admins can manage multiple buyers
-  // This allows admins to manage buyers directly from the admin interface.
-  // You can also add relations to other models like Seller, Cart, CartItem, etc
-  // This allows admins to manage sellers, carts, and cart items directly from the admin interface
-  // For example, you might want to add a relation to the Seller model:
-  // sellers Seller[] // Admins can manage multiple sellers
-  // This allows admins to manage sellers directly from the admin interface.
-  // For example, you might want to add a relation to the Cart model:
-  // carts Cart[] // Admins can manage multiple carts
-  // This allows admins to manage carts directly from the admin interface.  
-  
-  // Add any additional fields or relations as needed
-} 
+  createdAt   DateTime   @default(now())
+  role        String
+  permissions String[]
+  userId      String?    @unique
+  updatedAt   DateTime   @updatedAt
+  user        User?      @relation(fields: [userId], references: [id])
+  Buyer       Buyer[]    @relation("AdminToBuyer")
+  Cart        Cart[]     @relation("AdminToCart")
+  CartItem    CartItem[] @relation("AdminToCartItem")
+  Order       Order[]    @relation("AdminToOrder")
+  Product     Product[]  @relation("AdminToProduct")
+  Seller      Seller[]   @relation("AdminToSeller")
+}
