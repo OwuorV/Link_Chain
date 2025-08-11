@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   title: "Digital Value Chain Accelerator",
   description: "Accelerating digital transformation in the value chain",
   icons: {
-    icon: "/DAH.jpg",
-    apple: "/DAH.jpg",
+    icon: "/favicon.ico.",
+    apple: "/favicon.ico",
   },
 };
 export default function Home() {
