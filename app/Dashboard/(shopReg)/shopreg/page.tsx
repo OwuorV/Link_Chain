@@ -41,7 +41,6 @@ export default function AddShop() {
     });
 
     if (!res.ok) {
-      alert("Failed to submit form");
       setError(true);
       throw new Error("Failed to create product");
       setFormData({
@@ -61,7 +60,6 @@ export default function AddShop() {
       return;
     }
     setSuccess(true);
-    alert("Form submitted successfully");
   };
 
   return (

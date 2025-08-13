@@ -388,13 +388,13 @@ export default function Home() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
       >
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 items-center  justify-center">
+          <h3 className="text-3xl md:text-4xl font-bold text-gray-800 text-center">
+            Frequently Asked Questions
+          </h3>
           <div className="">
             <Accordion />
           </div>
           <div className="relative w-full h-full sm:w-full sm:h-full mb-4  ">
-            <h3 className="text-3xl md:text-4xl font-bold text-gray-800 text-center">
-              Frequently Asked Questions
-            </h3>
             <svg width="0" height="0">
               <defs>
                 <mask

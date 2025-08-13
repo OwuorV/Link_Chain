@@ -37,6 +37,7 @@ export default async function Vets() {
             Discover a wide range of products from local vendors, including
             fresh produce, handmade crafts, and more. Support local businesses
             and find unique items that you won't find anywhere else.
+            <br />
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-7xl">
