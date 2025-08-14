@@ -24,7 +24,7 @@ export async function encrypt(payload: { userId: string; expiresAt: Date }) {
       .setIssuedAt()
       .setExpirationTime("7d")
       .sign(encodedKey);
-    console.log("JWT created for user:", payload.userId, "JWT:", jwt);
+    console.log("JWT created for user:", payload.userId);
     return jwt;
   } catch (error) {
     console.error("Encryption error:", error);
@@ -66,15 +66,11 @@ export async function createSession(userId: string) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       expires: expiresAt,
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
+      domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
     });
-    console.log(
-      "Session cookie set for user:",
-      userId,
-      "Cookie value:",
-      session
-    );
+    console.log("Session cookie set for user:", userId);
     return session;
   } catch (error) {
     console.error("Session creation error:", error);
@@ -83,7 +79,8 @@ export async function createSession(userId: string) {
 }
 
 export async function updateSession() {
-  const session = (await cookies()).get("session")?.value;
+  const cookieStore = await cookies();
+  const session = cookieStore.get("session")?.value;
   const payload = await decrypt(session);
 
   if (!session || !payload) {
@@ -92,15 +89,16 @@ export async function updateSession() {
   }
 
   const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const cookieStore = await cookies();
   cookieStore.set("session", session, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    expires: expires,
-    sameSite: "lax",
+    expires,
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
+    domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
   });
   console.log("Session updated for user:", payload.userId);
+  return payload;
 }
 
 export async function deleteSession() {
@@ -110,7 +108,8 @@ export async function deleteSession() {
 }
 
 export async function getSession() {
-  const session = (await cookies()).get("session")?.value;
+  const cookieStore = await cookies();
+  const session = cookieStore.get("session")?.value;
   const payload = await decrypt(session);
   if (!payload) {
     console.log("No valid session payload");
@@ -119,6 +118,7 @@ export async function getSession() {
   const expiresAt = new Date(payload.expiresAt);
   if (expiresAt < new Date()) {
     console.log("Session expired:", payload.expiresAt);
+    await deleteSession();
     return null;
   }
   console.log("Valid session retrieved for user:", payload.userId);
