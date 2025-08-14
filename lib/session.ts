@@ -68,7 +68,7 @@ export async function createSession(userId: string) {
       expires: expiresAt,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
-      domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
+      //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
     });
     console.log("Session cookie set for user:", userId);
     return session;
@@ -95,7 +95,7 @@ export async function updateSession() {
     expires,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
-    domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
+    //domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
   });
   console.log("Session updated for user:", payload.userId);
   return payload;

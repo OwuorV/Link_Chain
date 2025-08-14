@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Personal from "@/app/(shopReg)/shopreg/shopComponents/personal";
-import Location from "@/app/(shopReg)/shopreg/shopComponents/location";
-import StoreDetails from "@/app/(shopReg)/shopreg/shopComponents/storeDetails";
-import PaymentAndTerms from "@/app/(shopReg)/shopreg/shopComponents/payment";
+import Personal from "./shopComponents/personal";
+import Location from "./shopComponents/location";
+import StoreDetails from "./shopComponents/storeDetails";
+import PaymentAndTerms from "./shopComponents/payment";
 
 export default function AddShop() {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function AddShop() {
     const checkShop = async () => {
       try {
         const res = await fetch("/api/shop", { method: "GET" });
-        // /api/shop should return { hasShop: true/false }
+        // /api/shop/user should return { hasShop: true/false }
         if (!res.ok) throw new Error("Failed to check shop");
 
         const data = await res.json();

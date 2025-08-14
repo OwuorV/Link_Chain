@@ -1,6 +1,7 @@
 import NavbarWrapper from "@/app/ui/home/navbarwrapper";
 import SliderNav from "@/app/ui/home/sliderNav";
 import Tabs from "@/app/ui/home/tabs";
+import Footer from "../ui/footer/footer";
 import styles from "@/app/ui/scrollbarHide.module.css";
 export default function HomeLayout({
   children,
@@ -8,9 +9,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="flex w-full ">
+    <main className="flex flex-col gap-3  relative w-full ">
       {" "}
-      <div className="w-[14%] border-r border-[#C0B4B4]/50 border-b-[0.3px] z-10000 hidden md:block">
+      <div className=" hidden border-r border-[#C0B4B4]/50 border-b-[0.3px] z-10000 hidden">
         <SliderNav />
       </div>
       <div
@@ -26,7 +27,12 @@ export default function HomeLayout({
           </div>
           <div className="mt-5 md:mt-3 line h-[10px] w-full border-b-[0.3px] border-[#C0B4B4]/50"></div>
         </div>
-        <main className=" w-full bg-[#f6fafd] px-3 py-6">{children}</main>
+        <main className=" w-full px-auto gap-3 relative flex flex-col bg-[#f6fafd] md:px-30 py-6">
+          <div>{children}</div>
+        </main>
+        <div className="w-full flex justify-center p-8 items-center">
+          <Footer />
+        </div>
       </div>
     </main>
   );

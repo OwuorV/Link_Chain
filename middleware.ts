@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
+import { getShops } from "./lib/getShop";
 
 const protectedRoutes = ["/farms", "/Dashboard/allDashbards", "/Dashboard"];
 const publicRoutes = ["/seller/login", "/seller/signup", "/"];
@@ -17,6 +18,18 @@ export default async function middleware(req: NextRequest) {
       );
       return NextResponse.redirect(new URL("/seller/login", req.nextUrl));
     }
+
+    // const Shop = await getShops();
+    // if (Shop && Shop.length > 0) {
+    //   if (Shop.some((shop) => shop.ownerId === session?.userId)) {
+    //     console.log("Found shops:", Shop);
+    //   }
+    // } else {
+    //   console.log("No shops found");
+    //   if (isProtectedRoute) {
+    //     return NextResponse.redirect(new URL("/shopReg", req.nextUrl));
+    //   }
+    // }
 
     if (
       isPublicRoute &&

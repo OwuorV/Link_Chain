@@ -8,7 +8,7 @@ type Props = {
 
 export default function Personal({ data, update, next }: Props) {
   return (
-    <div className="flex flex-col bg-gray-200 border border-[0.5px] border-gray-400 rounded-3xl w-full ">
+    <div className="flex flex-col bg-gray-200 border border-[0.5px] border-gray-400 rounded-3xl  ">
       <h2 className="text-xl font-semibold mb-4">
         Personal & Business Details
       </h2>
