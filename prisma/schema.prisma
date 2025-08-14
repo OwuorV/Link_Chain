@@ -20,8 +20,30 @@ model Product {
   Order       Order[]
   Seller      Seller     @relation(fields: [sellerId], references: [id])
   Admin       Admin[]    @relation("AdminToProduct")
+  shopId      String?
+  shop        Shop?       @relation(fields: [shopId], references: [id])
 }
-
+model Shop {
+  id               String   @id @default(cuid())
+  ownerId          String
+  fullName         String
+  businessName     String
+  businessPhone    String?
+  businessEmail    String
+  location         String?
+  deliveryArea     String?
+  storeName        String?
+  storeDescription String?
+  storeLogo        String?
+  storeBanner      String?
+  paymentMethod    String?
+  legalAccepted    Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  owner            User     @relation(fields: [ownerId], references: [id])
+  products         Product[]
+  
+}
 model User {
   id            String    @id @default(uuid())
   name          String
@@ -137,25 +159,7 @@ model CartItem {
   Admin     Admin[]  @relation("AdminToCartItem")
 }
 
-model Shop {
-  id               String   @id @default(cuid())
-  ownerId          String
-  fullName         String
-  businessName     String
-  businessPhone    String?
-  businessEmail    String
-  location         String?
-  deliveryArea     String?
-  storeName        String?
-  storeDescription String?
-  storeLogo        String?
-  storeBanner      String?
-  paymentMethod    String?
-  legalAccepted    Boolean  @default(false)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  owner            User     @relation(fields: [ownerId], references: [id])
-}
+
 
 model Admin {
   id          String     @id @default(uuid())
