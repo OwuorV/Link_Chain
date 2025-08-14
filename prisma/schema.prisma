@@ -18,11 +18,13 @@ model Product {
   sellerId    String
   CartItem    CartItem[]
   Order       Order[]
-  Seller      Seller     @relation(fields: [sellerId], references: [id])
-  Admin       Admin[]    @relation("AdminToProduct")
-  shopId      String?
-  shop        Shop?       @relation(fields: [shopId], references: [id])
+  seller      Seller     @relation(fields: [sellerId], references: [id])
+
+  Shop Shop[]
+
+  Admin Admin[] @relation("AdminToProduct")
 }
+
 model Shop {
   id               String   @id @default(cuid())
   ownerId          String
