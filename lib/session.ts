@@ -95,7 +95,7 @@ export async function updateSession() {
     expires,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
-    //domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
+    domain: "linkinngchain.vercel.app",
   });
   console.log("Session updated for user:", payload.userId);
   return payload;
