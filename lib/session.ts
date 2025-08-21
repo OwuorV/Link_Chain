@@ -1,6 +1,7 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { User } from "lucide-react";
 
 const secretKey = process.env.SESSION_SECRET;
 if (!secretKey) {
@@ -50,6 +51,7 @@ export async function decrypt(session: string | undefined = "") {
       expiresAt: payload.expiresAt as string,
     } as SessionPayload;
     console.log("Session decrypted for user:", result.userId);
+
     return result;
   } catch (error) {
     console.error("Decryption error:", error);
@@ -122,5 +124,6 @@ export async function getSession() {
     return null;
   }
   console.log("Valid session retrieved for user:", payload.userId);
+  console.log("User from DB:", User);
   return payload;
 }

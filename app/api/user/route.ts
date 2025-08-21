@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     const user = await db.user.findUnique({
       where: { id: session.userId },
-      select: { id: true },
+      select: { id: true, name: true },
     });
 
     if (!user) {
@@ -40,6 +40,7 @@ export async function GET(request: Request) {
       userId: user.id,
       sellerId: seller.id,
       shopName: shop.storeName,
+      UserName: user.name,
     });
   } catch (error) {
     console.error("Error fetching user/seller data:", error);
