@@ -1,18 +1,12 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { prisma } from "../lib/prisma"; // Adjust the path to your Prisma client
 
 const secretKey = process.env.SESSION_SECRET;
 if (!secretKey) {
   throw new Error("SESSION_SECRET is not defined in environment variables");
 }
 const encodedKey = new TextEncoder().encode(secretKey);
-
-const cookieDomain =
-  process.env.NODE_ENV === "production"
-    ? ".linkinngchain.vercel.app"
-    : undefined;
 
 export interface SessionPayload {
   userId: string;
@@ -63,18 +57,7 @@ export async function decrypt(session: string | undefined = "") {
   }
 }
 
-export async function createSession(
-  userId: string,
-  source: string = "unknown"
-) {
-  console.log(`Creating session for user: ${userId}, source: ${source}`);
-  // Check if user exists in the database
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (!user) {
-    console.error(`Invalid userId: ${userId}, source: ${source}`);
-    throw new Error("User not found");
-  }
-
+export async function createSession(userId: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   try {
     const session = await encrypt({ userId, expiresAt });
@@ -85,7 +68,7 @@ export async function createSession(
       expires: expiresAt,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
-      domain: cookieDomain,
+      //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
     });
     console.log("Session cookie set for user:", userId);
     return session;
@@ -105,14 +88,6 @@ export async function updateSession() {
     return null;
   }
 
-  // Validate user exists in the database
-  const user = await prisma.user.findUnique({ where: { id: payload.userId } });
-  if (!user) {
-    console.error("Session contains non-existent user:", payload.userId);
-    await deleteSession();
-    return null;
-  }
-
   const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   cookieStore.set("session", session, {
     httpOnly: true,
@@ -120,7 +95,7 @@ export async function updateSession() {
     expires,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
-    domain: cookieDomain,
+    domain: "linkinngchain.vercel.app",
   });
   console.log("Session updated for user:", payload.userId);
   return payload;
@@ -140,45 +115,12 @@ export async function getSession() {
     console.log("No valid session payload");
     return null;
   }
-
   const expiresAt = new Date(payload.expiresAt);
   if (expiresAt < new Date()) {
     console.log("Session expired:", payload.expiresAt);
     await deleteSession();
     return null;
   }
-
-  // Validate user exists in the علیه
-
-  const user = await prisma.user.findUnique({ where: { id: payload.userId } });
-  if (!user) {
-    console.error("Session contains non-existent user:", payload.userId);
-    await deleteSession();
-    return null;
-  }
-
   console.log("Valid session retrieved for user:", payload.userId);
-  return payload;
-}
-
-// Lightweight session check for Edge runtime (middleware)
-export async function getSessionForMiddleware() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("session")?.value;
-  const payload = await decrypt(session);
-  if (!payload) {
-    console.log("No valid session payload in middleware");
-    return null;
-  }
-
-  const expiresAt = new Date(payload.expiresAt);
-  if (expiresAt < new Date()) {
-    console.log("Session expired in middleware:", payload.expiresAt);
-    await deleteSession();
-    return null;
-  }
-
-  // No database check here to avoid Prisma in Edge runtime
-  console.log("Session retrieved for middleware:", payload.userId);
   return payload;
 }
