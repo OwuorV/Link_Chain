@@ -1,17 +1,19 @@
 import Image from "next/image";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-
-// app/seller/profile/page.tsx
 import { getProducts } from "@/lib/getproduct";
-
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
 export default async function Vets() {
-  const products = await getProducts();
+  let products;
+
+  try {
+    products = await getProducts();
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    products = null;
+  }
 
   if (!products) {
     console.log("No products found");
@@ -90,7 +92,7 @@ export default async function Vets() {
                     <span className="text-sm font-normal text-[#4F7396]">
                       Price{"  "}
                     </span>
-                    {price.toFixed(2)} KES
+                    {price?.toFixed(2) || "0.00"} KES
                   </span>
                   <span className="text-sm text-[#4F7396] mb-2">
                     Vendor: {sellerId}

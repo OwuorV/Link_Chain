@@ -13,7 +13,14 @@ import { getShops } from "@/lib/getShop";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 export default async function Vets() {
-  const ServiceCards = await getShops();
+  const ServiceCards = [];
+
+  try {
+    ServiceCards.push(...(await getShops()));
+  } catch (error) {
+    console.error("Error fetching shops:", error);
+    ServiceCards.length = 0;
+  }
 
   return (
     <main className="flex justify-center mt-3 align-center w-full">
@@ -24,10 +31,8 @@ export default async function Vets() {
             fullName,
             storeName,
             location,
-
             deliveryArea,
             storeBanner,
-
             storeLogo,
           }) => (
             <div
@@ -36,7 +41,7 @@ export default async function Vets() {
             >
               <div className="w-full h-[220px] relative flex items-center justify-center overflow-hiden object-cover">
                 <Image
-                  src={storeBanner ?? "fallbackImage.png"}
+                  src={storeBanner ?? "/fallback.png"}
                   alt={fullName}
                   fill
                   className="object-cover"
@@ -50,11 +55,12 @@ export default async function Vets() {
                 <div className="absolute  bg-[#000]/20 backdrop-blur-sm h-full w-[100%]"></div>
                 <div className="relative z-10 flex flex-col  justify-center h-full text-left text-black p-4 gap-3">
                   <div className="mt-[-98px] top-[100px] imagelogo w-[100px] h-[100px] overflow-hidden bg-black border-3 border-[#D9D9D9] rounded-[50%]">
-                    <Image
-                      src={storeLogo ?? "fallbackImage.png"}
+                    {/* <Image
+                      src={storeLogo ?? "/fallback.png"}
                       alt={fullName}
+                      fill
                       className="object-cover w-full h-full"
-                    />
+                    /> */}
                   </div>
                   <span className="Name text-[24px] font-semibold text-[#171821]">
                     {fullName}
@@ -81,7 +87,6 @@ export default async function Vets() {
                   <div className="h-[1px] w-full border-b border-b-gray-200"></div>
                   <span className="location text-[#4F7396] flex gap-3">
                     <FaTruck className="text-gray-600 text-xl" />
-
                     {deliveryArea}
                   </span>
                   <div className="w-full botomButtons flex justify-between px-5 mt-3">
