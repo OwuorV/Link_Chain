@@ -19,15 +19,13 @@ model Product {
   CartItem    CartItem[]
   Order       Order[]
   seller      Seller     @relation(fields: [sellerId], references: [id])
-
-  Shop Shop[]
-
-  Admin Admin[] @relation("AdminToProduct")
+  Admin       Admin[]    @relation("AdminToProduct")
+  Shop        Shop[]     @relation("ProductToShop")
 }
 
 model Shop {
-  id               String   @id @default(cuid())
-  ownerId          String   @unique   
+  id               String    @id @default(cuid())
+  ownerId          String    @unique
   fullName         String
   businessName     String
   businessPhone    String?
@@ -39,32 +37,30 @@ model Shop {
   storeLogo        String?
   storeBanner      String?
   paymentMethod    String?
-  legalAccepted    Boolean  @default(false)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  owner            User     @relation(fields: [ownerId], references: [id])
-  products         Product[]
+  legalAccepted    Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  owner            User      @relation(fields: [ownerId], references: [id])
+  products         Product[] @relation("ProductToShop")
 }
 
 model User {
-  id            String   @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
-  email         String   @unique
-  phone         String?  @unique
+  email         String    @unique
   password      String
-  createdAt     DateTime @default(now())
-  role          String?
   emailVerified DateTime?
   image         String?
-  updatedAt     DateTime @updatedAt
-
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  phone         String?   @unique
+  role          String?
   accounts      Account[]
   Admin         Admin?
   Buyer         Buyer?
   Seller        Seller?
   sessions      Session[]
-  Shop          Shop?    
+  Shop          Shop?
 }
 
 model Account {
@@ -162,8 +158,6 @@ model CartItem {
   product   Product  @relation(fields: [productId], references: [id])
   Admin     Admin[]  @relation("AdminToCartItem")
 }
-
-
 
 model Admin {
   id          String     @id @default(uuid())
