@@ -1,4 +1,3 @@
-// app/components/ProductForm.tsx
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
@@ -179,16 +178,26 @@ export default function ProductForm() {
 
     if (!validateAll()) return;
 
+    // Create FormData but note about image upload being temporarily disabled
     const data = new FormData();
     data.append("name", formData.name.trim());
     data.append("price", formData.price);
     data.append("category", formData.category);
     data.append("description", formData.description.trim());
+
+    // Note: Image upload is temporarily disabled due to server time sync issues
+    // The API will create products without images for now
     if (formData.image) {
+      console.log(
+        "Image selected but upload temporarily disabled:",
+        formData.image.name
+      );
+      // Still append the image in case the API is fixed
       data.append("image", formData.image, formData.image.name);
     }
 
     // Debug FormData entries
+    console.log("Submitting product data:");
     for (const pair of data.entries()) {
       if (pair[0] === "image" && pair[1] instanceof File) {
         console.log(pair[0], pair[1].name, pair[1].size);
@@ -204,25 +213,35 @@ export default function ProductForm() {
         body: data,
       });
 
-      const text = await res.text();
-      let json: { error?: string; message?: string; product?: any };
-      try {
-        json = JSON.parse(text);
-      } catch {
-        json = { message: text };
-      }
-
       if (!res.ok) {
-        console.error("Server error response:", res.status, json);
+        const errorText = await res.text();
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = { error: errorText };
+        }
+
+        console.error("Server error response:", res.status, errorData);
         const message =
-          (json && (json.error || json.message)) ||
+          errorData.error ||
+          errorData.message ||
           `Request failed with status ${res.status}`;
         toast.error(message);
-        setLoading(false);
         return;
       }
 
-      toast.success("Product created successfully!");
+      const result = await res.json();
+      console.log("Product creation response:", result);
+
+      // Show success message and any warnings
+      if (result.warning) {
+        toast.success(`${result.message}\n⚠️ ${result.note || result.warning}`);
+      } else {
+        toast.success(result.message || "Product created successfully!");
+      }
+
+      // Reset form
       setFormData({
         name: "",
         price: "",
@@ -231,10 +250,11 @@ export default function ProductForm() {
         image: null,
       });
       setPreviewUrl(null);
+      setCategoryInvalid(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.error("Network or unexpected error:", error);
-      toast.error("Error creating product");
+      toast.error("Network error - please check your connection and try again");
     } finally {
       setLoading(false);
     }
@@ -251,6 +271,11 @@ export default function ProductForm() {
             </h2>
             <p className="text-gray-500">
               Add new agricultural product to the marketplace
+            </p>
+            {/* Temporary notice about image uploads */}
+            <p className="text-orange-600 text-sm mt-1">
+              ⚠️ Note: Image uploads are temporarily disabled due to server
+              maintenance
             </p>
           </span>
         </div>
@@ -274,11 +299,11 @@ export default function ProductForm() {
           </div>
 
           <div className="w-full flex flex-col">
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">Price (KSH)</label>
             <input
               type="number"
               name="price"
-              placeholder="Price"
+              placeholder="Price in KSH"
               value={formData.price}
               onChange={handleChange}
               className="border outline-none focus:border-green-500 focus:ring-[0.5] focus:ring-green-400 p-2 w-full mt-3 hover:shadow-md hover:border-green-500 rounded-lg px-4 border border-gray-400"
@@ -294,9 +319,10 @@ export default function ProductForm() {
               options={categories}
               placeholder="Select Category"
               value={formData.category}
-              onChange={(value) =>
-                setFormData((p) => ({ ...p, category: value }))
-              }
+              onChange={(value) => {
+                setFormData((p) => ({ ...p, category: value }));
+                setCategoryInvalid(false); // Clear error when user selects
+              }}
               invalid={categoryInvalid}
             />
           </div>
@@ -305,62 +331,83 @@ export default function ProductForm() {
             <label htmlFor="description">Product Description</label>
             <textarea
               name="description"
-              placeholder="Description"
+              placeholder="Describe your product, including quality, origin, and any special features..."
               value={formData.description}
               onChange={handleChange}
               className="border focus:outline-none focus:border-green-500 focus:ring-[0.5] focus:ring-green-400 p-2 w-full mt-3 min-h-30 rounded-lg"
               required
+              rows={4}
             />
           </div>
 
-          <div
-            className={`border-1 border-dashed w-full rounded-lg p-6 text-center cursor-pointer ${
-              isDragging ? "border-green-500 bg-green-50" : "border-gray-500"
-            }`}
-            onClick={() => fileInputRef.current?.click()}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-          >
-            <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-500" />
-            <p className="mt-2 font-medium text-gray-400">
-              {formData.image
-                ? formData.image.name
-                : "Choose a File or Drag & Drop it here"}
-            </p>
-            <p className="text-sm text-gray-500">
-              jpg, jpeg, png, gif, bmp, tiff, webp
-            </p>
-            <p className="text-sm text-gray-500">up to 3.00 MB</p>
+          {/* Keep image upload UI but add disabled state notice */}
+          <div className="w-full flex flex-col">
+            <label className="flex items-center gap-2">
+              <span>Product Image</span>
+              <span className="text-sm text-orange-600">
+                (Temporarily disabled)
+              </span>
+            </label>
+            <div
+              className={`border-1 border-dashed w-full rounded-lg p-6 text-center cursor-not-allowed opacity-50 ${
+                isDragging ? "border-green-500 bg-green-50" : "border-gray-500"
+              }`}
+              title="Image uploads temporarily disabled due to server maintenance"
+            >
+              <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-500" />
+              <p className="mt-2 font-medium text-gray-400">
+                {formData.image
+                  ? `${formData.image.name} (Upload disabled)`
+                  : "Image uploads temporarily disabled"}
+              </p>
+              <p className="text-sm text-gray-500">
+                Images will be enabled once server issues are resolved
+              </p>
 
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              className="hidden"
-              onChange={handleImageChange}
-            />
-          </div>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleImageChange}
+                disabled
+              />
+            </div>
 
-          <div className="w-full">
             {previewUrl && (
-              <div className="w-full h-60 flex self-center rounded-lg">
+              <div className="w-full h-60 flex self-center rounded-lg mt-4">
                 <img
                   src={previewUrl}
                   alt="Preview"
-                  className="w-full h-full rounded-lg object-cover"
+                  className="w-full h-full rounded-lg object-cover opacity-50"
                 />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="bg-orange-600 text-white px-3 py-1 rounded">
+                    Upload Disabled
+                  </span>
+                </div>
               </div>
             )}
           </div>
 
           <button
             type="submit"
-            className="bg-green-800 hover:bg-green-600 cursor-pointer text-white px-4 py-2 w-[480px] rounded-lg"
+            className="bg-green-800 hover:bg-green-600 cursor-pointer text-white px-4 py-2 w-full rounded-lg disabled:bg-gray-500 disabled:cursor-not-allowed"
             disabled={loading}
           >
-            {loading ? "Submitting... please wait" : "Create Product"}
+            {loading ? "Creating Product... please wait" : "Create Product"}
           </button>
+          <p className="text-sm text-gray-500">
+            By creating a product, you agree to our{" "}
+            <a
+              href="/terms"
+              className="text-blue-600 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Terms of Service
+            </a>
+          </p>
         </form>
       </div>
     </main>

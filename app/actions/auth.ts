@@ -42,6 +42,19 @@ export async function signup(state: FormState, formData: FormData) {
 
   try {
     console.log("Creating user:", email);
+
+    // Check if user already exists
+    const existingUser = await db.user.findUnique({
+      where: { email },
+      select: { id: true },
+    });
+
+    if (existingUser) {
+      return {
+        message: "An account with this email already exists.",
+      };
+    }
+
     const user = await db.user.create({
       data: {
         name,
@@ -59,15 +72,25 @@ export async function signup(state: FormState, formData: FormData) {
     }
 
     console.log("User created with ID:", user.id);
-    const session = await createSession(user.id);
-    console.log("Session created in signup:", session);
-    redirect("/farms");
-  } catch (error) {
+    await createSession(user.id);
+    console.log("Session created successfully for signup");
+  } catch (error: any) {
     console.error("Signup error:", error);
+
+    // Handle unique constraint violations
+    if (error.code === "P2002") {
+      return {
+        message: "An account with this email already exists.",
+      };
+    }
+
     return {
       message: "An error occurred while creating your account.",
     };
   }
+
+  // Redirect outside of try-catch
+  redirect("/farms");
 }
 
 export async function login(state: FormState, formData: FormData) {
@@ -111,19 +134,27 @@ export async function login(state: FormState, formData: FormData) {
     }
 
     console.log("User logged in with ID:", user.id);
-    const session = await createSession(user.id);
-    console.log("Session created in login:", session);
-    redirect("/farms");
-  } catch (error) {
+    await createSession(user.id);
+    console.log("Session created successfully for login");
+  } catch (error: any) {
     console.error("Login error:", error);
     return {
       message: "An error occurred while logging in.",
     };
   }
+
+  // Redirect outside of try-catch
+  redirect("/farms");
 }
 
 export async function logout() {
-  console.log("Logging out user");
-  await deleteSession();
+  try {
+    console.log("Logging out user");
+    await deleteSession();
+  } catch (error) {
+    console.error("Logout error:", error);
+    // Continue with redirect even if session deletion fails
+  }
+
   redirect("/seller/login");
 }
