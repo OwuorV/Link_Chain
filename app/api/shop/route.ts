@@ -2,16 +2,44 @@ import { NextResponse } from "next/server";
 import { verifySession } from "@/lib/dal";
 import { db } from "@/lib/db";
 
+export async function GET() {
+  try {
+    const session = await verifySession();
+
+    if (!session?.userId) {
+      return NextResponse.json({ hasShop: false }, { status: 401 });
+    }
+
+    const shop = await db.shop.findUnique({
+      where: { ownerId: session.userId },
+      select: { id: true },
+    });
+
+    return NextResponse.json({ hasShop: !!shop });
+  } catch (error) {
+    console.error("Error checking shop:", error);
+    return NextResponse.json({ hasShop: false }, { status: 500 });
+  }
+}
+
 export async function POST(req: Request) {
   try {
-    // ✅ Verify user session
     const session = await verifySession();
 
     if (!session?.userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // ✅ Parse body
+    // Verify user exists
+    const user = await db.user.findUnique({
+      where: { id: session.userId },
+      select: { id: true, name: true, email: true },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const body = await req.json();
     const {
       fullName,
@@ -28,7 +56,7 @@ export async function POST(req: Request) {
       legalAccepted,
     } = body;
 
-    // ✅ Validate required fields
+    // Validate required fields
     if (!fullName || !businessName || !businessEmail) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -36,7 +64,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // ✅ Check if shop already exists for this user
+    // Check if shop already exists
     const existingShop = await db.shop.findUnique({
       where: { ownerId: session.userId },
     });
@@ -48,7 +76,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // ✅ Create new shop
+    // Create new shop
     const shop = await db.shop.create({
       data: {
         ownerId: session.userId,

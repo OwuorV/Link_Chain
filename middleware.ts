@@ -2,10 +2,26 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
 import { getShops } from "./lib/getShop";
 
+import { decrypt } from "@/lib/session";
+
 const protectedRoutes = ["/farms", "/Dashboard/allDashbards", "/Dashboard"];
 const publicRoutes = ["/seller/login", "/seller/signup", "/"];
 
 export default async function middleware(req: NextRequest) {
+  const session = req.cookies.get("session")?.value;
+
+  if (session) {
+    const payload = await decrypt(session);
+    console.log("Middleware session check:", {
+      path: req.nextUrl.pathname,
+      hasSession: !!session,
+      hasPayload: !!payload,
+      userId: payload?.userId,
+      expiresAt: payload?.expiresAt,
+    });
+    return NextResponse.next();
+  }
+
   const path = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
@@ -48,5 +64,6 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  //matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
 };

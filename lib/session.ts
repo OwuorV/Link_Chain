@@ -12,6 +12,21 @@ export interface SessionPayload {
   userId: string;
   expiresAt: string;
 }
+const getCookieOptions = (expires: Date) => ({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  expires,
+  sameSite:
+    process.env.NODE_ENV === "production"
+      ? ("none" as const)
+      : ("lax" as const),
+  path: "/",
+  // Only set domain in production if needed
+  ...(process.env.NODE_ENV === "production" &&
+    process.env.COOKIE_DOMAIN && {
+      domain: process.env.COOKIE_DOMAIN,
+    }),
+});
 
 export async function encrypt(payload: { userId: string; expiresAt: Date }) {
   const serializablePayload = {
@@ -62,14 +77,7 @@ export async function createSession(userId: string) {
   try {
     const session = await encrypt({ userId, expiresAt });
     const cookieStore = await cookies();
-    cookieStore.set("session", session, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      expires: expiresAt,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
-      //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined,
-    });
+    cookieStore.set("session", session, getCookieOptions(expiresAt));
     console.log("Session cookie set for user:", userId);
     return session;
   } catch (error) {
@@ -89,14 +97,7 @@ export async function updateSession() {
   }
 
   const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  cookieStore.set("session", session, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    expires,
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    path: "/",
-    domain: "linkinngchain.vercel.app",
-  });
+  cookieStore.set("session", session, getCookieOptions(expires));
   console.log("Session updated for user:", payload.userId);
   return payload;
 }
