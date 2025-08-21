@@ -51,7 +51,7 @@ export default async function Vets() {
             Filter
           </div>
         </div>
-        <div className="grid grid-cols-1 max-sm:px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-7 gap-6">
+        <div className="grid grid-cols-1 max-sm:px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-7 w-full gap-6">
           {products.map(
             ({
               id,
