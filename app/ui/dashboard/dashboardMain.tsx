@@ -2,14 +2,15 @@
 import React from "react";
 import Dashboardnav from "./dashboardnav";
 import MainLayout from "@/app/Dashboard/allDashboard/page";
+import "@/app/ui/scrollbarHide.module.css";
 interface DashboardnavProps {
   toggle: () => void;
   children: React.ReactNode;
 }
 export default function DashboardMain({ toggle, children }: DashboardnavProps) {
   return (
-    <main className="bg-[#F1FAF5] border-[#C0B4B4]/60 border-[1px] border-solid rounded-[30px] w-full h-full py-2 flex flex-col items-center">
-      <div className="px-3 line w-full h-max border-b border-b-solid border-b-[1px] border-b-[#C0B4B4]/60 py-4 mt-5 flex gap-4">
+    <main className="bg-[#F1FAF5]  scrollbar-hidden::-webkit-scrollbar scrollbarhidden  border-[#C0B4B4]/60 border-[1px] border-solid rounded-[30px] w-full h-screen overflow-y-scroll py-2 flex flex-col items-center h-screen">
+      <div className="px-3 line w-full h-max border-b border-b-solid border-b-[1px] border-b-[#C0B4B4]/60 py-4 mt-5 flex gap-4 ">
         <div className="drawer">
           <svg
             onClick={toggle}
