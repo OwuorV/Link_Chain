@@ -95,7 +95,7 @@ export default async function Vets() {
                     {price?.toFixed(2) || "0.00"} KES
                   </span>
                   <span className="text-sm text-[#4F7396] mb-2">
-                    Vendor: {sellerId}
+                    Vendor: {name}
                   </span>
                   <span className="text-sm text-[#4F7396] flex items-center gap-1">
                     Siaya{" "}

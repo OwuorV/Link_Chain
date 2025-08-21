@@ -344,24 +344,25 @@ export default function ProductForm() {
           <div className="w-full flex flex-col">
             <label className="flex items-center gap-2">
               <span>Product Image</span>
-              <span className="text-sm text-orange-600">
-                (Temporarily disabled)
-              </span>
             </label>
+
             <div
-              className={`border-1 border-dashed w-full rounded-lg p-6 text-center cursor-not-allowed opacity-50 ${
+              className={`border-1 border-dashed w-full rounded-lg border-green-600 p-6 text-center ${
                 isDragging ? "border-green-500 bg-green-50" : "border-gray-500"
               }`}
-              title="Image uploads temporarily disabled due to server maintenance"
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onClick={() => fileInputRef.current?.click()}
             >
               <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-500" />
-              <p className="mt-2 font-medium text-gray-400">
+              <p className="mt-2 font-medium text-gray-600">
                 {formData.image
-                  ? `${formData.image.name} (Upload disabled)`
-                  : "Image uploads temporarily disabled"}
+                  ? `${formData.image.name}`
+                  : "Click or drag an image to upload"}
               </p>
               <p className="text-sm text-gray-500">
-                Images will be enabled once server issues are resolved
+                Supported formats: JPG, PNG. Max 3MB.
               </p>
 
               <input
@@ -370,22 +371,16 @@ export default function ProductForm() {
                 ref={fileInputRef}
                 className="hidden"
                 onChange={handleImageChange}
-                disabled
               />
             </div>
 
             {previewUrl && (
-              <div className="w-full h-60 flex self-center rounded-lg mt-4">
+              <div className="w-full h-60 flex self-center rounded-lg mt-4 relative">
                 <img
                   src={previewUrl}
                   alt="Preview"
-                  className="w-full h-full rounded-lg object-cover opacity-50"
+                  className="w-full h-full rounded-lg object-cover"
                 />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="bg-orange-600 text-white px-3 py-1 rounded">
-                    Upload Disabled
-                  </span>
-                </div>
               </div>
             )}
           </div>
