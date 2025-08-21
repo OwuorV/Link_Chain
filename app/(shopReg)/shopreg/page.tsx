@@ -11,7 +11,7 @@ export default function AddShop() {
   const router = useRouter();
   const [loading, setLoading] = useState(true); // To avoid flicker before check
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -42,8 +42,8 @@ export default function AddShop() {
         } else {
           setLoading(false); // Show form
         }
-      } catch (err) {
-        console.error("Error checking shop:", err);
+      } catch (err: any) {
+        setError(err.message);
         setLoading(false);
       }
     };
@@ -60,7 +60,7 @@ export default function AddShop() {
 
   const submitForm = async () => {
     setSuccess(false);
-    setError(false);
+    setError(" ");
     const res = await fetch("/api/shop", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ export default function AddShop() {
     });
 
     if (!res.ok) {
-      setError(true);
+      setError("none");
       throw new Error("Failed to create shop");
     }
     setSuccess(true);
@@ -77,41 +77,47 @@ export default function AddShop() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Checking your shop status...</p>
+      <div className="flex justify-center items-center h-screen w-full bg-[#000]/80 backdrop-blur">
+        <div className=" flex flex-col gap-3 items-center justify-center max-w-[300px] w-[300px] h-[240px] max-h-[240px] bg-white rounded-lg shadow-lg">
+          <p>Checking your shop status...</p>
+          <button className="bg-blue-800 rounded-lg p-2">Cancel</button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-lg mx-auto flex justify-center items-start mt-10 p-4 w-full">
-      {step === 1 && (
-        <Personal data={formData} update={updateFormData} next={nextStep} />
-      )}
-      {step === 2 && (
-        <Location
-          data={formData}
-          update={updateFormData}
-          next={nextStep}
-          back={prevStep}
-        />
-      )}
-      {step === 3 && (
-        <StoreDetails
-          data={formData}
-          update={updateFormData}
-          next={nextStep}
-          back={prevStep}
-        />
-      )}
-      {step === 4 && (
-        <PaymentAndTerms
-          data={formData}
-          update={updateFormData}
-          submit={submitForm}
-          back={prevStep}
-        />
-      )}
-    </div>
+    <>
+      <div className="w-full h-screen  flex justify-center items-start p-4 w-full">
+        {step === 1 && (
+          <Personal data={formData} update={updateFormData} next={nextStep} />
+        )}
+        {step === 2 && (
+          <Location
+            data={formData}
+            update={updateFormData}
+            next={nextStep}
+            back={prevStep}
+          />
+        )}
+        {step === 3 && (
+          <StoreDetails
+            data={formData}
+            update={updateFormData}
+            next={nextStep}
+            back={prevStep}
+          />
+        )}
+        {step === 4 && (
+          <PaymentAndTerms
+            data={formData}
+            update={updateFormData}
+            submit={submitForm}
+            back={prevStep}
+          />
+        )}
+      </div>
+    </>
   );
 }
+//

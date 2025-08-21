@@ -6,6 +6,7 @@ import ReactPlayer from "react-player";
 import Link from "next/link";
 import Accordion from "@/app/ui/home/accordion";
 import FeedbackCarousel from "@/app/ui/home/feedback";
+import Footer from "./ui/footer/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 export const metadata: Metadata = {
   title: "Digital Value Chain Accelerator",
@@ -608,33 +609,7 @@ export default function Home() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="bg-green-600 text-white py-8 flex md:flex-row flex-col items-center justify-between">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="mb-2">
-            © 2025 Digital Value Chain Accelerator . All rights reserved.
-          </p>
-          <div className="space-x-4">
-            <a
-              href="#"
-              className="hover:text-green-200 no-underline transition"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#"
-              className="hover:text-green-200 no-underline transition"
-            >
-              Terms of Service
-            </a>
-          </div>
-        </div>
-        <div className="div w-[300px] h-[300px] rounded-[200px] md:w-[400px] overflow-hidden md:h-[400px] mx-auto relative mt-4">
-          <Image src="/logo.jpg" alt="Logo" fill className="object-cover" />
-        </div>
-        <div className="div w-[300px] h-[300px] rounded-[200px] md:w-[400px] overflow-hidden md:h-[400px] mx-auto relative mt-4">
-          <Image src="/DAH.jpg" alt="Logo" fill className="object-cover" />
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

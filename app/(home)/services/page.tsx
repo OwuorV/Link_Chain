@@ -15,28 +15,6 @@ import { MapPinIcon } from "@heroicons/react/24/outline";
 export default async function Vets() {
   const ServiceCards = await getShops();
 
-  //   model Shop {
-  //   id               String   @id @default(cuid())
-  //   ownerId          String
-  //   fullName         String
-  //   businessName     String
-  //   businessPhone    String?
-  //   businessEmail    String
-  //   location         String?
-  //   deliveryArea     String?
-  //   storeName        String?
-  //   storeDescription String?
-  //   storeLogo        String?
-  //   storeBanner      String?
-  //   paymentMethod    String?
-  //   legalAccepted    Boolean  @default(false)
-  //   createdAt        DateTime @default(now())
-  //   updatedAt        DateTime @updatedAt
-  //   owner            User     @relation(fields: [ownerId], references: [id])
-  //   products         Product[]
-
-  // }
-
   return (
     <main className="flex justify-center mt-3 align-center w-full">
       <div className="farmGrid self-center grid grid-cols-1 md:grid-cols-3 gap-y-15 gap-x-10 w-full ">
@@ -46,11 +24,10 @@ export default async function Vets() {
             fullName,
             storeName,
             location,
-            // cartegories1,
+
             deliveryArea,
             storeBanner,
-            // cartegory2,
-            // cartegory3,
+
             storeLogo,
           }) => (
             <div
