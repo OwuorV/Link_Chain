@@ -106,7 +106,7 @@ export default async function Vets() {
                   </span>
                 </div>
                 <Link
-                  href={`/farms/${id}`}
+                  href={`/farms`}
                   className="absolute rounded-3xl bottom-2 cursor-pointer right-2 bg-green-600  mb-2 mx-2 text-white px-4 py-2 hover:bg-green-900  transition-colors duration-200"
                 >
                   Get Product
