@@ -1,20 +1,18 @@
 // app/farms/[id]/page.tsx
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import Footer from "@/app/ui/footer/footer";
 import Link from "next/link";
-interface ProductPageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const product = await prisma.product.findUnique({
-    where: { id: params.id }, // Prisma expects string if id is string UUID
+    where: { id: params.id },
     include: {
-      seller: true, // show seller info if needed
-      Shop: true, // show shop info if needed
+      seller: true,
+      Shop: true,
     },
   });
 
