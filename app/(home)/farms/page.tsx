@@ -2,7 +2,7 @@ import Image from "next/image";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { getProducts } from "@/lib/getproduct";
-
+import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export default async function Vets() {
@@ -105,9 +105,12 @@ export default async function Vets() {
                     />
                   </span>
                 </div>
-                <button className="absolute rounded-3xl bottom-2 cursor-pointer right-2 bg-green-600  mb-2 mx-2 text-white px-4 py-2 hover:bg-green-900  transition-colors duration-200">
-                  Add to Cart
-                </button>
+                <Link
+                  href={`/farms/${id}`}
+                  className="absolute rounded-3xl bottom-2 cursor-pointer right-2 bg-green-600  mb-2 mx-2 text-white px-4 py-2 hover:bg-green-900  transition-colors duration-200"
+                >
+                  Get Product
+                </Link>
               </div>
             )
           )}
