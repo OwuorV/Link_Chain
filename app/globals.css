@@ -1,37 +1,13 @@
-@import "tailwindcss";
-
-:root {
-  --background: #f7fcf8;
-  --foreground: #171717;
-}
-
-* a {
-  text-decoration-line: none;
-  text-decoration: none;
-  text-decoration-style: none;
-}
-a {
-  text-decoration: none;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #f7fcf8;
-    --foreground: #171721;
-  }
+/* Set Lexend Exa as the default font */
+html {
+  font-family: var(--font-lexend-exa), system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  font-family: var(--font-lexend-exa), system-ui, sans-serif;
 }
-.trapezium {
-  clip-path: polygon(0% 0%, 80% 0%, 100% 100%, 0% 100%);
+
+/* Optional: Define utility classes if needed */
+.font-lexend {
+  font-family: var(--font-lexend-exa), system-ui, sans-serif;
 }
