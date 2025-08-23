@@ -25,7 +25,7 @@ export default function Tabs() {
     <div className="w-full relative flex">
       <div
         onClick={handleToggle}
-        className="px-4 py-2 border border-gray-300 ml-2 bg-[#f5f5f5] w-max rounded-lg self-end flex items-center gap-3 text-base font-semibold md:flex cursor-pointer"
+        className="px-4 py-2 border border-gray-300 ml-2 bg-[#f5f5f5] hidden md:flex w-max rounded-lg self-end flex items-center gap-3 text-base font-semibold md:flex cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ export default function Tabs() {
         services
       </div>
       {tabsShow && (
-        <div className="z-700 pb-4 flex flex-col bg-[#f5f5f5] md:flex w-full h-auto md:w-full md:h-max gap-4 p-[16px] md:pb-0 md:p-1 items-center justify-center">
+        <div className="z-700 pb-4 flex flex-col bg-[#f5f5f5] md:flex w-full h-max md:w-full md:h-max gap-4 p-[16px] md:pb-0 md:p-1 items-center justify-center">
           <div className="buttons border border-[1px] rounded-lg p-1 border-gray-300 bg-[#f5f5f5] flex flex-col md:flex-row gap-3">
             {tabs.map((tabs) => (
               <Link key={tabs.name} href={tabs.href} className="">

@@ -299,8 +299,8 @@ export default function Navbar({ user }: NavbarClientProps) {
               className="bg-green-300 rounded-[20px] w-[40px] overflow-hidden h-[40px]"
             >
               <Image
-                src={"/me.png"}
-                alt={"Avator"}
+                src={"/fallback.jpg"}
+                alt={"Avatar"}
                 objectFit="cover"
                 width={40}
                 height={40}
