@@ -1,13 +1,53 @@
-/* Set Lexend Exa as the default font */
-html {
-  font-family: var(--font-lexend-exa), system-ui, sans-serif;
-}
+@import "tailwindcss";
 
-body {
+html {
   font-family: var(--font-lexend-exa), system-ui, sans-serif;
 }
 
 /* Optional: Define utility classes if needed */
 .font-lexend {
+  font-family: var(--font-lexend-exa), system-ui, sans-serif;
+}
+
+/* Set Lexend Exa as the default font */
+html {
+  font-family: var(--font-lexend-exa), system-ui, sans-serif;
+}
+
+/* Optional: Define font family utility classes */
+.font-lexend {
+  font-family: var(--font-lexend-exa), system-ui, sans-serif;
+}
+:root {
+  --background: #f7fcf8;
+  --foreground: #171717;
+}
+
+* a {
+  text-decoration-line: none;
+  text-decoration: none;
+  text-decoration-style: none;
+}
+a {
+  text-decoration: none;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f7fcf8;
+    --foreground: #171721;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-lexend-exa), system-ui, sans-serif;
 }
