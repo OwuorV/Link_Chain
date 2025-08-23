@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import toast from "react-hot-toast";
 
 const categories = [
@@ -84,12 +85,14 @@ export default function ProductForm() {
     price: string;
     category: string;
     description: string;
+    longDescription: string;
     image: File | null;
   }>({
     name: "",
     price: "",
     category: "",
     description: "",
+    longDescription: "",
     image: null,
   });
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -109,9 +112,9 @@ export default function ProductForm() {
     setIsDragging(false);
     if (e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
-      if (file.size > 3 * 1024 * 1024) {
-        // 3MB limit
-        toast.error("Image size must be less than 3MB");
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
+        toast.error("Image size must be less than 5MB");
         return;
       }
       setFormData((prev) => ({ ...prev, image: file }));
@@ -184,6 +187,7 @@ export default function ProductForm() {
     data.append("price", formData.price);
     data.append("category", formData.category);
     data.append("description", formData.description.trim());
+    data.append("longDescription", formData.longDescription.trim());
 
     // Note: Image upload is temporarily disabled due to server time sync issues
     // The API will create products without images for now
@@ -247,6 +251,7 @@ export default function ProductForm() {
         price: "",
         category: "",
         description: "",
+        longDescription: "",
         image: null,
       });
       setPreviewUrl(null);
@@ -264,7 +269,22 @@ export default function ProductForm() {
     <main className="w-full flex p-6 space-y-4 justify-center">
       <div className="flex flex-col items-center gap-5 p-4 border max-w-[95%]  border-gray-300 bg-gray-200 rounded-[20px] md:w-[60%]">
         <div className="flex items-center self-start w-full gap-5 mb-4">
-          <span>back</span>
+          <span>
+            <Link
+              href="/Dashboard"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+                fill="#000"
+              >
+                <path d="m330-444 201 201-51 51-288-288 288-288 51 51-201 201h438v72H330Z" />
+              </svg>
+            </Link>
+          </span>
           <span>
             <h2 className="text-xl font-semibold text-gray-800">
               Create New Product
@@ -273,17 +293,15 @@ export default function ProductForm() {
               Add new agricultural product to the marketplace
             </p>
             {/* Temporary notice about image uploads */}
-            <p className="text-orange-600 text-sm mt-1">
-              ⚠️ Note: Image uploads are temporarily disabled due to server
-              maintenance
-            </p>
           </span>
         </div>
         <form
           onSubmit={handleSubmit}
           className="space-y-4 flex flex-col items-center justify-center w-full"
         >
-          <div className="text-[20px]">Product Info</div>
+          <div className="text-[20px] w-full px-2 text-start font-semibold text-gray-700">
+            Product Info
+          </div>
 
           <div className="w-full flex flex-col">
             <label htmlFor="name">Product Name</label>
@@ -328,15 +346,24 @@ export default function ProductForm() {
           </div>
 
           <div className="w-full flex flex-col">
-            <label htmlFor="description">Product Description</label>
-            <textarea
+            <label htmlFor="description">short detail</label>
+            <input
+              type="text"
               name="description"
-              placeholder="Describe your product, including quality, origin, and any special features..."
+              placeholder="200 per KG"
               value={formData.description}
               onChange={handleChange}
+              className="border outline-none focus:border-green-500 focus:ring-[0.5] focus:ring-green-400 p-2 w-full mt-3 hover:shadow-md hover:border-green-500 rounded-lg px-4 border border-gray-400"
+            />
+          </div>
+          <div className="w-full flex flex-col">
+            <label htmlFor="longDescription">Product Description</label>
+            <textarea
+              name="longDescription"
+              placeholder="Describe your product, including quality, origin, and any special features..."
+              value={formData.longDescription}
+              onChange={handleChange}
               className="border focus:outline-none focus:border-green-500 focus:ring-[0.5] focus:ring-green-400 p-2 w-full mt-3 min-h-30 rounded-lg"
-              required
-              rows={4}
             />
           </div>
 

@@ -13,6 +13,7 @@ model Product {
   price       Float
   category    String
   description String
+  longDescription String
   imageUrl    String?
   createdAt   DateTime   @default(now())
   sellerId    String

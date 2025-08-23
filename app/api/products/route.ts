@@ -107,6 +107,7 @@ export async function POST(request: Request) {
     const rawPrice = formData.get("price");
     const rawCategory = formData.get("category");
     const rawDescription = formData.get("description");
+    const rawLongDescription = formData.get("longDescription");
     const image = formData.get("image") as File | null;
 
     const name = typeof rawName === "string" ? rawName.trim() : "";
@@ -114,6 +115,8 @@ export async function POST(request: Request) {
     const category = typeof rawCategory === "string" ? rawCategory.trim() : "";
     const description =
       typeof rawDescription === "string" ? rawDescription.trim() : "";
+    const longDescription =
+      typeof rawLongDescription === "string" ? rawLongDescription.trim() : "";
 
     // Log parsed values for diagnostics
     console.log("Parsed values:", {
@@ -146,15 +149,15 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    if (!description) {
+    // if (!description) {
+    //   return NextResponse.json(
+    //     { error: "Description is required" },
+    //     { status: 400 }
+    //   );
+    // }
+    if (image && image.size > 5 * 1024 * 1024) {
       return NextResponse.json(
-        { error: "Description is required" },
-        { status: 400 }
-      );
-    }
-    if (image && image.size > 3 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: "Image size exceeds 3MB limit" },
+        { error: "Image size exceeds 5MB limit" },
         { status: 400 }
       );
     }
@@ -183,6 +186,7 @@ export async function POST(request: Request) {
         price,
         category,
         description,
+        longDescription,
         imageUrl,
         sellerId: seller.id,
       },
