@@ -8,6 +8,7 @@ import Accordion from "@/app/ui/home/accordion";
 import FeedbackCarousel from "@/app/ui/home/feedback";
 import Footer from "./ui/footer/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
+import lexendExa from "./ui/font";
 export const metadata: Metadata = {
   title: "Digital Value Chain Accelerator",
   description: "Accelerating digital transformation in the value chain",
@@ -72,7 +73,9 @@ export default function Home() {
     },
   ];
   return (
-    <div className={`w-full relative ${styles.scrollbarhidden}`}>
+    <div
+      className={`w-full relative ${styles.scrollbarhidden}  ${lexendExa.variable}`}
+    >
       {/* <NavBar /> */}
       <section
         id="home"
