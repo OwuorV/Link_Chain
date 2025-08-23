@@ -25,7 +25,7 @@ export default function Tabs() {
     <div className="w-full relative flex">
       <div
         onClick={handleToggle}
-        className="px-4 py-2 border border-gray-300 ml-2 bg-[#f5f5f5] hidden md:flex w-max rounded-lg self-end flex items-center gap-3 text-base font-semibold md:flex cursor-pointer"
+        className="px-4 py-2 border border-gray-300 ml-2 bg-[#f5f5f5] w-max rounded-lg self-start flex items-center gap-3 text-base font-semibold md:flex cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
