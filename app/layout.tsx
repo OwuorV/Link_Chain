@@ -10,7 +10,7 @@ import "./globals.css";
 import styles from "@/app/ui/scrollbarHide.module.css";
 
 import { useState } from "react";
-import lexendExa from "./ui/font";
+import { josefinSans, lexendExa } from "./ui/font";
 const public_sans = Public_Sans({
   subsets: ["latin"],
   preload: true,
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`w-full ${public_sans} antialiased overflow-scroll h-full ${styles.scrollbarhidden} ${lexendExa.variable}`}
+        className={`w-full ${public_sans} antialiased overflow-scroll h-full ${styles.scrollbarhidden} ${josefinSans.variable}`}
       >
         <>
           {showcoming && (

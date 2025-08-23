@@ -4,7 +4,7 @@ import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-
+import { josefinSans, lexendExa } from "@/app/ui/font";
 const categories = [
   "Poultry",
   "Cereals",
@@ -266,7 +266,9 @@ export default function ProductForm() {
   };
 
   return (
-    <main className="w-full flex p-6 space-y-4 justify-center">
+    <main
+      className={`w-full flex p-6 space-y-4 justify-center ${lexendExa.variable}`}
+    >
       <div className="flex flex-col items-center gap-5 p-4 border max-w-[95%]  border-gray-300 bg-gray-200 rounded-[20px] md:w-[60%]">
         <div className="flex items-center self-start w-full gap-5 mb-4">
           <span>
