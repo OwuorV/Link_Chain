@@ -1,10 +1,21 @@
 import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: ["res.cloudinary.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
+  ...(process.env.NODE_ENV === "development" && {
+    allowedDevOrigins: ["192.168.0.105"],
+  }),
+  // Allow cross-origin requests in development
 };
 
-export default nextConfig;
+module.exports = nextConfig;
