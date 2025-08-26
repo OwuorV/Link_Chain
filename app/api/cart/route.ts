@@ -1,9 +1,11 @@
 // app/api/cart/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSession } from "@/lib/session"; // Adjust path as needed
+import { getSession } from "@/lib/session";
+
 export async function POST(request: NextRequest) {
   try {
+    // Call getSession without arguments - it will use cookies() internally
     const session = await getSession();
 
     if (!session?.userId) {
@@ -13,7 +15,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2️⃣ Get user details
     const user = await db.user.findUnique({
       where: { id: session.userId },
       select: { id: true, name: true, email: true, password: true },
@@ -91,7 +92,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getSession(request);
+    // Consistent - no arguments needed
+    const session = await getSession();
 
     if (!session?.userId) {
       return NextResponse.json(
@@ -127,7 +129,8 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await getSession(request);
+    // Consistent - no arguments needed
+    const session = await getSession();
 
     if (!session?.userId) {
       return NextResponse.json(
