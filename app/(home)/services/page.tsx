@@ -41,7 +41,7 @@ export default async function Vets() {
             >
               <div className="w-full h-[220px] relative flex items-center justify-center overflow-hiden object-cover">
                 <Image
-                  src={storeBanner ?? "/fallback.png"}
+                  src={storeBanner ?? "/fallback.jpg"}
                   alt={fullName}
                   fill
                   className="object-cover"

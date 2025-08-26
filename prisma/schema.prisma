@@ -8,20 +8,21 @@ datasource db {
 }
 
 model Product {
-  id          String     @id @default(uuid())
-  name        String
-  price       Float
-  category    String
-  description String
+  id              String     @id @default(uuid())
+  name            String
+  price           Float
+  category        String
+  description     String
   longDescription String
-  imageUrl    String?
-  createdAt   DateTime   @default(now())
-  sellerId    String
-  CartItem    CartItem[]
-  Order       Order[]
-  seller      Seller     @relation(fields: [sellerId], references: [id])
-  Admin       Admin[]    @relation("AdminToProduct")
-  Shop        Shop[]     @relation("ProductToShop")
+  imageUrl        String?
+  createdAt       DateTime   @default(now())
+  sellerId        String
+  CartItem        CartItem[]
+  Order           Order[]
+  seller          Seller     @relation(fields: [sellerId], references: [id])
+  Cart            Cart[]
+  Admin           Admin[]    @relation("AdminToProduct")
+  Shop            Shop[]     @relation("ProductToShop")
 }
 
 model Shop {
@@ -62,6 +63,7 @@ model User {
   Seller        Seller?
   sessions      Session[]
   Shop          Shop?
+  Cart          Cart[]
 }
 
 model Account {
@@ -108,9 +110,9 @@ model Buyer {
   phone     String?  @unique
   password  String
   user      User     @relation(fields: [userId], references: [id])
-  Cart      Cart[]
   Order     Order[]
   Admin     Admin[]  @relation("AdminToBuyer")
+  Cart      Cart[]   @relation("BuyerToCart")
 }
 
 model Seller {
@@ -141,12 +143,23 @@ model Order {
 }
 
 model Cart {
-  id        String     @id @default(uuid())
-  buyerId   String
-  createdAt DateTime   @default(now())
-  buyer     Buyer      @relation(fields: [buyerId], references: [id])
-  CartItem  CartItem[]
-  Admin     Admin[]    @relation("AdminToCart")
+  id           String     @id @default(cuid())
+  userId       String
+  productId    String
+  quantity     Int        @default(1)
+  productName  String
+  productPrice Float
+  productImage String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  CartItem     CartItem[]
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Admin        Admin[]    @relation("AdminToCart")
+  Buyer        Buyer[]    @relation("BuyerToCart")
+
+  @@unique([userId, productId])
+  @@map("carts")
 }
 
 model CartItem {

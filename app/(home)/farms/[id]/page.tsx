@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import type { NextPage } from "next";
+import AddToCartButton from "@/app/ui/addtocatButton";
 
 // Updated props to match Next.js App Router expectations
 interface ProductPageProps {
@@ -11,7 +12,7 @@ interface ProductPageProps {
   }>;
 }
 
-// Explicitly type the page component
+// This should be an async server component (no hooks)
 const ProductPage: NextPage<ProductPageProps> = async ({ params }) => {
   // Await the params Promise
   const { id } = await params;
@@ -51,11 +52,12 @@ const ProductPage: NextPage<ProductPageProps> = async ({ params }) => {
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
           <p className="text-lg text-gray-600 mb-4">{product.description}</p>
           <p className="text-2xl font-semibold mb-6">Ksh {product.price}</p>
+
           <div>
             <p className="font-medium text-gray-700 underline">
               Product Description
             </p>
-            <p className="text-base text-gray-600 tracking-tight leading-6 mb-4">
+            <p className="text-base text-gray-600 tracking-tight whitespace-pre-wrap leading-6 mb-4">
               {product.longDescription ||
                 "No additional description available."}
             </p>
@@ -90,12 +92,21 @@ const ProductPage: NextPage<ProductPageProps> = async ({ params }) => {
             </div>
           )}
 
-          <Link
-            href={`/checkout/${product.id}`}
-            className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-xl shadow"
-          >
-            Buy Now
-          </Link>
+          {/* Action Buttons */}
+          <div className="flex gap-4">
+            <AddToCartButton
+              productId={product.id}
+              productName={product.name}
+              productPrice={product.price}
+              productImage={product.imageUrl}
+            />
+            <Link
+              href={`/farms/cart`}
+              className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-xl shadow"
+            >
+              Buy Now
+            </Link>
+          </div>
         </div>
       </div>
 

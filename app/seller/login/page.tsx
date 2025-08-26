@@ -3,13 +3,13 @@
 import { login } from "@/app/actions/auth";
 import { useActionState } from "react";
 import Link from "next/link";
-import { josefinSans, lexendExa } from "@/app/ui/font";
+import { josefinSans } from "@/app/ui/font";
 export default function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined);
 
   return (
     <div
-      className={`flex flex-col items-center justify-center min-h-screen w-full bg-[url(/bg.jpg)] bg-cover ${lexendExa.variable}`}
+      className={`flex flex-col items-center justify-center min-h-screen w-full bg-[url(/bg.jpg)] bg-cover ${josefinSans.variable}`}
     >
       <div className="backdrop-blur bg-[#fff]/70 w-full h-screen flex items-center justify-center">
         {" "}

@@ -1,22 +1,17 @@
 @import "tailwindcss";
 
 html {
-  font-family: var(--font-lexend-exa), system-ui, sans-serif;
+  font-family: var(--font-josefin), system-ui, sans-serif;
 }
 
-/* Optional: Define utility classes if needed */
-.font-lexend {
-  font-family: var(--font-lexend-exa), system-ui, sans-serif;
-}
-
-/* Set Lexend Exa as the default font */
+/* Set Josefin as the default font */
 html {
-  font-family: var(--font-lexend-exa), system-ui, sans-serif;
+  font-family: var(--font-josefin), system-ui, sans-serif;
 }
 
 /* Optional: Define font family utility classes */
 .font-lexend {
-  font-family: var(--font-lexend-exa), system-ui, sans-serif;
+  font-family: var(--font-josefin), system-ui, sans-serif;
 }
 :root {
   --background: #f7fcf8;
