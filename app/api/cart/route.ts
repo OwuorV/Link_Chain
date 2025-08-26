@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { getSession } from "@/lib/session"; // Adjust path as needed
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession(request);
+    const session = await getSession();
 
     if (!session?.userId) {
       return NextResponse.json(
