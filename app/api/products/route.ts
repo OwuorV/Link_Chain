@@ -29,7 +29,7 @@ const validCategories = [
 export async function POST(request: Request) {
   try {
     // 1️⃣ Verify session
-    const session = await getSession(request);
+    const session = await getSession();
     if (!session?.userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
