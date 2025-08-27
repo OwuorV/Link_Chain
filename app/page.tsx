@@ -9,6 +9,8 @@ import FeedbackCarousel from "@/app/ui/home/feedback";
 import Footer from "./ui/footer/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import lexendExa from "./ui/font";
+import { oc } from "date-fns/locale";
+import { OctagonIcon } from "lucide-react";
 export const metadata: Metadata = {
   title: "Digital Value Chain Accelerator",
   description: "Accelerating digital transformation in the value chain",
@@ -24,18 +26,24 @@ export default function Home() {
         "This platform has completely changed the way I do business as a smallholder farmer. From listing my carrots for sale to connecting with local buyers, it's been seamless. The visibility I've gained is unbelievable — I now sell out weekly!",
       author: "OWino Mary",
       rating: 5,
+      occupation: "Smallholder Farmer",
+      image: "/howitworks.jpg",
     },
     {
       quote:
         "I was struggling to get financial support until I discovered the financing feature here. It connected me with trusted providers, and I secured a microloan that helped me expand my cabbage farm. I’m now reaching new markets, and profits have doubled!",
       author: "Diang'a Augustine",
       rating: 4,
+      occupation: "Cabbage Farmer",
+      image: "/howitworks.jpg",
     },
     {
       quote:
         "What really impressed me is the extension services panel. I received personalized advice on how to manage my dairy cows better during the dry season. My herd health has improved and milk production is up — all thanks to timely guidance from experts!",
       author: "Otieno Johnson",
       rating: 5,
+      occupation: "Dairy Farmer",
+      image: "/howitworks.jpg",
     },
   ];
 

@@ -1,7 +1,9 @@
+"use client";
 import Image from "next/image";
 import josefinSans from "@/app/ui/font";
 import { getCart } from "@/lib/getCart";
 import { selectCartesianItemsSettings } from "recharts/types/state/selectors/axisSelectors";
+import PaystackButton from "@/app/ui/home/pay";
 export default async function Cart() {
   const cartItems = await getCart();
 
@@ -13,7 +15,15 @@ export default async function Cart() {
   let cartTotal = cartItems.reduce((total, item) => {
     return total + item.productPrice * item.quantity;
   }, 0);
-  const itemTotals = cartItems.map((item) => item.productPrice * item.quantity);
+
+  const handleSuccess = async (reference: string) => {
+    alert(`Payment complete! Ref: ${reference}`);
+
+    const res = await fetch(`/api/verify-payment?reference=${reference}`);
+    const data = await res.json();
+
+    console.log("Verification:", data);
+  };
 
   return (
     <>
@@ -34,7 +44,7 @@ export default async function Cart() {
               }) => (
                 <div
                   key={id}
-                  className="relative flex  w-full  items-center justify-between"
+                  className="relative flex px-5  w-full  items-center justify-between"
                 >
                   <div className="border-b pb-3 flex gap-4 w-full mb-3 border-b-[0.5px] md:w-[70%] justify-between border-b-gray-300 sm:justify-between">
                     <div className="w-full max-w-[150px] h-[220px] relative flex items-center rounded-lg justify-center overflow-hidden object-cover">
@@ -104,7 +114,13 @@ export default async function Cart() {
                 </div>
                 <div className="mt-4 border-b border-b-gray-300 border-b-[0.5px]"></div>
                 <button className="w-full bg-green-700 text-white py-2 rounded-full">
-                  Checkout
+                  <PaystackButton
+                    email="user@example.com"
+                    amount={cartTotal}
+                    metadata={{ cartItems }}
+                    onSuccess={handleSuccess}
+                    onClose={() => alert("Payment cancelled")}
+                  />
                 </button>
               </div>
             </div>
