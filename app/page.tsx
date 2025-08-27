@@ -128,7 +128,7 @@ export default function Home() {
         </div>
       </section>
       {/*Explore SEction*/}
-      <section id="explore" className="bg-white py-16">
+      <section id="explore" className="bg-white py-16 md:mx-30">
         <div className=" mx-auto  px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="p-6 h-max min-h-[350px]s hover:shadow-xl transition">
@@ -326,7 +326,7 @@ export default function Home() {
         </div>
       </section>
       {/* About Section */}
-      <section id="about" className="bg-green-100 py-16">
+      <section id="about" className="bg-green-600 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 mb-8 md:mb-0">
             <img
@@ -336,16 +336,16 @@ export default function Home() {
             />
           </div>
           <div className="md:w-1/2 md:pl-8">
-            <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
               About Value Chain Accelerator
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-white mb-4">
               At Value Chain Accelerator, we bridge the gap between farmers and
               consumers, promoting sustainable agriculture and community growth.
               Our mission is to provide fresh, organic produce while supporting
               local farmers with fair practices and modern tools.
             </p>
-            <p className="text-gray-600">
+            <p className="text-white">
               We’re committed to eco-friendly farming and delivering quality to
               your doorstep.
             </p>
